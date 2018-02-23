@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="VC6,宏定义,项目配置," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="转来一个文章，对VC6下项目建立和解决编译问题时，很有帮助。常见的编译参数VC建立项目时总会定义”Win32”。控制台程序会定义”_CONSOLE”，否则会定义”_WINDOWS”。Debug版定义”_DEBUG”，Release版定义”NDEBUG”　　与MFC DLL有关的编译常数包括：　　_WINDLL 表示要做一个用到MFC的DLL　　_USRDLL 表示做一个用户DLL（相对MFC扩展D">
+<meta name="keywords" content="VC6,宏定义,项目配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="window开发之项目宏定义">
+<meta property="og:url" content="http://yoursite.com/2016/03/17/window-e5-bc-80-e5-8f-91-e4-b9-8b-e9-a1-b9-e7-9b-ae-e5-ae-8f-e5-ae-9a-e4-b9-89/index.html">
+<meta property="og:site_name" content="大亮的实验室">
+<meta property="og:description" content="转来一个文章，对VC6下项目建立和解决编译问题时，很有帮助。常见的编译参数VC建立项目时总会定义”Win32”。控制台程序会定义”_CONSOLE”，否则会定义”_WINDOWS”。Debug版定义”_DEBUG”，Release版定义”NDEBUG”　　与MFC DLL有关的编译常数包括：　　_WINDLL 表示要做一个用到MFC的DLL　　_USRDLL 表示做一个用户DLL（相对MFC扩展D">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-22T01:16:08.447Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="window开发之项目宏定义">
+<meta name="twitter:description" content="转来一个文章，对VC6下项目建立和解决编译问题时，很有帮助。常见的编译参数VC建立项目时总会定义”Win32”。控制台程序会定义”_CONSOLE”，否则会定义”_WINDOWS”。Debug版定义”_DEBUG”，Release版定义”NDEBUG”　　与MFC DLL有关的编译常数包括：　　_WINDLL 表示要做一个用到MFC的DLL　　_USRDLL 表示做一个用户DLL（相对MFC扩展D">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/03/17/window-e5-bc-80-e5-8f-91-e4-b9-8b-e9-a1-b9-e7-9b-ae-e5-ae-8f-e5-ae-9a-e4-b9-89/"/>
+
+
+
+
+
+  <title>window开发之项目宏定义 | 大亮的实验室</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大亮的实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">码田003</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/tags.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/page.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/17/window-e5-bc-80-e5-8f-91-e4-b9-8b-e9-a1-b9-e7-9b-ae-e5-ae-8f-e5-ae-9a-e4-b9-89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ohala">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大亮的实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">window开发之项目宏定义</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-17T10:59:50+08:00">
+                2016-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VC6和VS201X/" itemprop="url" rel="index">
+                    <span itemprop="name">VC6和VS201X</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VC6和VS201X/利器与技巧/" itemprop="url" rel="index">
+                    <span itemprop="name">利器与技巧</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div>转来一个文章，对VC6下项目建立和解决编译问题时，很有帮助。</div><br><div></div><br><div>常见的编译参数VC建立项目时总会定义”Win32”。控制台程序会定义”_CONSOLE”，否则会定义”_WINDOWS”。Debug版定义”_DEBUG”，Release版定义”NDEBUG”</div><br><div>　　与MFC DLL有关的编译常数包括：</div><br><div>　　_WINDLL 表示要做一个用到MFC的DLL</div><br><div>　　_USRDLL 表示做一个用户DLL（相对MFC扩展DLL而言）</div><br><div>　　_AFXDLL 表示使用MFC动态链接库的 regular DLL</div><br><div>　　_AFXEXT 表示要做一个MFC扩展DLL</div><br><div>　　所以：</div><br><div>　　Regular, statically linked to MFC _WINDLL,_USRDLL</div><br><div>　　Regular, using the shared MFC DLL _WINDLL,_USRDLL,_AFXDLL</div><br><div>　　Extension DLL _WINDLL,_AFXDLL,_AFXEXT</div><br><div></div><br><div></div><br><div>Building Your DLL</div><br><div></div><br><div></div><br><div>When compiling regular DLLs that statically link to MFC, the symbols “_USRDLL” and “_WINDLL” must be defined. Your DLL code must also be compiled with the following compiler switches:</div><br><div></div><br><div>•/D_WINDLL      signifies the compilation is for a DLL</div><br><div>•/D_USRDLL      specifies you are building a regular DLL</div><br><div></div><br><div></div><br><div></div><br><div></div><br><div>When compiling regularDLLs that statically link to MFC, the symbols “_USR DLL” and”_WINDLL” must be defined. Your DLL code must also be compile dwith the following compiler switches:</div><br><div></div><br><div>When compiling regular DLLs that dynamicallylink to MFC, you must define t he above symbols and use the above compilerswitches. Additionally, the sy mbol “_AFXDLL” must be definedand your DLL code must be compiled with:</div><br><div></div><br><div>•/D_AFXDLL     specifies that you are building a regular DLL that dynamicall y links to MFC</div><br><div></div><br><div>The interfaces (APIs) between the application and the DLL must beexplicitlyexported. It is recommended that you define your interfaces to be lowbandw idth, sticking to C interfaces where possible. More direct C interfaces areeasi er to maintain than more complex C++ classes.</div><br><div></div><br><div>Place your APIs in aseparate header that can be included by both C and C++files (that way you won’tlimit your DLL customers to C++ programmers). Se e the header ScreenCap.h in theMFC Advanced Concepts sample DLLScreen Cap for an example. To export yourfunctions, enter them in theEXPORTSs ection of your moduledefinition file (.DEF) or include<strong>declspec(dllexpor t)on yourfunction definitions. Use</strong>declspec(dllimport)to import thesefunctions into the client executable.</div><br><div></div><br><div>You must add theAFX_MANAGE_STATEmacro at the beginning of all the e xportedfunctions in regular DLLs that dynamically link to MFC to set the curr ent modulestate to the one for the DLL. This is done by adding the followingline of codeto the beginning of functions exported from the DLL:</div><br><div></div><br><div>AFX_MANAGE<em>STATE(AfxGetStaticModuleState( ))</em></div><br><div></div><br><div>WinMain-&gt;DllMain</div><br><div></div><br><div>The MFC library defines the standard Win32DllMain entry point that initializ es yourCWinAppderived object as in a normal MFC application. Placeall DLL-specific initialization in theInitInstancememberfunction as in a normal MFC application.</div><br><div></div><br><div><br><br><em> </em> *<br><br></div><br><div>最近碰到问题是，一个静态库，没有编译成多线程选项，致使在console中使用正常，新建一个mfc app中使用就不成了。</div><br><div>提示了一堆和CTYPE.h中定义的pctype，timezone,mb*类的错误。</div><br><div>后来，把静态库，用多线程重编译，并且，用“不定义所有宏”选项，置了一下，然后，静态库就可以被mfc exe来使用了，虽然库并不依赖MFC。当然，此前有winsock的重定义的问题。后来在stdafx.h中加了winsock2.h的引用后，就解决了。</div>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/VC6/" rel="tag"># VC6</a>
+          
+            <a href="/tags/宏定义/" rel="tag"># 宏定义</a>
+          
+            <a href="/tags/项目配置/" rel="tag"># 项目配置</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/11/vc6-e7-9a-84-e7-8e-af-e5-a2-83-e5-b0-8f-e7-bb-93/" rel="next" title="VC6的环境小结">
+                <i class="fa fa-chevron-left"></i> VC6的环境小结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/23/vc6-e5-b7-a5-e7-a8-8b-e9-a1-b9-e7-9b-ae-e6-94-b9-e5-90-8d/" rel="prev" title="VC6工程项目改名">
+                VC6工程项目改名 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ohala</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/page.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/tags.html">
+                  <span class="site-state-item-count">108</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ohala</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

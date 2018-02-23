@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Qt5,CentOS6.5,mbr,ubuntu,USB启动盘,双系统引导," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="把大象放冰箱里需要三步，同样，玩linux也需要。第一，制作USB启动盘，第二，安装系统，第三，安装Qt5。 第一篇，材料准备 有多种方式来制作USB启动盘。本人实验了两个，用vmware12和ultraISO. 虚机方式： https://jingyan.baidu.com/article/fc07f98976710e12ffe519de.htmlhttp://blog.csdn.net/qq_">
+<meta name="keywords" content="Qt5,CentOS6.5,mbr,ubuntu,USB启动盘,双系统引导">
+<meta property="og:type" content="article">
+<meta property="og:title" content="双系统搭建及ubuntu和CentOS下安装Qt5">
+<meta property="og:url" content="http://yoursite.com/2017/06/20/ubuntu-e5-92-8ccentos-e4-b8-8b-e5-ae-89-e8-a3-85qt5/index.html">
+<meta property="og:site_name" content="大亮的实验室">
+<meta property="og:description" content="把大象放冰箱里需要三步，同样，玩linux也需要。第一，制作USB启动盘，第二，安装系统，第三，安装Qt5。 第一篇，材料准备 有多种方式来制作USB启动盘。本人实验了两个，用vmware12和ultraISO. 虚机方式： https://jingyan.baidu.com/article/fc07f98976710e12ffe519de.htmlhttp://blog.csdn.net/qq_">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-22T01:16:08.457Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="双系统搭建及ubuntu和CentOS下安装Qt5">
+<meta name="twitter:description" content="把大象放冰箱里需要三步，同样，玩linux也需要。第一，制作USB启动盘，第二，安装系统，第三，安装Qt5。 第一篇，材料准备 有多种方式来制作USB启动盘。本人实验了两个，用vmware12和ultraISO. 虚机方式： https://jingyan.baidu.com/article/fc07f98976710e12ffe519de.htmlhttp://blog.csdn.net/qq_">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/20/ubuntu-e5-92-8ccentos-e4-b8-8b-e5-ae-89-e8-a3-85qt5/"/>
+
+
+
+
+
+  <title>双系统搭建及ubuntu和CentOS下安装Qt5 | 大亮的实验室</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大亮的实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">码田003</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/tags.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/page.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/20/ubuntu-e5-92-8ccentos-e4-b8-8b-e5-ae-89-e8-a3-85qt5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ohala">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大亮的实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">双系统搭建及ubuntu和CentOS下安装Qt5</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T10:31:40+08:00">
+                2017-06-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Qt/" itemprop="url" rel="index">
+                    <span itemprop="name">Qt</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Qt/ubuntu/" itemprop="url" rel="index">
+                    <span itemprop="name">ubuntu</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Qt/ubuntu/windows/" itemprop="url" rel="index">
+                    <span itemprop="name">windows</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Qt/ubuntu/windows/利器与技巧/" itemprop="url" rel="index">
+                    <span itemprop="name">利器与技巧</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Qt/ubuntu/windows/利器与技巧/系统平台/" itemprop="url" rel="index">
+                    <span itemprop="name">系统平台</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>把大象放冰箱里需要三步，同样，玩linux也需要。第一，制作USB启动盘，第二，安装系统，第三，安装Qt5。</p>
+<p>第一篇，材料准备</p>
+<p>有多种方式来制作USB启动盘。本人实验了两个，用vmware12和ultraISO.</p>
+<p>虚机方式：</p>
+<div><a href="https://jingyan.baidu.com/article/fc07f98976710e12ffe519de.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/fc07f98976710e12ffe519de.html</a></div><br><div></div><br><div><a href="http://blog.csdn.net/qq_24369113/article/details/53179218" target="_blank" rel="noopener">http://blog.csdn.net/qq_24369113/article/details/53179218</a></div><br><div></div><br><div>建立好空白虚机后，就是提示第一坑。</div><br><div>第一个坑，就是开启intel VT-x.从bios中设置。</div><br><div>重启，再来，可以了，不要装vmware-tool先，不然就在抢占CD－rom。</div><br><div></div><br><div><br><div>在我本机S1 yoga的bios上设置两处：</div><br><div>一，sercurity中的安全引导去掉</div><br><div>二，startup中的boot中选择both，即允许传统模式。</div><br><div></div><br><div>用烧录方式：</div><br><div>当然就是把ISO用ultraISO来烧录到USB中了。这个方式不用过多介绍。</div><br><div></div><br><div>当做好USB启用盘后，你F12引导从U盘进入系统，你会看到try和安装两个大按键的情况。我们即可进入第二篇章了。</div><br><div></div><br><div>第二篇章，系统安家</div><br><div></div><br><div>你是租房还是要买房？系统放到你的U盘上还是，想系统在你的硬盘上？这个问题赶快想，尤其是安装步骤到了分区时。但不管如何，选择安装到硬盘是入口。</div><br><div></div><br><div>如果是想在USB上玩linux，那当然安全，不会破环原来的系统。但是磁盘空间，硬件支持和使用体验必须是要慢被理解的。分区方法如下：（我的U盘就16G）</div><br><div>要在U盘上/dev/sdb建立新分支，一个主15G，一个交换分区9百M。</div><br><div>安装不必细说，当出现提示重启时，拔出U盘即可。</div><br><div></div><br><div>当你是个老司机，硬盘富余，且酷的话，来吧，装在硬盘上。并且让windows来当房东。这个意义深远了，因为，如果你想linux撤出，只要格式下那个分区即可。方便的代价就是要懂得原理并实现，还有找到利器，比如easybcd。</div><br><div></div><br><div><br><div>原理其实就是：</div><br><div>MBR—-grub2—-bootmgr（由grub来接管系统，在它的分支中选择windows还是linux）</div><br><div>现在：</div><br><div>MBR—-bootmgr—-grub(由windows提供的引导菜单，它当房东，grub就只管引导linux即可，不用去学习grub命令行，好主意)</div><br></div><br><div>那个利器就是编辑bootmgr的。所以，我用后面的引导模式了。</div><br><div></div><br><div>用windows的磁盘管理，压缩卷，把最后一个分区给缩小，然后就会多出一个空闲分区，这个就是给硬盘linux的“新房”。</div><br><div>然后，重启用U盘引导，这次同样选择安装到硬盘选项。在分区时，需要充分小心了。</div><br><div></div><br><div>先看看前人的指导：<a href="http://blog.csdn.net/pop_rain/article/details/70477085" target="_blank" rel="noopener">http://blog.csdn.net/pop_rain/article/details/70477085</a></div><br><div></div><br><div><br><div>在我的环境中最终分三个，/,/boot,/home分别为10G，200M,50G，注意引导要放在与/boot同映射的分区上。注意没有/swap区。</div><br><div>因为据说17.04后的版本不需要分交换分区了，而变成了交换文件的方式。</div><br><div>并且，如果你把引导装在了/boot对应的分区，grub2不会跑出来作怪，这是让windows来引导的前提。不然，得用工具修复MBR，所以，装完ubuntu，再重启应该是熟悉的wiondows不是grub。如果是后者，你分区错了。</div><br><div>当你再重启发现进入了熟悉的windows了，没有错，因为，房东管理着客户linux。此时，搬家已经完成，linux入住了，但房东没有给配好钥匙。进系统后，找那个利器吧。easybcd中加一个引导条目，分区选择为/boot那个系统分区。</div><br><div></div><br><div>再重启，windows给你选择权了，让你进linux去吧。不过，我碰到了问题。</div><br><div></div><br><div><br><div>最大的坑是：ext4 superblock checksum 。没错，这个是硬盘格式的错误。卡了我一下午。</div><br><div></div><br><div>一个国外帖子搞定了。</div><br><div><a href="https://linuxexpresso.wordpress.com/2010/03/31/repair-a-broken-ext4-superblock-in-ubuntu/" target="_blank" rel="noopener">https://linuxexpresso.wordpress.com/2010/03/31/repair-a-broken-ext4-superblock-in-ubuntu/</a></div><br><div></div><br><div>先用USB安装盘，启动进去，用root修复好挂载/的那个分区/dev/sda7.</div><br><div>然后，重启硬盘引导后发现可以有root的命令行，看来修复硬盘格式有戏。</div><br><div>然后，就是把其它的两个linux分区修复。之后，ubuntu17.04的用户登陆界面出现。</div><br><div>但最后，反朴归真了，发现在busybox的initramfs的命令提示符下，用 （sudo） fsck.ext4 /dev/sda7,8,9，三次命令后，reboot即可。</div><br><div></div><br><div>终于是躺在我硬盘里的，与win7同床的，让微软引导的小弟系统呀。</div><br><div><br><div>第一件事，开启root。</div><br><div>技巧把$变成#，sudo -s.或sudo su</div><br><div>此时安装东东已经够了，但如果你想用root来登陆系统。继续下面操作。</div><br><div></div><br><div>然后执行: vi /etc/lightdm/lightdm.conf.</div><br><div></div><br><div>增加 greeter-show-manual-login=true  allow-guest=false  . 修改完的整个配置文件是</div><br><div></div><br><div>[SetDefaults]</div><br><div>greeter-session=unity-greeter</div><br><div>user-session=ubuntu</div><br><div>greeter-show-manual-login=true #手工输入登陆系统的用户名和密码</div><br><div>allow-guest=false   #不允许guest登录</div><br><div></div><br><div>然后我们启动root帐号：</div><br><div>sudo passwd root</div><br><div>根据提示输入root帐号密码。</div><br><div></div><br><div>重启ubuntu，登录窗口会有“登录”选项，这时候我们就可以通过root登录了。</div><br></div><br><div></div><br><div>第三篇章 系统装修</div><br><div></div><br><div>与房东win7磨合得不错，但linux下没啥好玩的就有些寒酸了。装个Qt5来。</div><br><div></div><br><div>如果你是CentOS，这可以这么玩了。</div><br><div>{</div><br><div>一，编译器准备：</div><br><div><br><div>yum check-update</div><br><div>yum -y install gcc</div><br><div>yum -y install gcc-c++</div><br><div></div><br><div>—–解释</div><br><div>gcc: yum install gcc</div><br><div>g++: yum install gcc-c++</div><br><div>此外还有以下方法：</div><br><div>yum install make</div><br><div>– 或者</div><br><div>yum groupinstall “Development Tools”</div><br><div>– 或者（这个省事，把系列工具全搞定）</div><br><div>yum install gcc gcc-c++ kernel-devel</div><br><div>二，Qt5依赖库准备:</div><br><div><br><div><a href="http://blog.csdn.net/shine_journey/article/details/50676421" target="_blank" rel="noopener">http://blog.csdn.net/shine_journey/article/details/50676421</a></div><br><div></div><br><div>#yum install mesa-libGL-devel mesa-libGLU-devel</div><br><div>#yum install freeglut-devel</div><br><div></div><br><div></div><br></div><br>}//end CentOS<br><br></div><br><div></div><br><div><br><div>ubuntu:</div><br><div>{</div><br><div><a href="http://jingyan.baidu.com/article/7f41ecec1b7a2e593d095ce6.html" target="_blank" rel="noopener">http://jingyan.baidu.com/article/7f41ecec1b7a2e593d095ce6.html</a></div><br><div></div><br><div>首先不可或缺的就是编译器与基本的函式库，如果系统没有安装的话，依照下面的方式安装：</div><br><div></div><br><div>  $ sudo apt-get install build-essential</div><br><div></div><br><div>安装OpenGL Library</div><br><div></div><br><div>  $ sudo apt-get install libgl1-mesa-dev</div><br><div></div><br><div>安装OpenGL Utilities</div><br><div></div><br><div>  $ sudo apt-get install libglu1-mesa-dev</div><br><div></div><br><div>  OpenGL Utilities 是一组建构于 OpenGL Library 之上的工具组，提供许多很方便的函式，使 OpenGL 更强大且更容易使用。</div><br><div></div><br><div>安装OpenGL Utility Toolkit</div><br><div>如果不行就把，sudo apt-get install libglut-dev命令改成</div><br><div>$ sudo apt-get install freeglut3-dev</div><br><div>}//end ubuntu</div><br><div></div><br><div>三.直接运行安装包</div><br><div>#sh qt-opensource-linux-x64-5.5.1.run</div><br><div></div><br><div>四.安装好之后，需要添加环境变量</div><br><div>#vim /etc/profile</div><br><div>在最后一行，添加以下内容：</div><br><div>export PATH=”/opt/Qt5.5.1/5.5/gcc_64/bin:$PATH”</div><br><div>export PATH=”/opt/Qt5.5.1/Tools/QtCreator/bin:$PATH”</div><br><div></div><br><div>如果第四步没有搞好，编译好的测试项目不能运行执行文件。本人就碰到了xcb的插件要求报错。原来在5.5以上的高级Qt版本中，引用了platform的概念。所以，要使用LD_LIBRARY_PATH来找那些库。当然，你找那个qtcreator.sh执行，里面有自动配置好系统环境的处理。</div><br><div></div><br><div>until now,enjoy！</div><br></div><br></div><br></div><br><div></div><br></div>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Qt5/" rel="tag"># Qt5</a>
+          
+            <a href="/tags/CentOS6-5/" rel="tag"># CentOS6.5</a>
+          
+            <a href="/tags/mbr/" rel="tag"># mbr</a>
+          
+            <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
+          
+            <a href="/tags/USB启动盘/" rel="tag"># USB启动盘</a>
+          
+            <a href="/tags/双系统引导/" rel="tag"># 双系统引导</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/11/git-e5-b1-80-e7-bd-91-e5-ae-9e-e6-88-98/" rel="next" title="git局网实战">
+                <i class="fa fa-chevron-left"></i> git局网实战
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/22/vc-e6-9d-83-e5-a8-81-e5-89-96-e6-9e-90-ef-bc-9amfc-e5-8e-9f-e7-90-86-e3-80-81-e6-9c-ba-e5-88-b6-e4-b8-8e-e5-bc-80-e5-8f-91-e5-ae-9e-e4-be-8b-e8-af-bb-e5-90-8e-e6-84-9f/" rel="prev" title="VC权威剖析：MFC原理、机制与开发实例----读后感">
+                VC权威剖析：MFC原理、机制与开发实例----读后感 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ohala</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/page.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/tags.html">
+                  <span class="site-state-item-count">108</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ohala</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

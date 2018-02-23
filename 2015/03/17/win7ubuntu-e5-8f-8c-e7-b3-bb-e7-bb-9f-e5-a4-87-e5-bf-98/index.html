@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="boot,boot-repair,easyBCD,grub,rescue,双系统," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前情提要：双系统你值得拥有，开始共存的挺好，由grub2来引导两系统。后来我装了个ext2fsd。虽然，在window下可以看到ubuntu的文件了，但是，同时也破坏了分区卷标或格式什么的。反正就出现grub rescue&amp;gt;了。于是，开始了救赎。下一了个万能引导光盘，boot-repair-iso这个东东，直接就让我引导到了window，可是ubuntu没有了引导入口。不甘心，继续研究eas">
+<meta name="keywords" content="boot,boot-repair,easyBCD,grub,rescue,双系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="win7+ubuntu双系统备忘">
+<meta property="og:url" content="http://yoursite.com/2015/03/17/win7ubuntu-e5-8f-8c-e7-b3-bb-e7-bb-9f-e5-a4-87-e5-bf-98/index.html">
+<meta property="og:site_name" content="大亮的实验室">
+<meta property="og:description" content="前情提要：双系统你值得拥有，开始共存的挺好，由grub2来引导两系统。后来我装了个ext2fsd。虽然，在window下可以看到ubuntu的文件了，但是，同时也破坏了分区卷标或格式什么的。反正就出现grub rescue&amp;gt;了。于是，开始了救赎。下一了个万能引导光盘，boot-repair-iso这个东东，直接就让我引导到了window，可是ubuntu没有了引导入口。不甘心，继续研究eas">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-22T01:16:08.445Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="win7+ubuntu双系统备忘">
+<meta name="twitter:description" content="前情提要：双系统你值得拥有，开始共存的挺好，由grub2来引导两系统。后来我装了个ext2fsd。虽然，在window下可以看到ubuntu的文件了，但是，同时也破坏了分区卷标或格式什么的。反正就出现grub rescue&amp;gt;了。于是，开始了救赎。下一了个万能引导光盘，boot-repair-iso这个东东，直接就让我引导到了window，可是ubuntu没有了引导入口。不甘心，继续研究eas">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/03/17/win7ubuntu-e5-8f-8c-e7-b3-bb-e7-bb-9f-e5-a4-87-e5-bf-98/"/>
+
+
+
+
+
+  <title>win7+ubuntu双系统备忘 | 大亮的实验室</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大亮的实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">码田003</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/tags.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/page.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/03/17/win7ubuntu-e5-8f-8c-e7-b3-bb-e7-bb-9f-e5-a4-87-e5-bf-98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ohala">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大亮的实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">win7+ubuntu双系统备忘</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-03-17T16:37:09+08:00">
+                2015-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ubuntu/" itemprop="url" rel="index">
+                    <span itemprop="name">ubuntu</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ubuntu/windows/" itemprop="url" rel="index">
+                    <span itemprop="name">windows</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ubuntu/windows/系统平台/" itemprop="url" rel="index">
+                    <span itemprop="name">系统平台</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>前情提要：<br>双系统你值得拥有，开始共存的挺好，由grub2来引导两系统。后来我装了个ext2fsd。虽然，在window下可以看到ubuntu的文件了，但是，同时也破坏了分区卷标或格式什么的。反正就出现grub rescue&gt;了。于是，开始了救赎。下一了个万能引导光盘，boot-repair-iso这个东东，直接就让我引导到了window，可是ubuntu没有了引导入口。不甘心，继续研究easybcd方式，于是，windows这次当主人引导ubuntu了。</p>
+<p>环境：<br>一般linux系统中/boot都不独分一区<br>同时MBR一般也都装在第一块硬盘上</p>
+<p>所以，引导时也都是在MBR上装grub2再里面引导双系统。<br>当然可以先用window的bootmgr(名字不确定)来引导，然后再easyBCD来图形化操作设置<br>加上grub的引导。就是指针的指针了。<br>本人以前就是：<br>MBR—-grub2—-bootmgr<br>现在：<br>MBR—-bootmgr—-grub</p>
+<p>参考：<br><a href="http://redmaple34.blog.51cto.com/2621361/604298" target="_blank" rel="noopener">http://redmaple34.blog.51cto.com/2621361/604298</a></p>
+<p>grub小结<br>一般会碰到两种提示符，前者是救援，后者是grub控制台<br>grub rescue&gt;<br>当它出现，这是由于引导分区对应不上了。即mbr中的原路径，对应不了/boot/grub路径。<br>所以，在有限的命令下（ls,set,insmod,normal）一步步来吧。<br>用ls先找：<br>ls (hd0,msdosX)/<br>其中的X为变量，根据实际存在的分区数为准。<br>用set显示当前情况。若不对就变化。<br>set root=(hd0,msdos8)<br>set prefix=(hd0,msdos8)/boot/grub<br>insmod /boot/grub/normal.mod<br>normal</p>
+<p>一般上述步骤操作完，可以在启动选项界面，敲“C”进入命令行模式<br>A:<br>grub &gt;set root=hd0,msdos7<br>grub &gt;set prefix=(hd0,msdos7)/boot/grub<br>grub &gt;linux /vmlinuz-xxx-xxx root=/dev/sda7 //里边的xxxx可以按Tab键，如果有acpi问题,在最后加一句acpi=off<br>grub &gt;initrd /initrd.img-xxx-xxx<br>grub &gt;boot<br>//end A</p>
+<p>或者跳过A<br>重启后，应该sudo -i<br>update-grub2<br>此时重建了grub.cfg<br>grub-install /dev/sda<br>此时重建了sda的mbr</p>
+<p>应该可以解决问题了。</p>
+<p>下面是常用命令。<br>grub&gt;</p>
+<p>find /boot/grub/core.img</p>
+<p>root (hdx,y)</p>
+<p>kernel /boot/grub/core.img</p>
+<p>boot</p>
+<p>grub错误提示</p>
+<p>1 : Filename must be either an absolute filename or blocklist<br>解释 ：1号错误表示文件名格式错误。在 GRUB 中要么是以绝对路径给出文件<br>例子 ：<br>grub&gt; kernel vmlinuz root=label=/<br>Error 1: Filename must be either an absolute pathname or blocklist<br>grub&gt;</p>
+<p>引用：<br>2 : Bad file or directory type<br>解释 ：2号错误表示命令期望的是一个普通文件，但相应文件名的对象是一个符号链接、目录、FIFO<br>例子 ：<br>grub&gt; kernel /testdir root=LABEL=/<br>Error 2: Bad file or directory type<br>grub&gt;</p>
+<p>引用：<br>3 : Bad or corrupt data while decompressing file<br>解释 ：3号错误表示解压文件时发生错误。可能是因为这个文件被损坏了</p>
+<p>引用：<br>4 : Bad or incompatible header in compressed file<br>解释 ：4号错误表示压缩文件的头部格式不被兼容或者错误</p>
+<p>引用：<br>5 : Partition table invalid or corrupt<br>解释 ：5 号错误表示分区表无效或者被破坏。这是一个不好的预兆</p>
+<p>引用：<br>6 : Mismatched or corrupt version of stage1/stage2<br>解释 ：6号错误表示 install 命令发现 stage1 和 stage2 的颁布号不被兼容</p>
+<p>引用：<br>7 : Loading below 1MB is not supported<br>解释 ：This error is returned if the lowest address in a kernel is below<br>the 1MB boundary. The Linux zImage format is a special case and<br>can be handled since it has a fixed loading address and maximum size</p>
+<p>引用：<br>8 : Kernel must be loaded before booting<br>解释 ：8号错误表示执行 boot 命令之前没有先执行 kernel 命令</p>
+<p>引用：<br>9 : Unknown boot failure<br>解释 ：9 号错误表示未知的引导错误</p>
+<p>引用：<br>10 : Unsupported Multiboot features requested<br>解释 ：10 号错误表示请求 Multiboot header 所要求功能不被 GRUB 所支持。</p>
+<p>引用：<br>11 : Unrecognized device string<br>解释 ：11 号错误表示无法识别的设备字符串。<br>例子 ：<br>grub&gt; root hd0<br>Error 11: Unrecognized device string<br>grub&gt;</p>
+<p>引用：<br>12 : Invalid device requested<br>解释 ：12 号错误表示请求的设备无效<br>例子 ：<br>grub&gt; root (hd2)<br>Error 21: Selected disk does not exist<br>grub&gt; kernel /grub/grub.conf root=LABEL=/<br>Error 12: Invalid device requested<br>grub&gt;</p>
+<p>引用：<br>13 : Invalid or unsupported executable format<br>解释 ：13 号错误表示无效或者无法识别的可执行格式<br>例子 ：<br>grub&gt; kernel /grub/grub.conf root=LABEL=/<br>Error 13: Invalid or unsupported executable format<br>grub&gt;</p>
+<p>引用：<br>14 : Filesystem compatibility error, cannot read whole file<br>解释 ：14 号错误表示文件系统兼容性错误，无法读取整个文件</p>
+<p>引用：<br>15 : File not found<br>解释 ：请求的文件无法找到<br>例子 ：<br>grub&gt; find /grub-noexist/grub.conf<br>Error 15: File not found<br>grub&gt;</p>
+<p>引用：<br>16 : Inconsistent filesystem structure<br>解释 ：16 号错误表示不一致的文件系统结构。可能是文件系统结构被破坏了。</p>
+<p>引用：<br>17 : Cannot mount selected partition<br>解释 ：17号错误表示无法挂载指定分区。例如 swap 分区<br>例子 ：<br>grub&gt; root (hd0,2) 这是一个 swap 分区<br>Filesystem type unknown, partition type 0x82<br>grub&gt; kernel /vmlinuz<br>Error 17: Cannot mount selected partition<br>grub&gt;</p>
+<p>引用：<br>18 : Selected cylinder exceeds maximum supported by BIOS<br>解释 ：18 号错误表示选择的柱面超过了 BIOS 支持的最大能力。这通常发生在不支持 LBA 模式<br>的硬盘上。</p>
+<p>引用：<br>19 : Linux kernel must be loaded before initrd<br>解释 ：19 号错误表示执行 initrd 命令前必须先执行 kernel 命令</p>
+<p>引用：<br>20 : Multiboot kernel must be loaded before modules<br>解释 ：20 号错误表示执行 module 或者 moduleunzip 命令前必须先执行 kernel 命令</p>
+<p>引用：<br>21 : Selected disk does not exist<br>解释 ：21 号错误表示选择的磁盘不存在<br>例子 ：<br>grub&gt; root (hd2)<br>Error 21: Selected disk does not exist<br>grub&gt;</p>
+<p>引用：<br>22 : No such partition<br>解释 ：22 号错误表示分区不存在<br>例子 ：<br>grub&gt; root (hd0,10)<br>Error 22: No such partition<br>grub&gt;</p>
+<p>引用：<br>23 : Error while parsing number<br>解释 ：23 号错误表示参数解释错误，希望是一个数值，但参数却是其他类型<br>例子 ：<br>grub&gt; root (hda,0)<br>Error 23: Error while parsing number<br>grub&gt;</p>
+<p>引用：<br>24 : Attempt to access block outside partition<br>解释 ：24 号错误表示尝试访问的 block 超出了分区</p>
+<p>引用：<br>25 : Disk read error<br>解释 ：25 号错误表示磁盘读错误</p>
+<p>引用：<br>26 : Too many symbolic links<br>解释 ：26 号错误表示太多的符号连接（默认最多允许5个）</p>
+<p>引用：<br>27 : Unrecognized command<br>解释 ：无法识别的命令</p>
+<p>引用：<br>28 : Selected item cannot fit into memory<br>解释 ：选择的对象无法被加载到内存中。<br>例子 ：<br>[root@monitor boot]# dd if=/dev/zero of=vmlinuz-2.4.20-31.9 bs=1024 count=1 seek=1<br>读入了 1+0 个块<br>输出了 1+0 个块</p>
+<p>[root@monitor boot]#grub<br>grub&gt; kernel /vmlinuz-2.4.20-31.9 root=label=/<br>[Linux-bzImage, setup=0x1400, size=0xfffff200]</p>
+<p>Error 28: Selected item cannot fit into memory</p>
+<p>grub&gt;</p>
+<p>引用：<br>29 : Disk write error<br>解释 ：磁盘写错误</p>
+<p>引用：<br>30 : Invalid argument<br>解释 ：无效参数<br>例子 ：<br>grub&gt; serial –noarg=0<br>Error 30: Invalid argument<br>grub&gt;</p>
+<p>引用：<br>31 : File is not sector aligned<br>解释 ：This error may occur only when you access a ReiserFS partition by<br>block-lists (e.g. the command <code>install&#39;). In this case, you should
+mount the partition with the</code>-o notail’ option.</p>
+<p>引用：<br>32 : Must be authenticated<br>解释 ：要求输入口令才能继续进行下面的操作。例如配置文件中有 password 或者 lock 命令<br>例子 ：<br>password root1234<br>title DOS<br>lock<br>rootnoverify (hd0,0)<br>chainloader +1</p>
+<p>引用：<br>33 : Serial device not configured<br>解释 ：33 号错误表示串口还没有配置。这一般发生在你执行 terminal serial 的时候</p>
+<p>引用：<br>34 : No spare sectors on the disk<br>解释 ：磁盘自由空间不足。可能发生在把 stage 1.5 嵌入到 MBR 之后的空间的时候。但这部分空间可能已经被分区表使用了</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/boot/" rel="tag"># boot</a>
+          
+            <a href="/tags/boot-repair/" rel="tag"># boot-repair</a>
+          
+            <a href="/tags/easyBCD/" rel="tag"># easyBCD</a>
+          
+            <a href="/tags/grub/" rel="tag"># grub</a>
+          
+            <a href="/tags/rescue/" rel="tag"># rescue</a>
+          
+            <a href="/tags/双系统/" rel="tag"># 双系统</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/03/11/e6-a8-a1-e6-9d-bf-e6-8e-a5-e5-8f-a3-e8-a7-a3-e6-83-91/" rel="next" title="模块接口解惑">
+                <i class="fa fa-chevron-left"></i> 模块接口解惑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/04/03/e9-9d-99-e6-80-81-e7-bc-96-e8-af-91qt5-5-e5-b9-b6-e5-ba-94-e7-94-a8-e6-88-90-e6-9e-9c/" rel="prev" title="静态编译Qt5.5并应用成果">
+                静态编译Qt5.5并应用成果 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ohala</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/page.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/tags.html">
+                  <span class="site-state-item-count">108</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ohala</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

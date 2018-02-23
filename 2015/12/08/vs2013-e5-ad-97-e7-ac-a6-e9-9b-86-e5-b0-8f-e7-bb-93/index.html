@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="VS2013 多字符集 unicode," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="VS新版本打开旧项目，即当升级一个vcproject文件时，可能会涉及从“多字节字符集”（可能是utf-8）到unicode字符集的转换。所以总结一下，代码端如何适应转换。 unicode字符集下，微软引入了一个宽字符集的概念（多讨厌）所以，有些winapi就是以宽字符集来传参的。 第一类问题：messagebox()函数所以字符串常量前，加一个L，即L“原来的字符串”；L的意思是小端序。当为un">
+<meta name="keywords" content="VS2013 多字符集 unicode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VS2013字符集小结">
+<meta property="og:url" content="http://yoursite.com/2015/12/08/vs2013-e5-ad-97-e7-ac-a6-e9-9b-86-e5-b0-8f-e7-bb-93/index.html">
+<meta property="og:site_name" content="大亮的实验室">
+<meta property="og:description" content="VS新版本打开旧项目，即当升级一个vcproject文件时，可能会涉及从“多字节字符集”（可能是utf-8）到unicode字符集的转换。所以总结一下，代码端如何适应转换。 unicode字符集下，微软引入了一个宽字符集的概念（多讨厌）所以，有些winapi就是以宽字符集来传参的。 第一类问题：messagebox()函数所以字符串常量前，加一个L，即L“原来的字符串”；L的意思是小端序。当为un">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-22T01:16:08.446Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="VS2013字符集小结">
+<meta name="twitter:description" content="VS新版本打开旧项目，即当升级一个vcproject文件时，可能会涉及从“多字节字符集”（可能是utf-8）到unicode字符集的转换。所以总结一下，代码端如何适应转换。 unicode字符集下，微软引入了一个宽字符集的概念（多讨厌）所以，有些winapi就是以宽字符集来传参的。 第一类问题：messagebox()函数所以字符串常量前，加一个L，即L“原来的字符串”；L的意思是小端序。当为un">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/12/08/vs2013-e5-ad-97-e7-ac-a6-e9-9b-86-e5-b0-8f-e7-bb-93/"/>
+
+
+
+
+
+  <title>VS2013字符集小结 | 大亮的实验室</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大亮的实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">码田003</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/tags.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/page.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/08/vs2013-e5-ad-97-e7-ac-a6-e9-9b-86-e5-b0-8f-e7-bb-93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ohala">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大亮的实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">VS2013字符集小结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-08T14:42:27+08:00">
+                2015-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/c-C/" itemprop="url" rel="index">
+                    <span itemprop="name">c/C++</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/c-C/开发语言/" itemprop="url" rel="index">
+                    <span itemprop="name">开发语言</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>VS新版本打开旧项目，即当升级一个vcproject文件时，可能会涉及从“多字节字符集”（可能是utf-8）到unicode字符集的转换。<br>所以总结一下，代码端如何适应转换。</p>
+<p>unicode字符集下，微软引入了一个宽字符集的概念（多讨厌）<br>所以，有些winapi就是以宽字符集来传参的。</p>
+<p>第一类问题：messagebox()函数<br>所以字符串常量前，加一个L，即L“原来的字符串”；<br>L的意思是小端序。当为unicode时，长度要么1要么2（汉字），所以，再加上小端序，不会有歧义了。</p>
+<p>第二类问题：strcpy()函数要求多字符集，事实此时的CSting已经入乡随俗了用了宽字符集，而直接强制转换就会出现让你头大的提示，<br>居然const char * 和 CString不等价了。</p>
+<p>char SendBuf[512] = {0};</p>
+<pre><code>strcpy(SendBuf,strEdit);              //CString参数strEdit，报错说不能转换CString到const char *
+</code></pre><hr>
+<p>办法一：用新的缓冲区放置，并且必须再转换一下。<br>char SendBuf[512] = {0};<br>    strcpy(SendBuf,( const char *)strEdit.GetBuffer());<br>办法二：复杂，此时要做的是把“变质的”CString给救回来。</p>
+<p>char SendBuf[512] = {0};<br>    wchar_t temp[512];<br>    MultiByteToWideChar(CP_ACP, NULL, (LPCCH)strEdit.GetBuffer(), 512, temp, 512);<br>    strcpy(SendBuf,(const char *)temp);<br>    m_Conn.Send(SendBuf,strlen(SendBuf));</p>
+<p>第三类问题，atoi转int:<br>把atoi换成_ttoi即可，这是神器，在啥字符集下，都可编译。</p>
+<p>第四类问题，CString-&gt;std::string 举例如下：<br>CString strMfc=“test“;<br>std::string strStl;</p>
+<p>#ifdef _UNICODE</p>
+<p>USES_CONVERSION<br>strStl=W2A(strMfc.LockBuffer());</p>
+<p>strMfc.UnlockBuffer();</p>
+<p>#else</p>
+<p>strStl = strMfc.GetBuffer(0);</p>
+<p>strMfc.ReleaseBuffer();</p>
+<h2 id="endif"><a href="#endif" class="headerlink" title="#endif"></a>#endif</h2><p>有时，CString可以做为桥梁，把乱码的UTF-8字符串转成string打印正确。思路是先用下面的函数转换乱码，再把返回的CString转string.<br>CString UTF8toUnicode(const char* utf8Str, UINT length)<br>{<br>    CString unicodeStr;<br>    unicodeStr = _T(“”);<br>    if (!utf8Str)<br>        return unicodeStr;</p>
+<pre><code>if (length == 0)
+    return unicodeStr;
+
+//转换 
+WCHAR chr = 0;
+
+for (UINT i = 0; i&lt;length;)
+{
+    if ((0x80 &amp; utf8Str[i]) == 0) // ASCII 
+    {
+        chr = utf8Str[i];
+        i++;
+    }
+    else if ((0xE0 &amp; utf8Str[i]) == 0xC0) // 110xxxxx 10xxxxxx 
+    {
+        chr = (utf8Str[i + 0] &amp; 0x3F) &lt;&lt; 6;
+        chr |= (utf8Str[i + 1] &amp; 0x3F);
+        i += 2;
+    }
+    else if ((0xF0 &amp; utf8Str[i]) == 0xE0) // 1110xxxx 10xxxxxx 10xxxxxx 
+    {
+        chr = (utf8Str[i + 0] &amp; 0x1F) &lt;&lt; 12;
+        chr |= (utf8Str[i + 1] &amp; 0x3F) &lt;&lt; 6;
+        chr |= (utf8Str[i + 2] &amp; 0x3F);
+        i += 3;
+    }
+    else // 不是UTF-8字符串 
+    {
+        return unicodeStr;
+    }
+    unicodeStr.AppendChar(chr);
+}
+
+return unicodeStr;
+</code></pre><p>}</p>
+<p>CString UTF8toUnicode(const char* utf8Str)<br>{</p>
+<pre><code>UINT theLength = strlen(utf8Str);
+return UTF8toUnicode(utf8Str, theLength);
+</code></pre><p>}</p>
+<p>第五类问题：BSTR -&gt; std::string 举例如下<br>BSTR bstrTest = ::SysAllocString(L”Test”);</p>
+<p>_bstr_t bstr_t(bstrTest）；</p>
+<p>std::strStl = bstr_t;</p>
+<p>SysFreeString(bstrTest );</p>
+<p>std::string -&gt; BSTR 举例如下</p>
+<p>std::string name = “nisb”;</p>
+<p> _bstr_t bstr_t(name.c_str());</p>
+<p>BSTR ret_val = bstr_t.GetBSTR();</p>
+<hr>
+<p>转来一篇原理编码的原理：</p>
+<p>1：使用CString，要包含文件afx.h，比如在Win32 Console Application中Alt+F7选择Use MFC in a Static Liberary，然后再添加#include<afx.h>就可以使用CString了。</afx.h></p>
+<p>  2：WCHAR ch = L’中’;与CHAR ch = ’中’;的区别是第一种使用UNICODE编码，第二种方式一般不经常用到，比如：<br>  WCHAR strA [ 2 ] = { L’中’ , 0 } ;//打开VC的Options菜单，选中Debug选项卡中的Display unicode strings后，可以看到strA的值。<br>  WCHAR strB [ 2 ] = { ‘中’ , 0 } ;</p>
+<p>  CString strC ;</p>
+<p>  strC+ = ( ( char <em> ) strB ) [ 1 ] ;<br>  strC+ = ( ( char </em> ) strB ) [ 0 ] ;//strC==”中”</p>
+<p>  3：CString的AllocSysString ( )成员函数;可以方便的把一个字符串转换成UNICODE形式。记得使用完该UNICODE字符串后要调用::SysFreeString()函数释放字符串。</p>
+<p>  4: CString::AllocSysString ( )或者::SysAllocString得到的字符串并不是普通的UNICODE字符串，它之前的四个字节会存放申请的字符串的长度：</p>
+<p>  CString strD = ”asdf”;<br>  BSTR strD = strC.AllocSysString( ) ;<br>  long i =<em> ( ( long </em> ) strD – 1 ) ; // i == 8;一个UNICDE字符的长度是2字节，所以strD的长度为8个字节。</p>
+<p>  4：UTF-8码转换为一般的字符串：</p>
+<p>  #include “ Windows.h “</p>
+<p>  int main(void)<br>  {<br>  char str [ 256 ] = {( char )0xE4, ( char ) 0xBD, ( char ) 0xA0, ( char ) 0xE5 ,<br>  ( char)0xA5 ,(char)0xBD, (char)0x61, (char)0x62 ,(char)0x63,(char)0} ; //一段UTF-8编码<br>  WCHAR<em> strA;<br>  int i= MultiByteToWideChar ( CP_UTF8 , 0 ,(char</em>) str ,-1 ,NULL,0);<br>  strA = new WCHAR[i];<br>  MultiByteToWideChar ( CP_UTF8 , 0 ,( char <em> ) str, -1, strA , i );<br>  i= WideCharToMultiByte(CP_ACP,0,strA,-1,NULL,0,NULL,NULL);<br>  char </em>strB=new char[i];<br>  WideCharToMultiByte (CP_ACP,0,strA,-1,strB,i,NULL,NULL);<br>  //strB即为所求<br>  delete []strA;<br>  delete []strB;<br>  return 0;<br>  }</p>
+<p>  5：在转换方面_bstr_t是最最灵活的，他提供了UNICODE到一般字符串的直接转换：</p>
+<p>  #include <comdef.h><br>  _bstr_t strA;<br>  char <em>strB=”中国人”;<br>  strA=strB;<br>  WCHAR </em>strC=strA;<br>  long i =<em> ( ( long </em> ) strC - 1 ) ;// i 亦是字符串的字节长度<br>  char *strD=strA;<br>  return 0;</comdef.h></p>
+<p>宽窄字串转换！<br>  两种方法：1、CString 2、_bstr_t</p>
+<p>  #include “comutil.h”<br>  //注意在Project－》Setting－》Link中加入comsupp.lib,从而使_bstr_t可用</p>
+<p>  void CAaaDlg::OnButton1()<br>  {<br>  // TODO: Add extra cleanup here<br>  _bstr_t a(L”sdfsafds”);<br>  a+=”zzz”;<br>  char <em> b = (char </em>)a;//获得内部BSTR的char<em>指针，勿做修改和释放<br>  WCHAR </em>c=(WCHAR <em>)a;//获得内部BSTR的WCHARr</em>指针，勿做修改和释放<br>  CString p = L”asdfsa”;<br>  p+=”ppp”;<br>  WCHAR <em>y =p.AllocSysString(); //获得WCHAR</em>指针，使用完请释放，否则有内存泄漏。<br>  char *z = p.GetBuffer(p.GetLength()+1);//内部Buffer指针，z不要释放</p>
+<p>  ::SysFreeString(y);<br>  }</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/VS2013-多字符集-unicode/" rel="tag"># VS2013 多字符集 unicode</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/04/net-e5-ba-94-e7-94-a8odp-net-e5-b0-8f-e8-ae-b0/" rel="next" title=".net应用odp.net小记">
+                <i class="fa fa-chevron-left"></i> .net应用odp.net小记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/04/e8-87-aa-e7-94-b1-e8-a1-8c-e6-b3-b0-e5-9b-bd/" rel="prev" title="自由行泰国">
+                自由行泰国 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ohala</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/page.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/tags.html">
+                  <span class="site-state-item-count">108</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#endif"><span class="nav-number">1.</span> <span class="nav-text">#endif</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ohala</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

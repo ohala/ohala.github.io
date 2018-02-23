@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="nginx,redis,安装,网站架构,集群," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="事实上，两个东东功能独立。nginx作为开源的web服务器，可以用做反向代理等。而redis说白了就是一个内存数据库，存储键值对，可以多节点部署在多个物理机做为应用层，可以集群方式自动管理。可以不用重启，灵活增删节点等。此处放在一起是因为工作中整理需要。当然，你可以分开阅读或借鉴。前提：CentOS6.5 x86_64一，基础软件：有些并不是必须的补丁。先用yum install -y XXX，如">
+<meta name="keywords" content="nginx,redis,安装,网站架构,集群">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx+redis应用服务架构搭建">
+<meta property="og:url" content="http://yoursite.com/2016/12/01/nginxredis-e5-ba-94-e7-94-a8-e6-9c-8d-e5-8a-a1-e6-9e-b6-e6-9e-84-e6-90-ad-e5-bb-ba/index.html">
+<meta property="og:site_name" content="大亮的实验室">
+<meta property="og:description" content="事实上，两个东东功能独立。nginx作为开源的web服务器，可以用做反向代理等。而redis说白了就是一个内存数据库，存储键值对，可以多节点部署在多个物理机做为应用层，可以集群方式自动管理。可以不用重启，灵活增删节点等。此处放在一起是因为工作中整理需要。当然，你可以分开阅读或借鉴。前提：CentOS6.5 x86_64一，基础软件：有些并不是必须的补丁。先用yum install -y XXX，如">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="file:///C:/Users/ADMINI~1/AppData/Local/Temp/enhtmlclip/Image(1">
+<meta property="og:image" content="file:///C:/Users/ADMINI~1/AppData/Local/Temp/enhtmlclip/ScreenClip.png">
+<meta property="og:updated_time" content="2018-02-22T01:16:08.449Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx+redis应用服务架构搭建">
+<meta name="twitter:description" content="事实上，两个东东功能独立。nginx作为开源的web服务器，可以用做反向代理等。而redis说白了就是一个内存数据库，存储键值对，可以多节点部署在多个物理机做为应用层，可以集群方式自动管理。可以不用重启，灵活增删节点等。此处放在一起是因为工作中整理需要。当然，你可以分开阅读或借鉴。前提：CentOS6.5 x86_64一，基础软件：有些并不是必须的补丁。先用yum install -y XXX，如">
+<meta name="twitter:image" content="file:///C:/Users/ADMINI~1/AppData/Local/Temp/enhtmlclip/Image(1">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/01/nginxredis-e5-ba-94-e7-94-a8-e6-9c-8d-e5-8a-a1-e6-9e-b6-e6-9e-84-e6-90-ad-e5-bb-ba/"/>
+
+
+
+
+
+  <title>nginx+redis应用服务架构搭建 | 大亮的实验室</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大亮的实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">码田003</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/tags.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/page.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/01/nginxredis-e5-ba-94-e7-94-a8-e6-9c-8d-e5-8a-a1-e6-9e-b6-e6-9e-84-e6-90-ad-e5-bb-ba/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ohala">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大亮的实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">nginx+redis应用服务架构搭建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-01T11:49:36+08:00">
+                2016-12-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ubuntu/" itemprop="url" rel="index">
+                    <span itemprop="name">ubuntu</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ubuntu/开源研究/" itemprop="url" rel="index">
+                    <span itemprop="name">开源研究</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ubuntu/开源研究/架构师专栏/" itemprop="url" rel="index">
+                    <span itemprop="name">架构师专栏</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ubuntu/开源研究/架构师专栏/系统平台/" itemprop="url" rel="index">
+                    <span itemprop="name">系统平台</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div>事实上，两个东东功能独立。nginx作为开源的web服务器，可以用做反向代理等。而redis说白了就是一个内存数据库，存储键值对，可以多节点部署在多个物理机做为应用层，可以集群方式自动管理。可以不用重启，灵活增删节点等。</div><br><div></div><br><div>此处放在一起是因为工作中整理需要。当然，你可以分开阅读或借鉴。</div><br><div></div><br><div>前提：</div><br><div>CentOS6.5 x86_64</div><br><div></div><br><div>一，基础软件：有些并不是必须的补丁。</div><br><div>先用yum install -y XXX，如何需配置本地安装源有本站另外文档介绍。</div><br><div>如果没有yum那必须要有安装光盘的Packages文件夹了，里面是配套的软件包。用rpm -ivh XXX.rpm即可。</div><br><div></div><br><div>gcc的依赖如下：</div><br><div><br><br><em> </em> <em><br><br></em></div><br><div>cloog—–ppl</div><br><div>cpp—–mpfr</div><br><div></div><br><div></div><br><div>g++(gcc-c++)</div><br><div>
+
+ <em> </em><br><br></div><br><div>libstdc++-devel</div><br><div></div><br><div>jdk</div><br><div><br><br><em> </em> <em><br><br>使用的openjdk的版本<br><br></em></div><br><div></div><br><div>把起作用的路径先设置成HOME路径，然后加入path。</div><br><div>如，java的默认路径是/etc/alternatives/jre_openjdk</div><br><div></div><br><div>#vi ~/.bash_profile</div><br><div>加入内容：</div><br><div>export JAVA_HOME=/etc/alternatives/jre_openjdk</div><br><div>export JRE_HOME=/etc/alternatives/jre</div><br><div></div><br><div>PATH=$JAVA_HOME/bin:$PATH:$HOME/bin</div><br><div></div><br><div></div><br><div>如下两个补丁包可以略，因为，在nginx的安装过程中也必须要源码编译安装。</div><br><div>PCRE</div><br><div>openssl-devel、pcre-devel、zlib-devel</div><br><div></div><br><div>zlib:</div><br><div>./configure</div><br><div>make</div><br><div>make install</div><br><div></div><br><div>ruby</div><br><div>
+
+ <em> </em><br><br></div><br><div>libruby</div><br><div>ruby-libs</div><br><div>—-libreadline（）</div><br><div></div><br><div></div><br><div>cd /path/ruby</div><br><div>./configure -prefix=/usr/local/ruby</div><br><div>make</div><br><div>make install</div><br><div>sudo cp ruby /usr/local/bin</div><br><div></div><br><div>事实上，用yum安装的话：yum install ruby,即可了</div><br><div></div><br><div>rubygems：</div><br><div><br><br><em> </em> <em><br><br></em></div><br><div>首先使用yum install rubygems来“投石问路”，就看到它所依赖的包，然后，在Packages目录里把rdoc和另一个包安装好，</div><br><div>最后，去网上下到了rubygems，</div><br><div>rubygems-1.3.7-5.el6.noarch.rpm</div><br><div>解压安装，成功。</div><br><div></div><br><div>没有yum的情况：</div><br><div>cd /path/gem</div><br><div>sudo ruby setup.rb</div><br><div>sudo cp bin/gem /usr/local/bin</div><br><div></div><br><div>gem-redis:</div><br><div>
+
+ <em> </em><br><br></div><br><div>这是ruby和redis之间的桥，此时yum已经插手不上了。</div><br><div></div><br><div>方法一：</div><br><div>gem install redis –version 3.0.7</div><br><div>#由于源的原因，可能下载失败，就手动下载下来安装</div><br><div>#download地址:<a href="http://rubygems.org/gems/redis/versions/3.0.7" target="_blank" rel="noopener">http://rubygems.org/gems/redis/versions/3.0.7</a></div><br><div>wget加url</div><br><div></div><br><div>方法二：</div><br><div>下载gem文件，在上面的url里一定会找到。</div><br><div>现场使用语句</div><br><div>gem install -l /root/tool/redis-3.0.7.gem</div><br><div></div><br><div>二，redis安装和运维:</div><br><div></div><br><div><a href="http://blog.csdn.net/xu470438000/article/details/42971091" target="_blank" rel="noopener">http://blog.csdn.net/xu470438000/article/details/42971091</a></div><br><div></div><br><div>安装集群：</div><br><div>tar -zxvf redis-3.0.7.tar.gz</div><br><div>mv redis-3.0.7 /usr/local/redis3.0.7</div><br><div>cd /usr/local/redis3.0.7</div><br><div>make</div><br><div>make install</div><br><div></div><br><div>cp /usr/local/redis-3.0.7/src/redis-trib.rb /usr/local/bin/</div><br><div></div><br><div>mkdir -p /usr.local/cluster</div><br><div>cp /usr/local/redis-3.0.7/redis.conf /usr.local/cluster</div><br><div>cd /usr.local/cluster</div><br><div>mkdir 7000</div><br><div>mkdir 7001</div><br><div>mkdir 7002</div><br><div></div><br><div></div><br><div><img src="file:///C:/Users/ADMINI~1/AppData/Local/Temp/enhtmlclip/Image(1" alt="">.png)</div><br><div></div><br><div>1）启动节点，或说实例，在/usr.local/cluster/</div><br><div></div><br><div>现行配置redis.conf如下：</div><br><div>daemonize yes</div><br><div>port 9001</div><br><div>cluster-enabled yes</div><br><div>cluster-config-file nodes.conf</div><br><div>cluster-node-timeout 5000</div><br><div>appendonly yes</div><br><div></div><br><div>cd 7000;redis-server /opt/redis/conf/redis.conf &gt; redis-0.log 2&gt;&amp;1 &amp;</div><br><div>cd ../7001;redis-server /opt/redis/conf/redis.conf &gt; redis-1.log 2&gt;&amp;1 &amp;</div><br><div>cd ../7002;redis-server /opt/redis/conf/redis.conf &gt; redis-2.log 2&gt;&amp;1 &amp;</div><br><div></div><br><div>2）构建集群关系</div><br><div>#redis-trib.rb的create子命令构建</div><br><div>#–replicas 则指定了为Redis Cluster中的每个Master节点配备几个Slave节点</div><br><div>#节点角色由顺序决定,先master之后是slave(为方便辨认,slave的端口比master大1000)</div><br><div></div><br><div>—单机情况下：</div><br><div>redis-trib.rb create –replicas 1 127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002</div><br><div></div><br><div>—双机情况下：</div><br><div>redis-trib.rb create –replicas 1 130.1.2.11:7000 130.1.2.11:7001 130.1.2.11:7002 130.1.2.12:7000 130.1.2.12:7001 130.1.2.12:7002</div><br><div></div><br><div>3）检测集群工作情况</div><br><div>  #redis-trib.rb的check子命令构建</div><br><div>#ip:port可以是集群的任意节点</div><br><div>redis-trib.rb check 1 130.1.2.11:7000</div><br><div></div><br><div>结果是：</div><br><div></div><br><div>[OK] All nodes agree about slots configuration.</div><br><div>&gt;&gt;&gt; Check for open slots…</div><br><div>&gt;&gt;&gt; Check slots coverage…</div><br><div>[OK] All 16384 slots covered.</div><br><div></div><br><div>说明运行正常了。或者redis-cli -c -p,-h 10.0.0.1 -p 后ping/PONG</div><br><div>现场抓图：</div><br><div></div><br><div><img src="file:///C:/Users/ADMINI~1/AppData/Local/Temp/enhtmlclip/ScreenClip.png" alt=""></div><br><div></div><br><div>技巧：</div><br><div>重改配置时常用语句：</div><br><div>cd ../7002/;rm nodes.conf -f;mv redis.conf redis.conf.v0</div><br><div></div><br><div>三，nginx安装</div><br><div>版本：</div><br><div>在/root/tool/下进行解压和编译安装。</div><br><div>现场最终起作用的语句：</div><br><div></div><br><div>./configure –with-pcre=pcre-8.12 –with-openssl=openssl-1.0.1c –with-zlib=zlib-1.2.8 –with-poll_module –prefix=/home/linux/nginx/nginx-1.9.4/run –with-stream</div><br><div></div><br><div>make;make install</div><br><div></div><br><div>把安装路径加入到path中，export NGINX_HOME，参考上面java安装。即/home/linux/nginx/nginx-1.9.4/run。</div><br><div></div><br><div>配置文档如下：在/home/linux/nginx/nginx-1.9.4/run/conf下面，名为nginx.conf.</div><br><div>删除http节，如果发现已经存在stream节，即把同名的节替换即可。</div><br><div></div><br><div>stream {</div><br><div>    server {</div><br><div>        listen 80;</div><br><div>        proxy_pass app;</div><br><div>    }</div><br><div></div><br><div>    upstream app {</div><br><div>        server 130.1.2.11:4442;</div><br><div>        server 130.1.2.12:4442;</div><br><div>    }</div><br><div></div><br><div>    server {</div><br><div>        listen 81;</div><br><div>        proxy_pass appp;</div><br><div>    }</div><br><div></div><br><div>    upstream appp {</div><br><div>        server 130.1.2.11:6666;</div><br><div>        server 130.1.2.12:6666;</div><br><div>    }</div><br><div></div><br><div>    server {</div><br><div>        listen 82;</div><br><div>        proxy_pass apppp;</div><br><div>    }</div><br><div></div><br><div>    upstream apppp {</div><br><div>        server 130.1.2.11:4433;</div><br><div>        server 130.1.2.12:4433;</div><br><div>    }</div><br><div></div><br><div></div><br><div>}</div><br><div></div><br><div>.nginx的启动</div><br><div>nginx -c /home/linux/nginx/nginx-1.9.4/run/conf/nginx.conf</div><br><div>重启命令 nginx -s reload</div><br><div>关闭</div><br><div>  1.从容停止：kill -QUIT nginx主进程号 (注释：进程号查询方法;ps -ef|grep nginx 看master进程号)</div><br><div>  2.快速停止：kill -TERM nginx主进程号</div><br><div>  3.强制停止：pkill -9 nginx</div><br><div></div><br><div>测试端口是否开放，当然先装好nc工具</div><br><div>nc -z -w 1 127.0.0.1 8883</div><br><div></div><br><div>可以快速开放一个tcp端口，相当于建立一个socket server：</div><br><div>nc -l 8884</div><br><div></div><br><div>用这个命令开放某个端口穿越防火wall</div><br><div>iptables -I INPUT -p tcp –dport 82 -j ACCEPT</div><br><div>iptables -L -n | grep 82</div><br><div>service iptables save</div><br><div></div><br><div>四，业务程序：</div><br><div>略</div>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nginx/" rel="tag"># nginx</a>
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+            <a href="/tags/安装/" rel="tag"># 安装</a>
+          
+            <a href="/tags/网站架构/" rel="tag"># 网站架构</a>
+          
+            <a href="/tags/集群/" rel="tag"># 集群</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/01/yum-e6-9c-ac-e5-9c-b0-e5-ae-89-e8-a3-85-e6-ba-90-e9-85-8d-e7-bd-ae/" rel="next" title="yum本地安装源配置">
+                <i class="fa fa-chevron-left"></i> yum本地安装源配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/03/e5-86-99-e7-bb-99-e4-b8-89-e5-8d-81-e5-b2-81-e4-bb-a5-e4-b8-8a-e7-9a-84-e7-a8-8b-e5-ba-8f-e5-91-98/" rel="prev" title="写给三十岁以上的程序员">
+                写给三十岁以上的程序员 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ohala</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/page.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/tags.html">
+                  <span class="site-state-item-count">108</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ohala</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
