@@ -269,6 +269,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/23/vc6-e5-b7-a5-e7-a8-8b-e9-a1-b9-e7-9b-ae-e6-94-b9-e5-90-8d/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ohala">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大亮的实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/06/23/vc6-e5-b7-a5-e7-a8-8b-e9-a1-b9-e7-9b-ae-e6-94-b9-e5-90-8d/" itemprop="url">VC6工程项目改名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-23T23:49:03+08:00">
+                2016-06-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VC6和VS201X/" itemprop="url" rel="index">
+                    <span itemprop="name">VC6和VS201X</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VC6和VS201X/利器与技巧/" itemprop="url" rel="index">
+                    <span itemprop="name">利器与技巧</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <div>首先，网上找了个工具改名的，VCRename用了一下成功，注意新生成的目录中，dsw和dsp文件一定要改过来了。</div><br><div>然后，用新的改名后的工程编译出新程序。</div><br><div>但是，如果你的旧程序是个互斥的机制，即只能启动一个实例的情况。</div><br><div>那么，你会发现，虽然，你用改名工具把文件和工程都改了，但是新程序和改名前的程序不能同时启动。</div><br><div>差在哪里呢。</div><br><div>就是app_title.往细了说是，底层的m_pszAppname还在共同一个，并没有变化成功，所以把这个变量改名了，程序才不会被互斥的。那么什么会关联这个变量呢。就是资源文件。但有人说改名工具已经把资源文件的名字改了。可是其中的内容并没有变，这是原理了。</div><br><div></div><br><div>所以，打开资源文件的页签，找”String Table”.</div><br><div>在表格中找到，afx_ids_app_title 把它的值改名同于你的新名字，然后再编译后，新旧两程序同时可启动并不互斥了。</div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/17/window-e5-bc-80-e5-8f-91-e4-b9-8b-e9-a1-b9-e7-9b-ae-e5-ae-8f-e5-ae-9a-e4-b9-89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1857,162 +2009,6 @@ odac------------当在同目录有多个driver时，可以区别吧，反正，�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/04/e5-8d-87-e7-ba-a7win10-e5-a4-87-e5-bf-98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ohala">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="大亮的实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/12/04/e5-8d-87-e7-ba-a7win10-e5-a4-87-e5-bf-98/" itemprop="url">升级win10备忘</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-04T17:52:49+08:00">
-                2015-12-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/windows/" itemprop="url" rel="index">
-                    <span itemprop="name">windows</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/windows/系统平台/" itemprop="url" rel="index">
-                    <span itemprop="name">系统平台</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>首先，接手电脑为win8.1，高兴去在线升级结果发现将会升级成win10家庭版，果断拒绝换路。<br>然后，策略再选择成把win8.1变成专业版，再online升级，如果再不行，就使用ISO了，（ VK7JG-NPHTM-C97JM-9MPGT-3V66T）win10密钥吧。</p>
-<p>1）升8再升10<br>保守治疗先，继续玩win8.1，右键“这台电脑”，在系统属性界面，选 择“获取新版本的Windows的更多功能”或者在控制面板中应该不难找到“向windows8.1添加功能”，然后，又是要输入产品密钥。<br>在这一步输入专业版的零售密钥，如果是升级到win8专业版，就输入8GDW2-NHD3Y-C79G4-B82C4-6Q4DH，（用的这个）<br>如果是升级到win8.1专业版，就输入 29NQY-3TDJ2-CPXXD-CHDMY-CWD2Y。<br>然后，漫长的等待windows update进度。注意，要确认本机是已经被激活的不然会升级不成功，并且是最后才给你结果，说不成功。当然如果是激活的，那么就关闭360，再重启。（本人采用方式）</p>
-<p>2）ISO升10<br>直接点击ISO，win10不用虚拟光驱了，又一群要下岗的同行。但这样安装上的win10可能会出现问题。</p>
-<p>3）ISO装10（或者用老毛桃啥的做个U盘，引导安装）<br>过程中选择不保留原有应用和个人文件夹等，那就没有以前版本的windows，回退都没有路子。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2063,7 +2059,7 @@ odac------------当在同目录有多个driver时，可以区别吧，反正，�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2074,7 +2070,7 @@ odac------------当在同目录有多个driver时，可以区别吧，反正，�
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/page.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2085,7 +2081,7 @@ odac------------当在同目录有多个driver时，可以区别吧，反正，�
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/tags.html">
-                  <span class="site-state-item-count">108</span>
+                  <span class="site-state-item-count">110</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

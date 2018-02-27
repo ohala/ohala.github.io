@@ -269,6 +269,186 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/01/nginxredis-e5-ba-94-e7-94-a8-e6-9c-8d-e5-8a-a1-e6-9e-b6-e6-9e-84-e6-90-ad-e5-bb-ba/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ohala">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大亮的实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/12/01/nginxredis-e5-ba-94-e7-94-a8-e6-9c-8d-e5-8a-a1-e6-9e-b6-e6-9e-84-e6-90-ad-e5-bb-ba/" itemprop="url">nginx+redis应用服务架构搭建</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-01T11:49:36+08:00">
+                2016-12-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ubuntu/" itemprop="url" rel="index">
+                    <span itemprop="name">ubuntu</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ubuntu/开源研究/" itemprop="url" rel="index">
+                    <span itemprop="name">开源研究</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ubuntu/开源研究/架构师专栏/" itemprop="url" rel="index">
+                    <span itemprop="name">架构师专栏</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ubuntu/开源研究/架构师专栏/系统平台/" itemprop="url" rel="index">
+                    <span itemprop="name">系统平台</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <div>事实上，两个东东功能独立。nginx作为开源的web服务器，可以用做反向代理等。而redis说白了就是一个内存数据库，存储键值对，可以多节点部署在多个物理机做为应用层，可以集群方式自动管理。可以不用重启，灵活增删节点等。</div><br><div></div><br><div>此处放在一起是因为工作中整理需要。当然，你可以分开阅读或借鉴。</div><br><div></div><br><div>前提：</div><br><div>CentOS6.5 x86_64</div><br><div></div><br><div>一，基础软件：有些并不是必须的补丁。</div><br><div>先用yum install -y XXX，如何需配置本地安装源有本站另外文档介绍。</div><br><div>如果没有yum那必须要有安装光盘的Packages文件夹了，里面是配套的软件包。用rpm -ivh XXX.rpm即可。</div><br><div></div><br><div>gcc的依赖如下：</div><br><div><br><br><em> </em> <em><br><br></em></div><br><div>cloog—–ppl</div><br><div>cpp—–mpfr</div><br><div></div><br><div></div><br><div>g++(gcc-c++)</div><br><div>
+
+ <em> </em><br><br></div><br><div>libstdc++-devel</div><br><div></div><br><div>jdk</div><br><div><br><br><em> </em> <em><br><br>使用的openjdk的版本<br><br></em></div><br><div></div><br><div>把起作用的路径先设置成HOME路径，然后加入path。</div><br><div>如，java的默认路径是/etc/alternatives/jre_openjdk</div><br><div></div><br><div>#vi ~/.bash_profile</div><br><div>加入内容：</div><br><div>export JAVA_HOME=/etc/alternatives/jre_openjdk</div><br><div>export JRE_HOME=/etc/alternatives/jre</div><br><div></div><br><div>PATH=$JAVA_HOME/bin:$PATH:$HOME/bin</div><br><div></div><br><div></div><br><div>如下两个补丁包可以略，因为，在nginx的安装过程中也必须要源码编译安装。</div><br><div>PCRE</div><br><div>openssl-devel、pcre-devel、zlib-devel</div><br><div></div><br><div>zlib:</div><br><div>./configure</div><br><div>make</div><br><div>make install</div><br><div></div><br><div>ruby</div><br><div>
+
+ <em> </em><br><br></div><br><div>libruby</div><br><div>ruby-libs</div><br><div>—-libreadline（）</div><br><div></div><br><div></div><br><div>cd /path/ruby</div><br><div>./configure -prefix=/usr/local/ruby</div><br><div>make</div><br><div>make install</div><br><div>sudo cp ruby /usr/local/bin</div><br><div></div><br><div>事实上，用yum安装的话：yum install ruby,即可了</div><br><div></div><br><div>rubygems：</div><br><div><br><br><em> </em> <em><br><br></em></div><br><div>首先使用yum install rubygems来“投石问路”，就看到它所依赖的包，然后，在Packages目录里把rdoc和另一个包安装好，</div><br><div>最后，去网上下到了rubygems，</div><br><div>rubygems-1.3.7-5.el6.noarch.rpm</div><br><div>解压安装，成功。</div><br><div></div><br><div>没有yum的情况：</div><br><div>cd /path/gem</div><br><div>sudo ruby setup.rb</div><br><div>sudo cp bin/gem /usr/local/bin</div><br><div></div><br><div>gem-redis:</div><br><div>
+
+ <em> </em><br><br></div><br><div>这是ruby和redis之间的桥，此时yum已经插手不上了。</div><br><div></div><br><div>方法一：</div><br><div>gem install redis –version 3.0.7</div><br><div>#由于源的原因，可能下载失败，就手动下载下来安装</div><br><div>#download地址:<a href="http://rubygems.org/gems/redis/versions/3.0.7" target="_blank" rel="noopener">http://rubygems.org/gems/redis/versions/3.0.7</a></div><br><div>wget加url</div><br><div></div><br><div>方法二：</div><br><div>下载gem文件，在上面的url里一定会找到。</div><br><div>现场使用语句</div><br><div>gem install -l /root/tool/redis-3.0.7.gem</div><br><div></div><br><div>二，redis安装和运维:</div><br><div></div><br><div><a href="http://blog.csdn.net/xu470438000/article/details/42971091" target="_blank" rel="noopener">http://blog.csdn.net/xu470438000/article/details/42971091</a></div><br><div></div><br><div>安装集群：</div><br><div>tar -zxvf redis-3.0.7.tar.gz</div><br><div>mv redis-3.0.7 /usr/local/redis3.0.7</div><br><div>cd /usr/local/redis3.0.7</div><br><div>make</div><br><div>make install</div><br><div></div><br><div>cp /usr/local/redis-3.0.7/src/redis-trib.rb /usr/local/bin/</div><br><div></div><br><div>mkdir -p /usr.local/cluster</div><br><div>cp /usr/local/redis-3.0.7/redis.conf /usr.local/cluster</div><br><div>cd /usr.local/cluster</div><br><div>mkdir 7000</div><br><div>mkdir 7001</div><br><div>mkdir 7002</div><br><div></div><br><div></div><br><div><img src="file:///C:/Users/ADMINI~1/AppData/Local/Temp/enhtmlclip/Image(1" alt="">.png)</div><br><div></div><br><div>1）启动节点，或说实例，在/usr.local/cluster/</div><br><div></div><br><div>现行配置redis.conf如下：</div><br><div>daemonize yes</div><br><div>port 9001</div><br><div>cluster-enabled yes</div><br><div>cluster-config-file nodes.conf</div><br><div>cluster-node-timeout 5000</div><br><div>appendonly yes</div><br><div></div><br><div>cd 7000;redis-server /opt/redis/conf/redis.conf &gt; redis-0.log 2&gt;&amp;1 &amp;</div><br><div>cd ../7001;redis-server /opt/redis/conf/redis.conf &gt; redis-1.log 2&gt;&amp;1 &amp;</div><br><div>cd ../7002;redis-server /opt/redis/conf/redis.conf &gt; redis-2.log 2&gt;&amp;1 &amp;</div><br><div></div><br><div>2）构建集群关系</div><br><div>#redis-trib.rb的create子命令构建</div><br><div>#–replicas 则指定了为Redis Cluster中的每个Master节点配备几个Slave节点</div><br><div>#节点角色由顺序决定,先master之后是slave(为方便辨认,slave的端口比master大1000)</div><br><div></div><br><div>—单机情况下：</div><br><div>redis-trib.rb create –replicas 1 127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002</div><br><div></div><br><div>—双机情况下：</div><br><div>redis-trib.rb create –replicas 1 130.1.2.11:7000 130.1.2.11:7001 130.1.2.11:7002 130.1.2.12:7000 130.1.2.12:7001 130.1.2.12:7002</div><br><div></div><br><div>3）检测集群工作情况</div><br><div>  #redis-trib.rb的check子命令构建</div><br><div>#ip:port可以是集群的任意节点</div><br><div>redis-trib.rb check 1 130.1.2.11:7000</div><br><div></div><br><div>结果是：</div><br><div></div><br><div>[OK] All nodes agree about slots configuration.</div><br><div>&gt;&gt;&gt; Check for open slots…</div><br><div>&gt;&gt;&gt; Check slots coverage…</div><br><div>[OK] All 16384 slots covered.</div><br><div></div><br><div>说明运行正常了。或者redis-cli -c -p,-h 10.0.0.1 -p 后ping/PONG</div><br><div>现场抓图：</div><br><div></div><br><div><img src="file:///C:/Users/ADMINI~1/AppData/Local/Temp/enhtmlclip/ScreenClip.png" alt=""></div><br><div></div><br><div>技巧：</div><br><div>重改配置时常用语句：</div><br><div>cd ../7002/;rm nodes.conf -f;mv redis.conf redis.conf.v0</div><br><div></div><br><div>三，nginx安装</div><br><div>版本：</div><br><div>在/root/tool/下进行解压和编译安装。</div><br><div>现场最终起作用的语句：</div><br><div></div><br><div>./configure –with-pcre=pcre-8.12 –with-openssl=openssl-1.0.1c –with-zlib=zlib-1.2.8 –with-poll_module –prefix=/home/linux/nginx/nginx-1.9.4/run –with-stream</div><br><div></div><br><div>make;make install</div><br><div></div><br><div>把安装路径加入到path中，export NGINX_HOME，参考上面java安装。即/home/linux/nginx/nginx-1.9.4/run。</div><br><div></div><br><div>配置文档如下：在/home/linux/nginx/nginx-1.9.4/run/conf下面，名为nginx.conf.</div><br><div>删除http节，如果发现已经存在stream节，即把同名的节替换即可。</div><br><div></div><br><div>stream {</div><br><div>    server {</div><br><div>        listen 80;</div><br><div>        proxy_pass app;</div><br><div>    }</div><br><div></div><br><div>    upstream app {</div><br><div>        server 130.1.2.11:4442;</div><br><div>        server 130.1.2.12:4442;</div><br><div>    }</div><br><div></div><br><div>    server {</div><br><div>        listen 81;</div><br><div>        proxy_pass appp;</div><br><div>    }</div><br><div></div><br><div>    upstream appp {</div><br><div>        server 130.1.2.11:6666;</div><br><div>        server 130.1.2.12:6666;</div><br><div>    }</div><br><div></div><br><div>    server {</div><br><div>        listen 82;</div><br><div>        proxy_pass apppp;</div><br><div>    }</div><br><div></div><br><div>    upstream apppp {</div><br><div>        server 130.1.2.11:4433;</div><br><div>        server 130.1.2.12:4433;</div><br><div>    }</div><br><div></div><br><div></div><br><div>}</div><br><div></div><br><div>.nginx的启动</div><br><div>nginx -c /home/linux/nginx/nginx-1.9.4/run/conf/nginx.conf</div><br><div>重启命令 nginx -s reload</div><br><div>关闭</div><br><div>  1.从容停止：kill -QUIT nginx主进程号 (注释：进程号查询方法;ps -ef|grep nginx 看master进程号)</div><br><div>  2.快速停止：kill -TERM nginx主进程号</div><br><div>  3.强制停止：pkill -9 nginx</div><br><div></div><br><div>测试端口是否开放，当然先装好nc工具</div><br><div>nc -z -w 1 127.0.0.1 8883</div><br><div></div><br><div>可以快速开放一个tcp端口，相当于建立一个socket server：</div><br><div>nc -l 8884</div><br><div></div><br><div>用这个命令开放某个端口穿越防火wall</div><br><div>iptables -I INPUT -p tcp –dport 82 -j ACCEPT</div><br><div>iptables -L -n | grep 82</div><br><div>service iptables save</div><br><div></div><br><div>四，业务程序：</div><br><div>略</div>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/01/yum-e6-9c-ac-e5-9c-b0-e5-ae-89-e8-a3-85-e6-ba-90-e9-85-8d-e7-bd-ae/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1792,158 +1972,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/23/vc6-e5-b7-a5-e7-a8-8b-e9-a1-b9-e7-9b-ae-e6-94-b9-e5-90-8d/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ohala">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="大亮的实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/06/23/vc6-e5-b7-a5-e7-a8-8b-e9-a1-b9-e7-9b-ae-e6-94-b9-e5-90-8d/" itemprop="url">VC6工程项目改名</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-23T23:49:03+08:00">
-                2016-06-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VC6和VS201X/" itemprop="url" rel="index">
-                    <span itemprop="name">VC6和VS201X</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VC6和VS201X/利器与技巧/" itemprop="url" rel="index">
-                    <span itemprop="name">利器与技巧</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <div>首先，网上找了个工具改名的，VCRename用了一下成功，注意新生成的目录中，dsw和dsp文件一定要改过来了。</div><br><div>然后，用新的改名后的工程编译出新程序。</div><br><div>但是，如果你的旧程序是个互斥的机制，即只能启动一个实例的情况。</div><br><div>那么，你会发现，虽然，你用改名工具把文件和工程都改了，但是新程序和改名前的程序不能同时启动。</div><br><div>差在哪里呢。</div><br><div>就是app_title.往细了说是，底层的m_pszAppname还在共同一个，并没有变化成功，所以把这个变量改名了，程序才不会被互斥的。那么什么会关联这个变量呢。就是资源文件。但有人说改名工具已经把资源文件的名字改了。可是其中的内容并没有变，这是原理了。</div><br><div></div><br><div>所以，打开资源文件的页签，找”String Table”.</div><br><div>在表格中找到，afx_ids_app_title 把它的值改名同于你的新名字，然后再编译后，新旧两程序同时可启动并不互斥了。</div>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1994,7 +2022,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2005,7 +2033,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/page.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2016,7 +2044,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/tags.html">
-                  <span class="site-state-item-count">108</span>
+                  <span class="site-state-item-count">110</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
