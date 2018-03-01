@@ -274,7 +274,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ohala">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="http://blog.songdaliang.com/wp-content/uploads/2018/03/avatarDD-150x150.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -425,7 +425,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ohala">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="http://blog.songdaliang.com/wp-content/uploads/2018/03/avatarDD-150x150.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -571,7 +571,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ohala">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="http://blog.songdaliang.com/wp-content/uploads/2018/03/avatarDD-150x150.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -730,7 +730,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ohala">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="http://blog.songdaliang.com/wp-content/uploads/2018/03/avatarDD-150x150.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -851,7 +851,7 @@
       
         
           
-            <div>基础概念和消息映射</div><br><div></div><br><div><br><br><em> </em> <em><br><br></em></div><br><div><img src="http://blog.songdaliang.com/wp-content/uploads/2017/06/Image-267x300.png" alt="Image"></div><br><div></div><br><div>窗口：</div><br><div></div><br><div>按级别分：</div><br><div>桌面窗口</div><br><div>     顶级窗口</div><br><div>          子窗口</div><br><div>     重叠或弹出窗口</div><br><div></div><br><div>CS_PARENTDC:</div><br><div>     有此属性（并不是窗口风格），它可以继承父窗口的显示设备上下文。edit,button都是如此的。</div><br><div></div><br><div>WS_CHILD:</div><br><div>     纯子窗口，只有客户区，并且客户区的显示界面要在WM_PAINT消息处理中进行绘制。edit,button都是如此的。</div><br><div></div><br><div>WS_OVERLAPPED:</div><br><div>     若不同时指定WS_CHILD那么它是顶级窗口，总有标题栏WS_CAPTION和边框，并且自动设置WS_CLIPSIBLINGS。创建重叠窗口时可以指定默认大小选项CW_USEDEFAULT。</div><br><div></div><br><div>WS_POPUP:</div><br><div>     弹出窗口创建时，也会自动设置WS_CLIPSIBLINGS。但其它风格必须专门指定，包括WS_CAPTION，也不能指定默认大小选项。</div><br><div></div><br><div></div><br><div></div><br><div>检索窗口：可以跨进程找到窗口的句柄，因为用的是CWnd的静态函数，如下：</div><br><div></div><br><div>FindWindow()</div><br><div>GetWindow()</div><br><div></div><br><div>以下相对来说是内部查找了。</div><br><div></div><br><div>用于找父窗口的：</div><br><div>CWnd::GetParent()，可以省略CWnd</div><br><div>但有可能父又是别人的子，所以</div><br><div>CWnd::GetParentOwner()</div><br><div></div><br><div>用于找子窗口的：</div><br><div>CWnd::GetTopWindow()</div><br><div>CWnd::GetDlgItem()</div><br><div></div><br><div>CWnd::GetDescendantWindow()——–通过ID号取得窗口指针</div><br><div>CWnd::GetWindowFromPoint(POINT)函数取得占用父窗口客户区指定点的子窗口。实参POINT是客户区坐标。</div><br><div></div><br><div>消息：</div><br><div></div><br><div><a href="http://blog.songdaliang.com/wp-content/uploads/2017/06/Image1.png" target="_blank" rel="noopener"><img src="http://blog.songdaliang.com/wp-content/uploads/2017/06/Image1-300x83.png" alt="Image"></a></div><br><div></div><br><div>窗口消息（区别于线程消息）：</div><br><div>     窗口消息：除了WM<em>COMMAND外，所有WM</em>开关的消息。与某类窗口紧密相关。</div><br><div>1，系统自动生成的窗口消息映射</div><br><div>2，通过类向导来生成的消息映射</div><br><div>3，通过宏ON_MESSAGE(message,memberFxn)</div><br><div>主要讲解以下三类消息，原因是类向导不能自动帮助生成，也没有系统建立好，要手工添加。包括自定义消息。</div><br><div>     命令消息</div><br><div>          菜单（工具栏，加速键）、按钮向窗口发送，要求执行某个功能操作的消息，与程序动作相关。</div><br><div>          用宏ON_COMMAND(id,memberFxn)来建立消息映射。加入数组的第二参数为，CN_COMMAND(内容是0，而通知消息则是非零值)</div><br><div>     通知消息</div><br><div>          MFC为每个通知消息都定义了宏，如果控件的内容变化ON_EN_CHANGE，ON_EN_UPDATE，鼠标滚动等。</div><br><div>          通过ON_CONTROL(wNotifyCode,id,memberFxn)来生成消息映射。其实它是ON_COMAND的重载而己。新控件都使用专门的ON_NOTIFY来建立了。它能传递更多的附加信息。如：</div><br><div>         纯正，新式的通知消息使用如下：</div><br><div>          ON_NOTIFY(TVN_KEYDOWN,IDC_TREE,OnKeydown)</div><br><div>          注：在两层面变化了，通知代码和处理的函数原型上，后者有实参，并引入新的结构了。</div><br><div>          不通过ON_CONTROL来消息映射的特殊通知消息。WM_CTLCOLOR</div><br><div></div><br><div>     反射消息</div><br><div>          由主窗口通过CWnd::ReflectLastMsg()发给子窗口，此函数调用了子窗口的OnChildNotify()—-ReflectChildNotify()</div><br><div>          在其中，就是原始的switch了。</div><br><div>               对旧式通知消息的反射消息和通知消息的反射消息时</div><br><div>               —–OnCmdMsg()</div><br><div></div><br><div><a href="http://blog.songdaliang.com/wp-content/uploads/2017/06/Image2.png" target="_blank" rel="noopener"><img src="http://blog.songdaliang.com/wp-content/uploads/2017/06/Image2-300x248.png" alt="Image"></a></div><br><div></div><br><div>命令ID：</div><br><div>     [0x8000,0xF000)———–全局命令，可由不同对象处理。菜单项的的ID值都在此范围内。</div><br><div>     小于0x8000—————-局部命令，按钮</div><br><div></div><br><div>MFC应用程序角度—-CWndApp分析</div><br><div>
+            <div>基础概念和消息映射</div><br><div></div><br><div><br><br><em> </em> <em><br><br></em></div><br><div><img src="http://blog.songdaliang.com/wp-content/uploads/2017/06/Image.png" alt="Image"></div><br><div></div><br><div>窗口：</div><br><div></div><br><div>按级别分：</div><br><div>桌面窗口</div><br><div>     顶级窗口</div><br><div>          子窗口</div><br><div>     重叠或弹出窗口</div><br><div></div><br><div>CS_PARENTDC:</div><br><div>     有此属性（并不是窗口风格），它可以继承父窗口的显示设备上下文。edit,button都是如此的。</div><br><div></div><br><div>WS_CHILD:</div><br><div>     纯子窗口，只有客户区，并且客户区的显示界面要在WM_PAINT消息处理中进行绘制。edit,button都是如此的。</div><br><div></div><br><div>WS_OVERLAPPED:</div><br><div>     若不同时指定WS_CHILD那么它是顶级窗口，总有标题栏WS_CAPTION和边框，并且自动设置WS_CLIPSIBLINGS。创建重叠窗口时可以指定默认大小选项CW_USEDEFAULT。</div><br><div></div><br><div>WS_POPUP:</div><br><div>     弹出窗口创建时，也会自动设置WS_CLIPSIBLINGS。但其它风格必须专门指定，包括WS_CAPTION，也不能指定默认大小选项。</div><br><div></div><br><div></div><br><div></div><br><div>检索窗口：可以跨进程找到窗口的句柄，因为用的是CWnd的静态函数，如下：</div><br><div></div><br><div>FindWindow()</div><br><div>GetWindow()</div><br><div></div><br><div>以下相对来说是内部查找了。</div><br><div></div><br><div>用于找父窗口的：</div><br><div>CWnd::GetParent()，可以省略CWnd</div><br><div>但有可能父又是别人的子，所以</div><br><div>CWnd::GetParentOwner()</div><br><div></div><br><div>用于找子窗口的：</div><br><div>CWnd::GetTopWindow()</div><br><div>CWnd::GetDlgItem()</div><br><div></div><br><div>CWnd::GetDescendantWindow()——–通过ID号取得窗口指针</div><br><div>CWnd::GetWindowFromPoint(POINT)函数取得占用父窗口客户区指定点的子窗口。实参POINT是客户区坐标。</div><br><div></div><br><div>消息：</div><br><div></div><br><div><a href="http://blog.songdaliang.com/wp-content/uploads/2017/06/Image1.png" target="_blank" rel="noopener"><img src="http://blog.songdaliang.com/wp-content/uploads/2017/06/Image1-300x83.png" alt="Image"></a></div><br><div></div><br><div>窗口消息（区别于线程消息）：</div><br><div>     窗口消息：除了WM<em>COMMAND外，所有WM</em>开关的消息。与某类窗口紧密相关。</div><br><div>1，系统自动生成的窗口消息映射</div><br><div>2，通过类向导来生成的消息映射</div><br><div>3，通过宏ON_MESSAGE(message,memberFxn)</div><br><div>主要讲解以下三类消息，原因是类向导不能自动帮助生成，也没有系统建立好，要手工添加。包括自定义消息。</div><br><div>     命令消息</div><br><div>          菜单（工具栏，加速键）、按钮向窗口发送，要求执行某个功能操作的消息，与程序动作相关。</div><br><div>          用宏ON_COMMAND(id,memberFxn)来建立消息映射。加入数组的第二参数为，CN_COMMAND(内容是0，而通知消息则是非零值)</div><br><div>     通知消息</div><br><div>          MFC为每个通知消息都定义了宏，如果控件的内容变化ON_EN_CHANGE，ON_EN_UPDATE，鼠标滚动等。</div><br><div>          通过ON_CONTROL(wNotifyCode,id,memberFxn)来生成消息映射。其实它是ON_COMAND的重载而己。新控件都使用专门的ON_NOTIFY来建立了。它能传递更多的附加信息。如：</div><br><div>         纯正，新式的通知消息使用如下：</div><br><div>          ON_NOTIFY(TVN_KEYDOWN,IDC_TREE,OnKeydown)</div><br><div>          注：在两层面变化了，通知代码和处理的函数原型上，后者有实参，并引入新的结构了。</div><br><div>          不通过ON_CONTROL来消息映射的特殊通知消息。WM_CTLCOLOR</div><br><div></div><br><div>     反射消息</div><br><div>          由主窗口通过CWnd::ReflectLastMsg()发给子窗口，此函数调用了子窗口的OnChildNotify()—-ReflectChildNotify()</div><br><div>          在其中，就是原始的switch了。</div><br><div>               对旧式通知消息的反射消息和通知消息的反射消息时</div><br><div>               —–OnCmdMsg()</div><br><div></div><br><div><a href="http://blog.songdaliang.com/wp-content/uploads/2017/06/Image2.png" target="_blank" rel="noopener"><img src="http://blog.songdaliang.com/wp-content/uploads/2017/06/Image2-300x248.png" alt="Image"></a></div><br><div></div><br><div>命令ID：</div><br><div>     [0x8000,0xF000)———–全局命令，可由不同对象处理。菜单项的的ID值都在此范围内。</div><br><div>     小于0x8000—————-局部命令，按钮</div><br><div></div><br><div>MFC应用程序角度—-CWndApp分析</div><br><div>
 
  <em> </em><br><br></div><br><div>接开发者地气的些设计。它的父和子，都是一个程序从生到死的维护者。在继承的应用类实例中，把这爷仨的属性都设置了，找到相应的归宿。</div><br><div>有三种主窗口：单选的。事实看看MFC应用程序向导即可。</div><br><div>单，多文档的主窗口都是CFrameWnd（后者派生的）。而基于对话框的就不用多说了。</div><br><div></div><br><div><img src="http://blog.songdaliang.com/wp-content/uploads/2017/06/Image3-300x252.png" alt="Image"></div><br><div></div><br><div></div><br><table><br><tbody><br><tr><br><td><br><div>m_pszAppName</div></td><br><td><br><div>向导中填写的工程名称，可以在CWndApp构造时传参指定。如果没有指定，会使用字符串资源“AFX_IDS_APP_TITLE”，如果还没设置这个串，将由可执行文件名代替。</div></td><br><td></td><br><td><br><div>属于CWndApp类</div></td><br></tr><br><tr><br><td><br><div>m_pszExeName</div></td><br><td></td><br><td></td><br><td><br><div>属于CWndApp类</div></td><br></tr><br><tr><br><td><br><div>m_pszProfileName</div></td><br><td><br><div>应用程序的INI配置文件名，在继承应用类中设置自己的配置文件 。</div></td><br><td><br><div>GetProfileString()等系列函数来配合。</div></td><br><td><br><div>属于CWndApp类（默认是执行程序.ini）</div></td><br></tr><br><tr><br><td><br><div>m_hInstance</div></td><br><td><br><div>模块在进程中的装入地址</div></td><br><td></td><br><td><br><div>属于CWndApp类</div></td><br></tr><br><tr><br><td><br><div>m_pMainWnd</div></td><br><td><br><div>在CSingleDocTemplate或CMultiDocTemplate构造时，就把资源文件绑定和主窗口框架类，文档类，视图类全都实例化，同时设置了此指针。基于对话框的也按其方式会设置此指针。注：没有命令行参数时，默认执行ID_FILE_NEW</div></td><br><td><br><div>文档，视图，都是MFC管理的，实例在堆上，不用手动回收。</div><br><div>当设置好，别忘记</div><br><div></div><br><div>ShowWindow(SW_SHOW);</div><br><div>UpdateWindow();</div><br><div>SetWindowText(“XXX程序”);</div><br><div></div><br><div>这样这个主窗口的消息循环，在Run时触发。</div></td><br><td><br><div>属于CWinThread。设置了此指针的UI窗口，在销毁时，都是安全的。</div></td><br></tr><br><tr><br><td></td><br><td></td><br><td></td><br><td></td><br></tr><br></tbody><br></table><br><div></div><br><div></div><br><div>用向导也好，自己个性化改造也好，反正重载的initInstance函数至少有有模有样了。</div><br><div></div><br><div>命令行参数功能，有时在不同进程启动的相互调用时很有用。</div><br><div></div><br><div></div><br><div></div><br><div></div><br><div></div>
 
@@ -907,7 +907,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ohala">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="http://blog.songdaliang.com/wp-content/uploads/2018/03/avatarDD-150x150.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1096,7 +1096,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ohala">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="http://blog.songdaliang.com/wp-content/uploads/2018/03/avatarDD-150x150.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1249,7 +1249,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ohala">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="http://blog.songdaliang.com/wp-content/uploads/2018/03/avatarDD-150x150.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1401,7 +1401,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ohala">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="http://blog.songdaliang.com/wp-content/uploads/2018/03/avatarDD-150x150.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1542,7 +1542,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ohala">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="http://blog.songdaliang.com/wp-content/uploads/2018/03/avatarDD-150x150.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1685,7 +1685,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ohala">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="http://blog.songdaliang.com/wp-content/uploads/2018/03/avatarDD-150x150.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1886,6 +1886,10 @@
       <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://blog.songdaliang.com/wp-content/uploads/2018/03/avatarDD-150x150.jpg"
+                alt="ohala" />
             
               <p class="site-author-name" itemprop="name">ohala</p>
               <p class="site-description motion-element" itemprop="description"></p>
