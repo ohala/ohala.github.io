@@ -269,6 +269,217 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://coder.songdaliang.com/2015/12/04/net-e5-ba-94-e7-94-a8odp-net-e5-b0-8f-e8-ae-b0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ohala">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.songdaliang.com/wp-content/uploads/2018/03/avatarDD-150x150.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大亮的实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/12/04/net-e5-ba-94-e7-94-a8odp-net-e5-b0-8f-e8-ae-b0/" itemprop="url">.net应用odp.net小记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-04T18:03:09+08:00">
+                2015-12-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/c-net/" itemprop="url" rel="index">
+                    <span itemprop="name">c#.net</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/c-net/开发语言/" itemprop="url" rel="index">
+                    <span itemprop="name">开发语言</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>一，下载ODAC112040Xcopy_64bit并解压，在OTP里找。<br>     在cmd中执行&gt;install.bat odp.net4 d:\driver4oracle11.2 odac</p>
+<pre><code>odp.net4------------你想部署的driver，本人使用.netframework4，不是asp.net和.net2，所以，没用使用All和指定的其它选项。
+d:\driver4oracle11.2------------你要部署的目标客户机的oracle_home，当然在windows下就加入它到系统环境变量path中。
+odac------------当在同目录有多个driver时，可以区别吧，反正，因为加了它，可能会报错。但不影响使用。
+[true]----------可选的，默认值，即把odp.net依赖的instantclient安装，当你加false时，不装依赖且考虑和已经存在的新版本oracle或现有的环境配合。
+
+当执行了上面的命令后，instantclient(即被odp.net依赖的)也一并从压缩包中被抽取，拷安装到了oracle_home目录中。
+</code></pre><p>二，然后就是设置tnsnames.ora文件。从服务端上相应位置拷过来，放置到home目录中。顺便执行下*access.dll同目录中的oraprovcfg.exe，它是用于注册系统环境变量的。虽然上面已经配置好了，多来一次也无妨。</p>
+<p>三，开始客户端程序的开发吧，把home路径中的Oracle.DataAccess.dll拷到项目的debug，和exe同级下面，并在VS中引用，加入using行：<br>     using Oracle.DataAccess.Client;<br>     using Oracle.DataAccess.Types;<br>     代码示例：</p>
+<p>using System;<br>using System.Collections.Generic;<br>using System.ComponentModel;<br>using System.Data;<br>using System.Drawing;<br>using System.Linq;<br>using System.Text;<br>using System.Windows.Forms;<br>using Oracle.DataAccess.Client;<br>using Oracle.DataAccess.Types;</p>
+<p>namespace odp<br>{<br>    public partial class Form1 : Form<br>    {<br>        public Form1()<br>        {<br>            InitializeComponent();</p>
+<pre><code>    }
+
+    private string strConn = &quot;Data Source=(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = ohala-PC)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED)(SERVICE_NAME = XE)));&quot;+
+        &quot;User id=JINGHU;Password=JINGHU;&quot; ;
+    public void initDBConn()
+    {
+        try
+        {
+            using(OracleConnection objConn = new OracleConnection(strConn))
+            {
+                objConn.Open();
+                string strSQL = &quot;select * from V_TM_SEGMENT_CFG where SEGMENT_CODE=10 order by STATION_SEQUENCE,TRACK_CODE&quot;;
+
+                using(OracleDataAdapter objAdapter = new OracleDataAdapter(strSQL,objConn))
+                {
+                    //
+                    DataSet ds = new DataSet();
+                    objAdapter.Fill(ds);
+                    dataGridView1.DataSource = ds.Tables[0];
+                    //dataGridView1.
+                    dataGridView1.Show();
+                }
+
+                //using (OracleCommand objCommand = new OracleCommand(strSQL, objConn))
+                //{
+                //    using(OracleDataReader objReader = objCommand.ExecuteReader())
+                //    {
+                //        while (objReader.Read())
+                //        {
+                //            Console.WriteLine(&quot;segment_code is :&quot; + objReader[0].ToString() + &quot;;station_code is :&quot; + objReader[1].ToString());
+                //            //dataGridView1.DataSource
+                //        }
+
+                //    }
+                //}//command
+            }
+        } catch(Exception ex)
+        {
+
+        }
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        initDBConn();
+    }
+}
+</code></pre><p>}</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://coder.songdaliang.com/2015/12/04/e5-8d-87-e7-ba-a7win10-e5-a4-87-e5-bf-98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1519,7 +1730,7 @@ mount the partition with the</code>-o notail’ option.</p>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1541,7 +1752,7 @@ mount the partition with the</code>-o notail’ option.</p>
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/tags.html">
-                  <span class="site-state-item-count">110</span>
+                  <span class="site-state-item-count">112</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
