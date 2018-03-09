@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="介绍个轻量级方案，让局网下使用git方便，抛砖引玉了。 第一步，首先在A机上，把代码的目录变成仓库。用git init或者用GUI操作，这没啥新鲜的。第二步，在A机某个共享文件夹中建立个裸仓库（基于第一步的仓库）即使用命令：在第一步的目录中，而share则是本机的共享目录。git clone –bare . /c/Users/Administrator/Downloads/share/bare-c">
+<meta name="description" content="介绍个轻量级方案，让局网下使用git方便，抛砖引玉了。  第一步，首先在A机上，把代码的目录变成仓库。用git init或者用GUI操作，这没啥新鲜的。 第二步，在A机某个共享文件夹中建立个裸仓库（基于第一步的仓库）即使用命令：在第一步的目录中，而share则是本机的共享目录。git clone –bare . /c/Users/Administrator/Downloads/share/bare">
 <meta name="keywords" content="git,bare,lan,remote,share">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git局网实战">
 <meta property="og:url" content="http://coder.songdaliang.com/2017/05/11/git-e5-b1-80-e7-bd-91-e5-ae-9e-e6-88-98/index.html">
 <meta property="og:site_name" content="大亮的实验室">
-<meta property="og:description" content="介绍个轻量级方案，让局网下使用git方便，抛砖引玉了。 第一步，首先在A机上，把代码的目录变成仓库。用git init或者用GUI操作，这没啥新鲜的。第二步，在A机某个共享文件夹中建立个裸仓库（基于第一步的仓库）即使用命令：在第一步的目录中，而share则是本机的共享目录。git clone –bare . /c/Users/Administrator/Downloads/share/bare-c">
+<meta property="og:description" content="介绍个轻量级方案，让局网下使用git方便，抛砖引玉了。  第一步，首先在A机上，把代码的目录变成仓库。用git init或者用GUI操作，这没啥新鲜的。 第二步，在A机某个共享文件夹中建立个裸仓库（基于第一步的仓库）即使用命令：在第一步的目录中，而share则是本机的共享目录。git clone –bare . /c/Users/Administrator/Downloads/share/bare">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T01:16:08.457Z">
+<meta property="og:updated_time" content="2018-03-09T08:03:31.284Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git局网实战">
-<meta name="twitter:description" content="介绍个轻量级方案，让局网下使用git方便，抛砖引玉了。 第一步，首先在A机上，把代码的目录变成仓库。用git init或者用GUI操作，这没啥新鲜的。第二步，在A机某个共享文件夹中建立个裸仓库（基于第一步的仓库）即使用命令：在第一步的目录中，而share则是本机的共享目录。git clone –bare . /c/Users/Administrator/Downloads/share/bare-c">
+<meta name="twitter:description" content="介绍个轻量级方案，让局网下使用git方便，抛砖引玉了。  第一步，首先在A机上，把代码的目录变成仓库。用git init或者用GUI操作，这没啥新鲜的。 第二步，在A机某个共享文件夹中建立个裸仓库（基于第一步的仓库）即使用命令：在第一步的目录中，而share则是本机的共享目录。git clone –bare . /c/Users/Administrator/Downloads/share/bare">
 
 
 
@@ -374,7 +374,14 @@
 
       
         <p>介绍个轻量级方案，让局网下使用git方便，抛砖引玉了。</p>
-<div>第一步，首先在A机上，把代码的目录变成仓库。</div><br><div>用git init或者用GUI操作，这没啥新鲜的。</div><br><div></div><br><div>第二步，在A机某个共享文件夹中建立个裸仓库（基于第一步的仓库）</div><br><div>即使用命令：在第一步的目录中，而share则是本机的共享目录。</div><br><div>git clone –bare . /c/Users/Administrator/Downloads/share/bare-cad.git</div><br><div>但，此时，第一步的仓库并没有把第二步刚建立的仓库当成远程仓库。所以，还要手工建立联系。</div><br><div>git remote add origin /c/Users/Administrator/Downloads/share/bare-cad.git</div><br><div>再加上一个</div><br><div>git push –set-upstream origin master</div><br><div>可保万全，它设置了第一步仓库的上游或者说远端源是第二步仓库了。不信，你用git branch -a或git push来测试。</div><br><div>到此，A机内循环通道完毕。</div><br><div></div><br><div>第三步，在局网的其它机器B上，映射驱动器为A机的那个共享目录。</div><br><div>Y:/bare-cad.git就是那个第二步建立的仓库。</div><br><div>并同时克隆一个仓库在自己喜欢的目录下。</div><br><div>git clone /Y/bare-cad.git</div><br><div>上游或远程关系自动建立好，git pull/push都没问题了。</div><br><div></div><br><div>第四步，开始协同开发，推拉自如。好像装箱和开箱，而这个中转箱，则为bare-cad.git.</div>
+<ul>
+<li><div>第一步，首先在A机上，把代码的目录变成仓库。</div><br><div>用git init或者用GUI操作，这没啥新鲜的。</div><br><div></div></li>
+<li><div>第二步，在A机某个共享文件夹中建立个裸仓库（基于第一步的仓库）</div><br><div>即使用命令：在第一步的目录中，而share则是本机的共享目录。</div><br><div>git clone –bare . /c/Users/Administrator/Downloads/share/bare-cad.git</div><br><div>但，此时，第一步的仓库并没有把第二步刚建立的仓库当成远程仓库。所以，还要手工建立联系。</div><br><div>git remote add origin /c/Users/Administrator/Downloads/share/bare-cad.git</div><br><div>再加上一个</div><br><div>git push –set-upstream origin master</div><br><div>可保万全，它设置了第一步仓库的上游或者说远端源是第二步仓库了。不信，你用git branch -a或git push来测试。</div><br><div>到此，A机内循环通道完毕。</div><br><div></div></li>
+<li><div>第三步，在局网的其它机器B上，映射驱动器为A机的那个共享目录。</div><br><div>Y:/bare-cad.git就是那个第二步建立的仓库。</div><br><div>并同时克隆一个仓库在自己喜欢的目录下。</div><br><div>git clone /Y/bare-cad.git</div><br><div>上游或远程关系自动建立好，git pull/push都没问题了。</div><br><div></div></li>
+<li><div>第四步，开始协同开发，推拉自如。好像装箱和开箱，而这个中转箱，则为bare-cad.git.</div>
+</li>
+</ul>
+
       
     </div>
     

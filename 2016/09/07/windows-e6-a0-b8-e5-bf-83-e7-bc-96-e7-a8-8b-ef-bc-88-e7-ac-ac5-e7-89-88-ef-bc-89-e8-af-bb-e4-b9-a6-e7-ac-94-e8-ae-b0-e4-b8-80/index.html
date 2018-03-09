@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="大亮的实验室">
 <meta property="og:description" content="第一章节 错误处理几乎所有的windows API返回值都是下列之一：VOID——不会失败，失败了骚扰bill gates去,BOOL——不用说了吧,HANDLE—失败则是NULL，当然有时是-1,PVOID—–失败是NULL，成功就是指针喽,LONG/DWORD—-要看具体的上下文环境了。当调用失败，返回值会先指出已经发生错误。所以要先判断返回值。然后，使用GetLastError()来得到详细">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T01:16:08.448Z">
+<meta property="og:updated_time" content="2018-03-09T08:42:26.354Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="windows核心编程（第5版）读书笔记一">
 <meta name="twitter:description" content="第一章节 错误处理几乎所有的windows API返回值都是下列之一：VOID——不会失败，失败了骚扰bill gates去,BOOL——不用说了吧,HANDLE—失败则是NULL，当然有时是-1,PVOID—–失败是NULL，成功就是指针喽,LONG/DWORD—-要看具体的上下文环境了。当调用失败，返回值会先指出已经发生错误。所以要先判断返回值。然后，使用GetLastError()来得到详细">
@@ -417,7 +417,12 @@
       
 
       
-        <div>第一章节 错误处理</div><br><div></div><br><div>几乎所有的windows API返回值都是下列之一：</div><br><div>VOID——不会失败，失败了骚扰bill gates去,</div><br><div>BOOL——不用说了吧,</div><br><div>HANDLE—失败则是NULL，当然有时是-1,</div><br><div>PVOID—–失败是NULL，成功就是指针喽,</div><br><div>LONG/DWORD—-要看具体的上下文环境了。</div><br><div></div><br><div>当调用失败，返回值会先指出已经发生错误。所以要先判断返回值。然后，使用GetLastError()来得到详细的错误提示。返回值是dword类型的，要得到描述，加入WinError.h.</div><br><div>技巧一：在监视中，$err,hr，就会看到调用的API错误的内容。</div><br><div></div><br><div>技巧二：使用VS的IDE小工具，error lookup</div><br><div></div><br><div>只你自己开发的模块想返回不一样的error时，可以使用SetLastError(DWORD)来写入，当然，错误代码要像点样，即32位中的29位要必须为1.而0是给系统用的。</div><br><div></div><br><div>第二章节 字符和字符串的处理</div><br><div></div><br><div>VC6——ANSI,DBCS——-/Zc:wchar_t(这个选项就会有定义wchar_t这个数据类型)</div><br><div>VS201X———–ANSI,UNICODE(指的是UTF-16)</div><br><div></div><br><div>事实上，typedef unsigned short wchar_t;</div><br><div>WinNT.h中统一了类型的名称。</div><br><div>TEXT(param)在unicode宏定义下，在param前加了L前缀。</div><br><div>所以，TCHAR也是个宏，可以配合TEXT(),_T() 来一起变脸。</div><br><div></div><br><div>unicode阵营的后缀或关键字母：</div><br><div>w—wide</div><br><div>L—-</div><br><div></div><br><div>ansi阵营的后缀或关键字母：</div><br><div>a—ansi</div><br><div></div><br><div>中性函数：或会变脸的，应用在两种编码下都可以编译场景，加入TChar.h配合String.h</div><br><div>_tcslen()会变脸成wcslen或strlen</div><br><div></div><br><div>C库的新版本的安全系列函数</div><br><div>1）字符串函数：加入StrSafe.h</div><br><div>_tcs拼加后面的选项即可cpy/cat/再拼接_s后才是安全字符串函数。第二参数为要处理的字符长度，用_countof宏（stdlib.h） 来得出字符数最好，注意不是字节数哟.</div><br><div></div><br><div>StringCch为前缀的也是安全函数。</div><br><div></div><br><div>注意：</div><br><div>使用微软包装的安全函数代替C库函数，好处是即时发现内存操作的异常，但有时也可能会出现“Debug Assertion Failed”对话框。当然要是debug模式下，当然也有办法屏了它，用release或定义InvailidParameterHandler函数，然后注册它，再程序运行开头加入个宏：_CrtSetReportMode(_CRT_ASSERT,0);</div><br><div></div><br><div>判断返回值必须等于宏S_OK,当不是这个值时必须要检查字符串的操作。</div><br><div></div><br><div>2）安全缓冲区函数：加入CrtDefs.h</div><br><div>memcpy_s——–wmemcpy_s</div><br><div>memmove_s——-wmemmove_s</div><br><div></div><br><div></div><br><div>第三章节 内核对象</div><br><div></div><br><div>有SECURITY_ATTRIBUTES结构为参数的生成才是内核对象，区别于GDI和其它的对象。</div><br><div>所以这也揭露了内核对象的本质是—-结构。而句柄则是—–由系统管理着的内存地址</div><br><div></div><br><div>CloseHandle()函数详析：</div><br><div>工作步骤：</div><br><div>1，验证自己主调进程中的句柄表，是否有权访问此句柄。如果有效，则获得内核对象的数据结构地址。</div><br><div>2，把内核对象结构使用计数减1，如果是0了，则销毁。</div><br><div></div><br><div>注意：</div><br><div>如果参数是无效的句柄，CloseHandle返回false，GetLastError返回ERROR_INVALD_HANDLE。如果在调试，则出现0xC0000008的异常抛出。</div><br><div>当函数返回前，清除当前进程的句柄表，所以以后代码不能再使用此句柄了。</div><br><div>当用变量保存过句柄的话，应该设置为NULL。</div><br><div>任务管理器是可以查看程序中的进程句柄表。</div><br><div></div><br><div>跨进程边界共享内核对象—略</div>
+        <h2 id="第一章节-错误处理"><a href="#第一章节-错误处理" class="headerlink" title="第一章节 错误处理"></a>第一章节 错误处理</h2><div>几乎所有的windows API返回值都是下列之一：</div><br><div>VOID——不会失败，失败了骚扰bill gates去,</div><br><div>BOOL——不用说了吧,</div><br><div>HANDLE—失败则是NULL，当然有时是-1,</div><br><div>PVOID—–失败是NULL，成功就是指针喽,</div><br><div>LONG/DWORD—-要看具体的上下文环境了。</div><br><div></div><br><div>当调用失败，返回值会先指出已经发生错误。所以要先判断返回值。然后，使用GetLastError()来得到详细的错误提示。返回值是dword类型的，要得到描述，加入WinError.h.</div><br><div>技巧一：在监视中，$err,hr，就会看到调用的API错误的内容。</div><br><div></div><br><div>技巧二：使用VS的IDE小工具，error lookup</div><br><div></div><br><div>只你自己开发的模块想返回不一样的error时，可以使用SetLastError(DWORD)来写入，当然，错误代码要像点样，即32位中的29位要必须为1.而0是给系统用的。</div>
+
+<h2 id="第二章节-字符和字符串的处理"><a href="#第二章节-字符和字符串的处理" class="headerlink" title="第二章节 字符和字符串的处理"></a>第二章节 字符和字符串的处理</h2><div>VC6——ANSI,DBCS——-/Zc:wchar_t(这个选项就会有定义wchar_t这个数据类型)</div><br><div>VS201X———–ANSI,UNICODE(指的是UTF-16)</div><br><div></div><br><div>事实上，typedef unsigned short wchar_t;</div><br><div>WinNT.h中统一了类型的名称。</div><br><div>TEXT(param)在unicode宏定义下，在param前加了L前缀。</div><br><div>所以，TCHAR也是个宏，可以配合TEXT(),_T() 来一起变脸。</div><br><div></div><br><div>unicode阵营的后缀或关键字母：</div><br><div>w—wide</div><br><div>L—-</div><br><div></div><br><div>ansi阵营的后缀或关键字母：</div><br><div>a—ansi</div><br><div></div><br><div>中性函数：或会变脸的，应用在两种编码下都可以编译场景，加入TChar.h配合String.h</div><br><div>_tcslen()会变脸成wcslen或strlen</div><br><div></div><br><div>C库的新版本的安全系列函数</div><br><div>1）字符串函数：加入StrSafe.h</div><br><div>_tcs拼加后面的选项即可cpy/cat/再拼接_s后才是安全字符串函数。第二参数为要处理的字符长度，用_countof宏（stdlib.h） 来得出字符数最好，注意不是字节数哟.</div><br><div></div><br><div>StringCch为前缀的也是安全函数。</div><br><div></div><br><div>注意：</div><br><div>使用微软包装的安全函数代替C库函数，好处是即时发现内存操作的异常，但有时也可能会出现“Debug Assertion Failed”对话框。当然要是debug模式下，当然也有办法屏了它，用release或定义InvailidParameterHandler函数，然后注册它，再程序运行开头加入个宏：_CrtSetReportMode(_CRT_ASSERT,0);</div><br><div></div><br><div>判断返回值必须等于宏S_OK,当不是这个值时必须要检查字符串的操作。</div><br><div></div><br><div>2）安全缓冲区函数：加入CrtDefs.h</div><br><div>memcpy_s——–wmemcpy_s</div><br><div>memmove_s——-wmemmove_s</div>
+
+<h2 id="第三章节-内核对象"><a href="#第三章节-内核对象" class="headerlink" title="第三章节 内核对象"></a>第三章节 内核对象</h2><div>有SECURITY_ATTRIBUTES结构为参数的生成才是内核对象，区别于GDI和其它的对象。</div><br><div>所以这也揭露了内核对象的本质是—-结构。而句柄则是—–由系统管理着的内存地址</div><br><div></div><br><div>CloseHandle()函数详析：</div><br><div>工作步骤：</div><br><div>1，验证自己主调进程中的句柄表，是否有权访问此句柄。如果有效，则获得内核对象的数据结构地址。</div><br><div>2，把内核对象结构使用计数减1，如果是0了，则销毁。</div><br><div></div><br><div>注意：</div><br><div>如果参数是无效的句柄，CloseHandle返回false，GetLastError返回ERROR_INVALD_HANDLE。如果在调试，则出现0xC0000008的异常抛出。</div><br><div>当函数返回前，清除当前进程的句柄表，所以以后代码不能再使用此句柄了。</div><br><div>当用变量保存过句柄的话，应该设置为NULL。</div><br><div>任务管理器是可以查看程序中的进程句柄表。</div><br><div></div><br><div>跨进程边界共享内核对象—略</div>
+
       
     </div>
     
@@ -527,8 +532,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -592,6 +606,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章节-错误处理"><span class="nav-text">第一章节 错误处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章节-字符和字符串的处理"><span class="nav-text">第二章节 字符和字符串的处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章节-内核对象"><span class="nav-text">第三章节 内核对象</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

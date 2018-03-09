@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="mfc,string table,VC,项目改名," />
+  <meta name="keywords" content="mfc,VC,string table,项目改名," />
 
 
 
@@ -80,14 +80,14 @@
 
 
 <meta name="description" content="首先，网上找了个工具改名的，VCRename用了一下成功，注意新生成的目录中，dsw和dsp文件一定要改过来了。然后，用新的改名后的工程编译出新程序。但是，如果你的旧程序是个互斥的机制，即只能启动一个实例的情况。那么，你会发现，虽然，你用改名工具把文件和工程都改了，但是新程序和改名前的程序不能同时启动。差在哪里呢。就是app_title.往细了说是，底层的m_pszAppname还在共同一个，并没">
-<meta name="keywords" content="mfc,string table,VC,项目改名">
+<meta name="keywords" content="mfc,VC,string table,项目改名">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VC6工程项目改名">
 <meta property="og:url" content="http://coder.songdaliang.com/2016/06/23/vc6-e5-b7-a5-e7-a8-8b-e9-a1-b9-e7-9b-ae-e6-94-b9-e5-90-8d/index.html">
 <meta property="og:site_name" content="大亮的实验室">
 <meta property="og:description" content="首先，网上找了个工具改名的，VCRename用了一下成功，注意新生成的目录中，dsw和dsp文件一定要改过来了。然后，用新的改名后的工程编译出新程序。但是，如果你的旧程序是个互斥的机制，即只能启动一个实例的情况。那么，你会发现，虽然，你用改名工具把文件和工程都改了，但是新程序和改名前的程序不能同时启动。差在哪里呢。就是app_title.往细了说是，底层的m_pszAppname还在共同一个，并没">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T01:16:08.447Z">
+<meta property="og:updated_time" content="2018-03-09T08:23:03.190Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="VC6工程项目改名">
 <meta name="twitter:description" content="首先，网上找了个工具改名的，VCRename用了一下成功，注意新生成的目录中，dsw和dsp文件一定要改过来了。然后，用新的改名后的工程编译出新程序。但是，如果你的旧程序是个互斥的机制，即只能启动一个实例的情况。那么，你会发现，虽然，你用改名工具把文件和工程都改了，但是新程序和改名前的程序不能同时启动。差在哪里呢。就是app_title.往细了说是，底层的m_pszAppname还在共同一个，并没">
@@ -373,7 +373,8 @@
       
 
       
-        <div>首先，网上找了个工具改名的，VCRename用了一下成功，注意新生成的目录中，dsw和dsp文件一定要改过来了。</div><br><div>然后，用新的改名后的工程编译出新程序。</div><br><div>但是，如果你的旧程序是个互斥的机制，即只能启动一个实例的情况。</div><br><div>那么，你会发现，虽然，你用改名工具把文件和工程都改了，但是新程序和改名前的程序不能同时启动。</div><br><div>差在哪里呢。</div><br><div>就是app_title.往细了说是，底层的m_pszAppname还在共同一个，并没有变化成功，所以把这个变量改名了，程序才不会被互斥的。那么什么会关联这个变量呢。就是资源文件。但有人说改名工具已经把资源文件的名字改了。可是其中的内容并没有变，这是原理了。</div><br><div></div><br><div>所以，打开资源文件的页签，找”String Table”.</div><br><div>在表格中找到，afx_ids_app_title 把它的值改名同于你的新名字，然后再编译后，新旧两程序同时可启动并不互斥了。</div>
+        <div>首先，网上找了个工具改名的，VCRename用了一下成功，<strong>注意新生成的目录中，dsw和dsp文件一定要改过来了。</strong></div><br><div>然后，用新的改名后的工程编译出新程序。</div><br><div>但是，如果你的旧程序是个互斥的机制，即只能启动一个实例的情况。</div><br><div>那么，你会发现，虽然，你用改名工具把文件和工程都改了，但是新程序和改名前的程序不能同时启动。</div><br><div>差在哪里呢。</div><br><div>就是app_title.往细了说是，底层的m_pszAppname还在共同一个，并没有变化成功，所以把这个变量改名了，程序才不会被互斥的。那么什么会关联这个变量呢。就是资源文件。但有人说改名工具已经把资源文件的名字改了。可是其中的内容并没有变，这是原理了。</div><br><div></div><br><div>所以，打开资源文件的页签，找”String Table”.</div><br><div>在表格中找到，afx_ids_app_title 把它的值改名同于你的新名字，然后再编译后，新旧两程序同时可启动并不互斥了。</div>
+
       
     </div>
     
@@ -400,9 +401,9 @@
           
             <a href="/tags/mfc/" rel="tag"># mfc</a>
           
-            <a href="/tags/string-table/" rel="tag"># string table</a>
-          
             <a href="/tags/VC/" rel="tag"># VC</a>
+          
+            <a href="/tags/string-table/" rel="tag"># string table</a>
           
             <a href="/tags/项目改名/" rel="tag"># 项目改名</a>
           

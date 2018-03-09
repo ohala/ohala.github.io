@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="四大神器，解决依赖： ldd是用来查看执行文件或.a，.so的依赖关系利器（从链接的角度）。nm———————查看静态符号表，观察依赖关系-sD *.soobjdump -p t_sql.o | grep NEEDED 库命令：file .o—————看ELF信息objdump -[看列表] .o——看目标文件的结构和内容                              基本信息（-h）">
+<meta name="description" content="四大神器，解决依赖：  ldd是用来查看执行文件或.a，.so的依赖关系利器（从链接的角度）。 nm———————查看静态符号表，观察依赖关系 -sD *.so objdump -p t_sql.o | grep NEEDED   库命令：   file .o—————看ELF信息objdump -[看列表] .o——看目标文件的结构和内容">
 <meta name="keywords" content="程序员 修养 C++开发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="程序员的自我修养">
 <meta property="og:url" content="http://coder.songdaliang.com/2015/09/15/e7-a8-8b-e5-ba-8f-e5-91-98-e7-9a-84-e8-87-aa-e6-88-91-e4-bf-ae-e5-85-bb/index.html">
 <meta property="og:site_name" content="大亮的实验室">
-<meta property="og:description" content="四大神器，解决依赖： ldd是用来查看执行文件或.a，.so的依赖关系利器（从链接的角度）。nm———————查看静态符号表，观察依赖关系-sD *.soobjdump -p t_sql.o | grep NEEDED 库命令：file .o—————看ELF信息objdump -[看列表] .o——看目标文件的结构和内容                              基本信息（-h）">
+<meta property="og:description" content="四大神器，解决依赖：  ldd是用来查看执行文件或.a，.so的依赖关系利器（从链接的角度）。 nm———————查看静态符号表，观察依赖关系 -sD *.so objdump -p t_sql.o | grep NEEDED   库命令：   file .o—————看ELF信息objdump -[看列表] .o——看目标文件的结构和内容">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T01:16:08.446Z">
+<meta property="og:updated_time" content="2018-03-09T07:19:39.970Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="程序员的自我修养">
-<meta name="twitter:description" content="四大神器，解决依赖： ldd是用来查看执行文件或.a，.so的依赖关系利器（从链接的角度）。nm———————查看静态符号表，观察依赖关系-sD *.soobjdump -p t_sql.o | grep NEEDED 库命令：file .o—————看ELF信息objdump -[看列表] .o——看目标文件的结构和内容                              基本信息（-h）">
+<meta name="twitter:description" content="四大神器，解决依赖：  ldd是用来查看执行文件或.a，.so的依赖关系利器（从链接的角度）。 nm———————查看静态符号表，观察依赖关系 -sD *.so objdump -p t_sql.o | grep NEEDED   库命令：   file .o—————看ELF信息objdump -[看列表] .o——看目标文件的结构和内容">
 
 
 
@@ -373,20 +373,44 @@
       
 
       
-        <p>四大神器，解决依赖：</p>
-<p>ldd是用来查看执行文件或.a，.so的依赖关系利器（从链接的角度）。<br>nm———————查看静态符号表，观察依赖关系<br>-sD *.so<br>objdump -p t_sql.o | grep NEEDED</p>
-<p>库命令：<br>file <em>.o—————看ELF信息<br>objdump -[看列表] </em>.o——看目标文件的结构和内容<br>                              基本信息（-h）<br>                              更多信息（-x）<br>                              依赖信息（-p）objdump -p t_sql.o | grep NEEDED</p>
+        <ul>
+<li><p>四大神器，解决依赖：</p>
+<ul>
+<li>ldd是用来查看执行文件或.a，.so的依赖关系利器（从链接的角度）。</li>
+<li>nm———————查看静态符号表，观察依赖关系</li>
+<li>-sD *.so</li>
+<li>objdump -p t_sql.o | grep NEEDED</li>
+</ul>
+</li>
+<li><p>库命令：</p>
+</li>
+</ul>
+<p>file <em>.o—————看ELF信息<br>objdump -[看列表] </em>.o——看目标文件的结构和内容<br>                              基本信息（-h）<br>                              更多信息（-x）<br>                              依赖信息（-p）objdump -p t_sql.o | grep NEEDED</p>
 <p>动态链接的可执行文件中包括got，有时有调用别模块时的共享对象也存在此段。</p>
 <p>查看一个so是否PIC（地址无关性）编译的：<br>readelf -d .so | grep TEXTREL<br>如果有输出，用的是装载时重定位（虽多进程调用可以，但牺牲了效率），否则，证明编译时加了-fPIC,是地址无关。</p>
 <p>readelf—————-看elf详细信息，包括（系统位，大小端，是否可执行）<br>                              文件头信息（-h）<br>                              详细的信息（-S）较权威的段表信息<br>                              从linker角度来查看链接器使用的dynamic段的信息（-d <em>.so）链接库的elf信息，同于ldd（宏观模块体现）。<br>                              -sD </em>.so查看动态符号表（从库提供服务或使用的角度），针对段.dynsym观察依赖关系<br>                              -l ../bin/devcomm | grep interpreter（链接器使用的段）查看生成它的链接器（可执行文件）<br>                              -r *.so查看重定向符号表</p>
-<p>链接的秘密：</p>
+<ul>
+<li>链接的秘密：</li>
+</ul>
 <p>目标文件静态重定向—动态链接文件重定向——可执行动态链接文件重定向<br>rel.text——————rel.dyn———–针对数据引用，修正位于数据段中的got（全局变量的引用地址）<br>rel.data——————rel.plt————针对函数引用，修正got.plt</p>
-<p>全局符号表</p>
-<p>二元信号量：</p>
-<p>信号量（多元）：</p>
-<p>互斥量：不同于二元信号量：哪线程存得，哪线程释放<br>               相同二元信号量：都是约束线程排队的</p>
-<p>临界区：在一点处与互斥量不同：其它进程不可见。（和内核对象名称不太相符）</p>
-<p>条件变量：同时阻塞和唤醒多个线程</p>
+<ul>
+<li><p>全局符号表</p>
+</li>
+<li><p>二元信号量：</p>
+</li>
+<li><p>信号量（多元）：</p>
+</li>
+<li><p>互斥量：</p>
+<ul>
+<li>不同于二元信号量：哪线程存得，哪线程释放</li>
+<li>相同二元信号量：都是约束线程排队的</li>
+</ul>
+</li>
+<li><p>临界区：在一点处与互斥量不同：其它进程不可见。（和内核对象名称不太相符）</p>
+</li>
+<li><p>条件变量：同时阻塞和唤醒多个线程</p>
+</li>
+</ul>
 
       
     </div>

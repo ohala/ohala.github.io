@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="软件工程最依托的就是模块接口，所以，早研究为好 window不像linux的gcc编译器，默认把类库中所有函数都开放的。可以说它更严格。当然gcc也是可以通过attribute((visibility(“default”)))定义成宏开关的方式来放出个别函数和隐藏hidden。暂且不表，只说：declspec(dllimport)——代号A declspec(dllexport)——代号BB的作用">
+<meta name="description" content="软件工程最依托的就是模块接口，所以，早研究为好  window不像linux的gcc编译器，默认把类库中所有函数都开放的。可以说它更严格。当然gcc也是可以通过__attribute__((visibility(“default”)))定义成宏开关的方式来放出个别函数和隐藏hidden。暂且不表，只说：__declspec(dllimport)——代号A__declspec(dllexport)">
 <meta name="keywords" content="dllexport dllimport hidden __atrribute__">
 <meta property="og:type" content="article">
 <meta property="og:title" content="模块接口解惑">
 <meta property="og:url" content="http://coder.songdaliang.com/2015/03/11/e6-a8-a1-e6-9d-bf-e6-8e-a5-e5-8f-a3-e8-a7-a3-e6-83-91/index.html">
 <meta property="og:site_name" content="大亮的实验室">
-<meta property="og:description" content="软件工程最依托的就是模块接口，所以，早研究为好 window不像linux的gcc编译器，默认把类库中所有函数都开放的。可以说它更严格。当然gcc也是可以通过attribute((visibility(“default”)))定义成宏开关的方式来放出个别函数和隐藏hidden。暂且不表，只说：declspec(dllimport)——代号A declspec(dllexport)——代号BB的作用">
+<meta property="og:description" content="软件工程最依托的就是模块接口，所以，早研究为好  window不像linux的gcc编译器，默认把类库中所有函数都开放的。可以说它更严格。当然gcc也是可以通过__attribute__((visibility(“default”)))定义成宏开关的方式来放出个别函数和隐藏hidden。暂且不表，只说：__declspec(dllimport)——代号A__declspec(dllexport)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T01:16:08.445Z">
+<meta property="og:updated_time" content="2018-03-09T07:14:30.150Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="模块接口解惑">
-<meta name="twitter:description" content="软件工程最依托的就是模块接口，所以，早研究为好 window不像linux的gcc编译器，默认把类库中所有函数都开放的。可以说它更严格。当然gcc也是可以通过attribute((visibility(“default”)))定义成宏开关的方式来放出个别函数和隐藏hidden。暂且不表，只说：declspec(dllimport)——代号A declspec(dllexport)——代号BB的作用">
+<meta name="twitter:description" content="软件工程最依托的就是模块接口，所以，早研究为好  window不像linux的gcc编译器，默认把类库中所有函数都开放的。可以说它更严格。当然gcc也是可以通过__attribute__((visibility(“default”)))定义成宏开关的方式来放出个别函数和隐藏hidden。暂且不表，只说：__declspec(dllimport)——代号A__declspec(dllexport)">
 
 
 
@@ -362,9 +362,11 @@
       
 
       
-        <p>软件工程最依托的就是模块接口，所以，早研究为好</p>
-<p>window不像linux的gcc编译器，默认把类库中所有函数都开放的。<br>可以说它更严格。当然gcc也是可以通过<br><strong>attribute</strong>((visibility(“default”)))定义成宏开关的方式来放出个别函数和隐藏hidden。<br>暂且不表，只说：<br><strong>declspec(dllimport)——代号A
-</strong>declspec(dllexport)——代号B<br>B的作用是，想导出类和函数，必须用B声明，这样后台就会把要导出东东的声明无声的加入到.obj和编好的dll中。这时.def可有可无了。当然，你不想用B,那就带着.def给别人用吧。</p>
+        <blockquote>
+<p>软件工程最依托的就是模块接口，所以，早研究为好</p>
+</blockquote>
+<p>window不像linux的gcc编译器，默认把类库中所有函数都开放的。<br>可以说它更严格。当然gcc也是可以通过<br>__attribute__((visibility(“default”)))定义成宏开关的方式来放出个别函数和隐藏hidden。<br>暂且不表，只说：<br><strong>__declspec(dllimport)——代号A</strong><br><strong>__declspec(dllexport)——代号B</strong></p>
+<p>B的作用是，想导出类和函数，必须用B声明，这样后台就会把要导出东东的声明无声的加入到.obj和编好的dll中。这时.def可有可无了。当然，你不想用B,那就带着.def给别人用吧。</p>
 <p>A用的场景本人总结现在有二：<br>一，前提你是甲方时，即当你的app或者dll要调用别人的类或函数时，修饰用A，告诉编译器，这函数铁定去外面的dll找吧，当然需要外部dll声明了B，与你呼应了。<br><strong>declspec(dllexport) void </strong>cdecl Function1(void);<br>class __declspec(dllexport) MyClass{/<em>类的定义</em>/};//<br>二，前提你是乙方时，当你的的导出类中有静态变量时，需要带着B的修饰，如：</p>
 <p>#ifdef SIMPLEDLL_EXPORT</p>
 <p>#define DLL_EXPORT __declspec(dllexport)</p>

@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="使用yum要具备工具，所以，安装好这个包很重要。在Linux下有了它，就像是光夫有机器猫，大圣有了金箍棒。在/etc/yum.repo.d/目录下，一般会有四个文件。…………CentOS_Base.repo——-网络源，要想在无网络状态下就要禁用它，重命名，加上.bak…………CentOS_Media.repo—–这个就是光盘或挂载的文件了，修改它。在baseurl 中修改第2个路径为/mnt/c">
+<meta name="description" content="使用yum要具备工具，所以，安装好这个包很重要。 在Linux下有了它，就像是光夫有机器猫，大圣有了金箍棒。  在/etc/yum.repo.d/目录下，一般会有四个文件。…………CentOS_Base.repo——-网络源，要想在无网络状态下就要禁用它，重命名，加上.bak…………CentOS_Media.repo—–这个就是光盘或挂载的文件了，修改它。在baseurl 中修改第2个路径为/m">
 <meta name="keywords" content="CentOS6.5,yum,安装源,本地资源">
 <meta property="og:type" content="article">
 <meta property="og:title" content="yum本地安装源配置">
 <meta property="og:url" content="http://coder.songdaliang.com/2016/12/01/yum-e6-9c-ac-e5-9c-b0-e5-ae-89-e8-a3-85-e6-ba-90-e9-85-8d-e7-bd-ae/index.html">
 <meta property="og:site_name" content="大亮的实验室">
-<meta property="og:description" content="使用yum要具备工具，所以，安装好这个包很重要。在Linux下有了它，就像是光夫有机器猫，大圣有了金箍棒。在/etc/yum.repo.d/目录下，一般会有四个文件。…………CentOS_Base.repo——-网络源，要想在无网络状态下就要禁用它，重命名，加上.bak…………CentOS_Media.repo—–这个就是光盘或挂载的文件了，修改它。在baseurl 中修改第2个路径为/mnt/c">
+<meta property="og:description" content="使用yum要具备工具，所以，安装好这个包很重要。 在Linux下有了它，就像是光夫有机器猫，大圣有了金箍棒。  在/etc/yum.repo.d/目录下，一般会有四个文件。…………CentOS_Base.repo——-网络源，要想在无网络状态下就要禁用它，重命名，加上.bak…………CentOS_Media.repo—–这个就是光盘或挂载的文件了，修改它。在baseurl 中修改第2个路径为/m">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T01:16:08.449Z">
+<meta property="og:updated_time" content="2018-03-09T09:15:51.520Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="yum本地安装源配置">
-<meta name="twitter:description" content="使用yum要具备工具，所以，安装好这个包很重要。在Linux下有了它，就像是光夫有机器猫，大圣有了金箍棒。在/etc/yum.repo.d/目录下，一般会有四个文件。…………CentOS_Base.repo——-网络源，要想在无网络状态下就要禁用它，重命名，加上.bak…………CentOS_Media.repo—–这个就是光盘或挂载的文件了，修改它。在baseurl 中修改第2个路径为/mnt/c">
+<meta name="twitter:description" content="使用yum要具备工具，所以，安装好这个包很重要。 在Linux下有了它，就像是光夫有机器猫，大圣有了金箍棒。  在/etc/yum.repo.d/目录下，一般会有四个文件。…………CentOS_Base.repo——-网络源，要想在无网络状态下就要禁用它，重命名，加上.bak…………CentOS_Media.repo—–这个就是光盘或挂载的文件了，修改它。在baseurl 中修改第2个路径为/m">
 
 
 
@@ -373,7 +373,12 @@
       
 
       
-        <div>使用yum要具备工具，所以，安装好这个包很重要。</div><br><div>在Linux下有了它，就像是光夫有机器猫，大圣有了金箍棒。</div><br><div></div><br><div>在/etc/yum.repo.d/目录下，一般会有四个文件。</div><br><div>…………CentOS_Base.repo——-网络源，要想在无网络状态下就要禁用它，重命名，加上.bak</div><br><div>…………CentOS_Media.repo—–这个就是光盘或挂载的文件了，修改它。</div><br><div></div><br><div>在baseurl 中修改第2个路径为/mnt/cdrom（即为光盘挂载点）,注意，挂载点下面要有repodata/repomd.xml（这个是纽带）</div><br><div>将enabled=0改为1</div><br><div>然后保存，#yum update后就可以使用了。</div><br><div></div><br><div>注意，还包含一些很长文件名的文件。所以，即使没有光盘，可以把xml和长文件名文件拷出来放到系统内文件夹中。</div>
+        <blockquote>
+<p><div>使用yum要具备工具，所以，安装好这个包很重要。</div></p>
+<p><div>在Linux下有了它，就像是光夫有机器猫，大圣有了金箍棒。</div></p>
+</blockquote>
+<div>在/etc/yum.repo.d/目录下，一般会有四个文件。</div><br><div>…………CentOS_Base.repo——-网络源，要想在无网络状态下就要禁用它，重命名，加上.bak</div><br><div>…………CentOS_Media.repo—–这个就是光盘或挂载的文件了，修改它。</div><br><div></div><br><div>在baseurl 中修改第2个路径为/mnt/cdrom（即为光盘挂载点）,注意，挂载点下面要有repodata/repomd.xml（这个是纽带）</div><br><div>将enabled=0改为1</div><br><div>然后保存，#yum update后就可以使用了。</div><br><div></div><br><div>注意，还包含一些很长文件名的文件。所以，即使没有光盘，可以把xml和长文件名文件拷出来放到系统内文件夹中。</div>
+
       
     </div>
     

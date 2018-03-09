@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="前情提要：双系统你值得拥有，开始共存的挺好，由grub2来引导两系统。后来我装了个ext2fsd。虽然，在window下可以看到ubuntu的文件了，但是，同时也破坏了分区卷标或格式什么的。反正就出现grub rescue&amp;gt;了。于是，开始了救赎。下一了个万能引导光盘，boot-repair-iso这个东东，直接就让我引导到了window，可是ubuntu没有了引导入口。不甘心，继续研究eas">
+<meta name="description" content="前情提要：双系统你值得拥有，开始共存的挺好，由grub2来引导两系统。后来我装了个ext2fsd。虽然，在window下可以看到ubuntu的文件了，但是，同时也破坏了分区卷标或格式什么的。反正就出现grub rescue&amp;gt;了。于是，开始了救赎。下一了个万能引导光盘，boot-repair-iso这个东东，直接就让我引导到了window，可是ubuntu没有了引导入口。不甘心，继续研究ea">
 <meta name="keywords" content="boot,boot-repair,easyBCD,grub,rescue,双系统">
 <meta property="og:type" content="article">
 <meta property="og:title" content="win7+ubuntu双系统备忘">
 <meta property="og:url" content="http://coder.songdaliang.com/2015/03/17/win7ubuntu-e5-8f-8c-e7-b3-bb-e7-bb-9f-e5-a4-87-e5-bf-98/index.html">
 <meta property="og:site_name" content="大亮的实验室">
-<meta property="og:description" content="前情提要：双系统你值得拥有，开始共存的挺好，由grub2来引导两系统。后来我装了个ext2fsd。虽然，在window下可以看到ubuntu的文件了，但是，同时也破坏了分区卷标或格式什么的。反正就出现grub rescue&amp;gt;了。于是，开始了救赎。下一了个万能引导光盘，boot-repair-iso这个东东，直接就让我引导到了window，可是ubuntu没有了引导入口。不甘心，继续研究eas">
+<meta property="og:description" content="前情提要：双系统你值得拥有，开始共存的挺好，由grub2来引导两系统。后来我装了个ext2fsd。虽然，在window下可以看到ubuntu的文件了，但是，同时也破坏了分区卷标或格式什么的。反正就出现grub rescue&amp;gt;了。于是，开始了救赎。下一了个万能引导光盘，boot-repair-iso这个东东，直接就让我引导到了window，可是ubuntu没有了引导入口。不甘心，继续研究ea">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T01:16:08.445Z">
+<meta property="og:updated_time" content="2018-03-09T08:38:57.634Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="win7+ubuntu双系统备忘">
-<meta name="twitter:description" content="前情提要：双系统你值得拥有，开始共存的挺好，由grub2来引导两系统。后来我装了个ext2fsd。虽然，在window下可以看到ubuntu的文件了，但是，同时也破坏了分区卷标或格式什么的。反正就出现grub rescue&amp;gt;了。于是，开始了救赎。下一了个万能引导光盘，boot-repair-iso这个东东，直接就让我引导到了window，可是ubuntu没有了引导入口。不甘心，继续研究eas">
+<meta name="twitter:description" content="前情提要：双系统你值得拥有，开始共存的挺好，由grub2来引导两系统。后来我装了个ext2fsd。虽然，在window下可以看到ubuntu的文件了，但是，同时也破坏了分区卷标或格式什么的。反正就出现grub rescue&amp;gt;了。于是，开始了救赎。下一了个万能引导光盘，boot-repair-iso这个东东，直接就让我引导到了window，可是ubuntu没有了引导入口。不甘心，继续研究ea">
 
 
 
@@ -384,11 +384,13 @@
       
 
       
-        <p>前情提要：<br>双系统你值得拥有，开始共存的挺好，由grub2来引导两系统。后来我装了个ext2fsd。虽然，在window下可以看到ubuntu的文件了，但是，同时也破坏了分区卷标或格式什么的。反正就出现grub rescue&gt;了。于是，开始了救赎。下一了个万能引导光盘，boot-repair-iso这个东东，直接就让我引导到了window，可是ubuntu没有了引导入口。不甘心，继续研究easybcd方式，于是，windows这次当主人引导ubuntu了。</p>
-<p>环境：<br>一般linux系统中/boot都不独分一区<br>同时MBR一般也都装在第一块硬盘上</p>
+        <blockquote>
+<p>前情提要：<br>双系统你值得拥有，开始共存的挺好，由grub2来引导两系统。后来我装了个ext2fsd。虽然，在window下可以看到ubuntu的文件了，但是，同时也破坏了分区卷标或格式什么的。反正就出现grub rescue&gt;了。于是，开始了救赎。下一了个万能引导光盘，boot-repair-iso这个东东，直接就让我引导到了window，可是ubuntu没有了引导入口。不甘心，继续研究easybcd方式，于是，windows这次当主人引导ubuntu了。</p>
+</blockquote>
+<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>一般linux系统中/boot都不独分一区<br>同时MBR一般也都装在第一块硬盘上</p>
 <p>所以，引导时也都是在MBR上装grub2再里面引导双系统。<br>当然可以先用window的bootmgr(名字不确定)来引导，然后再easyBCD来图形化操作设置<br>加上grub的引导。就是指针的指针了。<br>本人以前就是：<br>MBR—-grub2—-bootmgr<br>现在：<br>MBR—-bootmgr—-grub</p>
 <p>参考：<br><a href="http://redmaple34.blog.51cto.com/2621361/604298" target="_blank" rel="noopener">http://redmaple34.blog.51cto.com/2621361/604298</a></p>
-<p>grub小结<br>一般会碰到两种提示符，前者是救援，后者是grub控制台<br>grub rescue&gt;<br>当它出现，这是由于引导分区对应不上了。即mbr中的原路径，对应不了/boot/grub路径。<br>所以，在有限的命令下（ls,set,insmod,normal）一步步来吧。<br>用ls先找：<br>ls (hd0,msdosX)/<br>其中的X为变量，根据实际存在的分区数为准。<br>用set显示当前情况。若不对就变化。<br>set root=(hd0,msdos8)<br>set prefix=(hd0,msdos8)/boot/grub<br>insmod /boot/grub/normal.mod<br>normal</p>
+<h2 id="grub小结"><a href="#grub小结" class="headerlink" title="grub小结"></a>grub小结</h2><p>一般会碰到两种提示符，前者是救援，后者是grub控制台<br>grub rescue&gt;<br>当它出现，这是由于引导分区对应不上了。即mbr中的原路径，对应不了/boot/grub路径。<br>所以，在有限的命令下（ls,set,insmod,normal）一步步来吧。<br>用ls先找：<br>ls (hd0,msdosX)/<br>其中的X为变量，根据实际存在的分区数为准。<br>用set显示当前情况。若不对就变化。<br>set root=(hd0,msdos8)<br>set prefix=(hd0,msdos8)/boot/grub<br>insmod /boot/grub/normal.mod<br>normal</p>
 <p>一般上述步骤操作完，可以在启动选项界面，敲“C”进入命令行模式<br>A:<br>grub &gt;set root=hd0,msdos7<br>grub &gt;set prefix=(hd0,msdos7)/boot/grub<br>grub &gt;linux /vmlinuz-xxx-xxx root=/dev/sda7 //里边的xxxx可以按Tab键，如果有acpi问题,在最后加一句acpi=off<br>grub &gt;initrd /initrd.img-xxx-xxx<br>grub &gt;boot<br>//end A</p>
 <p>或者跳过A<br>重启后，应该sudo -i<br>update-grub2<br>此时重建了grub.cfg<br>grub-install /dev/sda<br>此时重建了sda的mbr</p>
 <p>应该可以解决问题了。</p>
@@ -397,8 +399,7 @@
 <p>root (hdx,y)</p>
 <p>kernel /boot/grub/core.img</p>
 <p>boot</p>
-<p>grub错误提示</p>
-<p>1 : Filename must be either an absolute filename or blocklist<br>解释 ：1号错误表示文件名格式错误。在 GRUB 中要么是以绝对路径给出文件<br>例子 ：<br>grub&gt; kernel vmlinuz root=label=/<br>Error 1: Filename must be either an absolute pathname or blocklist<br>grub&gt;</p>
+<h2 id="grub错误提示"><a href="#grub错误提示" class="headerlink" title="grub错误提示"></a>grub错误提示</h2><p>1 : Filename must be either an absolute filename or blocklist<br>解释 ：1号错误表示文件名格式错误。在 GRUB 中要么是以绝对路径给出文件<br>例子 ：<br>grub&gt; kernel vmlinuz root=label=/<br>Error 1: Filename must be either an absolute pathname or blocklist<br>grub&gt;</p>
 <p>引用：<br>2 : Bad file or directory type<br>解释 ：2号错误表示命令期望的是一个普通文件，但相应文件名的对象是一个符号链接、目录、FIFO<br>例子 ：<br>grub&gt; kernel /testdir root=LABEL=/<br>Error 2: Bad file or directory type<br>grub&gt;</p>
 <p>引用：<br>3 : Bad or corrupt data while decompressing file<br>解释 ：3号错误表示解压文件时发生错误。可能是因为这个文件被损坏了</p>
 <p>引用：<br>4 : Bad or incompatible header in compressed file<br>解释 ：4号错误表示压缩文件的头部格式不被兼容或者错误</p>
@@ -548,8 +549,17 @@ mount the partition with the</code>-o notail’ option.</p>
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -613,6 +623,22 @@ mount the partition with the</code>-o notail’ option.</p>
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境："><span class="nav-text">环境：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#grub小结"><span class="nav-text">grub小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#grub错误提示"><span class="nav-text">grub错误提示</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

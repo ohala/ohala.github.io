@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="windows server 2012关闭无响应程序对话框？windows server 2012不提示是否要联机查找解决方案对话框？只要干脆利落的自动关闭程序。那么follow me.有几点可以试试。*   关闭无响应程序在Vista和Windows 7及以上的OS上，参照以下方法：■在开始运行中输入regedit并回车■定位到HKEY_CURRENT_USER\Control Panel\De">
+<meta name="description" content="windows server 2012关闭无响应程序对话框？windows server 2012不提示是否要联机查找解决方案对话框？只要干脆利落的自动关闭程序。那么follow me.有几点可以试试。   关闭无响应程序在Vista和Windows 7及以上的OS上，参照以下方法：■在开始运行中输入regedit并回车■定位到HKEY_CURRENT_USER\Control Panel\De">
 <meta name="keywords" content="AutoEndTasks,联机查找解决方案,问题报告">
 <meta property="og:type" content="article">
 <meta property="og:title" content="自动关闭程序屏蔽windows对话框">
 <meta property="og:url" content="http://coder.songdaliang.com/2016/08/03/e8-87-aa-e5-8a-a8-e5-85-b3-e9-97-ad-e7-a8-8b-e5-ba-8f-e5-b1-8f-e8-94-bdwindows-e5-af-b9-e8-af-9d-e6-a1-86/index.html">
 <meta property="og:site_name" content="大亮的实验室">
-<meta property="og:description" content="windows server 2012关闭无响应程序对话框？windows server 2012不提示是否要联机查找解决方案对话框？只要干脆利落的自动关闭程序。那么follow me.有几点可以试试。*   关闭无响应程序在Vista和Windows 7及以上的OS上，参照以下方法：■在开始运行中输入regedit并回车■定位到HKEY_CURRENT_USER\Control Panel\De">
+<meta property="og:description" content="windows server 2012关闭无响应程序对话框？windows server 2012不提示是否要联机查找解决方案对话框？只要干脆利落的自动关闭程序。那么follow me.有几点可以试试。   关闭无响应程序在Vista和Windows 7及以上的OS上，参照以下方法：■在开始运行中输入regedit并回车■定位到HKEY_CURRENT_USER\Control Panel\De">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T01:16:08.448Z">
+<meta property="og:updated_time" content="2018-03-09T07:25:42.885Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自动关闭程序屏蔽windows对话框">
-<meta name="twitter:description" content="windows server 2012关闭无响应程序对话框？windows server 2012不提示是否要联机查找解决方案对话框？只要干脆利落的自动关闭程序。那么follow me.有几点可以试试。*   关闭无响应程序在Vista和Windows 7及以上的OS上，参照以下方法：■在开始运行中输入regedit并回车■定位到HKEY_CURRENT_USER\Control Panel\De">
+<meta name="twitter:description" content="windows server 2012关闭无响应程序对话框？windows server 2012不提示是否要联机查找解决方案对话框？只要干脆利落的自动关闭程序。那么follow me.有几点可以试试。   关闭无响应程序在Vista和Windows 7及以上的OS上，参照以下方法：■在开始运行中输入regedit并回车■定位到HKEY_CURRENT_USER\Control Panel\De">
 
 
 
@@ -373,29 +373,18 @@
       
 
       
-        <div>windows server 2012关闭无响应程序对话框？</div><br><div>windows server 2012不提示是否要联机查找解决方案对话框？</div><br><div>只要干脆利落的自动关闭程序。那么follow me.有几点可以试试。</div><br><div></div><br><div><br><br>*   关闭无响应程序<br><div>在Vista和Windows 7及以上的OS上，参照以下方法：</div><br><div>■在开始运行中输入regedit并回车</div><br><div>■定位到HKEY_CURRENT_USER\Control Panel\Desktop</div><br><div>■设置AutoEndTasks键值为1，如果没有可以手动创建一个名为 AutoEndTasks 类型为REG_SZ值为1的表项。</div><br><div>■WaitToKillAppTimeout是超时等待时间，默认值12000，这个值在很多网站上建议修改短一点，这里不推荐，最好不要改。因为程序的运行是综合的，影响超时的时间会很多，太短的超时时间可能会带来一些“莫名其妙”的问题。</div><br><div>如确认修改WaitToKillAppTimeout，请统一修改：</div><br><div>HKEY_CURRENT_USER\Control Panel\Desktop</div><br><div>HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control</div><br><div>HKEY_LOCAL_MACHINE\SYSTEM\ControlSet002\Control</div><br><div>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control</div><br><div>下的WaitToKillAppTimeout，比如1000，2000均可以。</div><br><div></div>
+        <blockquote>
+<div>windows server 2012关闭无响应程序对话框？</div><br><div>windows server 2012不提示是否要联机查找解决方案对话框？</div><br><div>只要干脆利落的自动关闭程序。那么follow me.有几点可以试试。</div>
 
-<ul>
-<li><p>关闭问题报告：<br><div>控制面板–系统和安全—操作中心—问题报告设置</div><br><div>点选“从不检查解决方案（不推荐）”</div><br><div></div><br><div>UAC设置方法/步骤：</div><br><div>你可以完全关闭UAC，在控制面板–系统和安全—操作中心中。也可以通过下面的步骤来设置它。（但要想干脆利落，你知道咋办）</div><br><div>1，点击控制面板，选择所有控制面板项，点击用户帐户</div><br><div></div><br><div>2，点击“更改用户账户控制设置”弹出计算机用户安全通知设置，始终通知（高）：这是最安全的设置，收到通知后，你应该先仔细阅读每个对话框中的内容，然后才允许对电脑进行更改。</div><br><div></div><br><div>3，始终通知（中）：如果系统允许对 Windows 设置进行更改而不通知你，则表明这种更改是安全的。但是，Windows附带的某些应用可以将命令或数据传递给它们，恶意软件可能会利用这一点，使用这些应用在电脑上安装文件或更改设置。应该始终小心允许在电脑上运行的应用。</div><br><div></div><br><div>4，始终通知（中低）：与“仅当应用尝试更改计算机时通知我”相同，但是不会降低桌面亮度。如果选择此选项，则其他应用可能会影响用户帐户控制对话框的可视外观。这是一个安全风险，尤其是你的电脑上存在恶意软件时。</div><br><div></div><br><div>5，从不通知：这是最不安全的设置。将用户帐户控制设置为从不通知时，你便有效地关闭了用户帐户控制。这会使得你的电脑面临潜在的安全风险，这个设置一般在虚拟机练习时候设置</div><br><div></div><br><div></div></p>
-<div>
-</div></li>
-<li><p>关闭“已停止工作”对话框<br></p></li></ul></div><br><div><br><div> 最近发现一个很早以前的程序出现了兼容性问题。程序有检测机制，发现异常退出可以自动重启。但是这次没有重启成功。操作系统是Windows 2008，以前用的操作系统是Windows 2003，在2003上就没有该问题。</div><br></div><br><br><div><br><div>后来发现2008和2003的错误报告机制不同。2008下，遇到程序崩溃会弹出一个错误提示对话框，需要手工关闭，程序才能退出。</div><br>临时解决问题的方法就是想办法关闭这个对话框。Windows有很多错误提示框，关了一个还会出现另外一个。<br>下面的方法可以关闭以下的几个对话框不再出现：<br>xxx已停止工作<br>xxx-应用程序错误<br>xxx-未找到调试器<p></p>
+</blockquote>
+<h2 id="关闭无响应程序"><a href="#关闭无响应程序" class="headerlink" title="关闭无响应程序"></a>关闭无响应程序</h2><div>在Vista和Windows 7及以上的OS上，参照以下方法：</div><br><div>■在开始运行中输入regedit并回车</div><br><div>■定位到HKEY_CURRENT_USER\Control Panel\Desktop</div><br><div>■设置AutoEndTasks键值为1，如果没有可以手动创建一个名为 AutoEndTasks 类型为REG_SZ值为1的表项。</div><br><div>■WaitToKillAppTimeout是超时等待时间，默认值12000，这个值在很多网站上建议修改短一点，这里不推荐，最好不要改。因为程序的运行是综合的，影响超时的时间会很多，太短的超时时间可能会带来一些“莫名其妙”的问题。</div><br><div>如确认修改WaitToKillAppTimeout，请统一修改：</div><br><div>HKEY_CURRENT_USER\Control Panel\Desktop</div><br><div>HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control</div><br><div>HKEY_LOCAL_MACHINE\SYSTEM\ControlSet002\Control</div><br><div>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control</div><br><div>下的WaitToKillAppTimeout，比如1000，2000均可以。</div><br><div></div>
 
+<h2 id="关闭问题报告"><a href="#关闭问题报告" class="headerlink" title="关闭问题报告"></a>关闭问题报告</h2><div>控制面板–系统和安全—操作中心—问题报告设置</div><br><div>点选“从不检查解决方案（不推荐）”</div><br><div></div><br><div>UAC设置方法/步骤：</div><br><div>你可以完全关闭UAC，在控制面板–系统和安全—操作中心中。也可以通过下面的步骤来设置它。（但要想干脆利落，你知道咋办）</div><br><div>1，点击控制面板，选择所有控制面板项，点击用户帐户</div><br><div></div><br><div>2，点击“更改用户账户控制设置”弹出计算机用户安全通知设置，始终通知（高）：这是最安全的设置，收到通知后，你应该先仔细阅读每个对话框中的内容，然后才允许对电脑进行更改。</div><br><div></div><br><div>3，始终通知（中）：如果系统允许对 Windows 设置进行更改而不通知你，则表明这种更改是安全的。但是，Windows附带的某些应用可以将命令或数据传递给它们，恶意软件可能会利用这一点，使用这些应用在电脑上安装文件或更改设置。应该始终小心允许在电脑上运行的应用。</div><br><div></div><br><div>4，始终通知（中低）：与“仅当应用尝试更改计算机时通知我”相同，但是不会降低桌面亮度。如果选择此选项，则其他应用可能会影响用户帐户控制对话框的可视外观。这是一个安全风险，尤其是你的电脑上存在恶意软件时。</div><br><div></div><br><div>5，从不通知：这是最不安全的设置。将用户帐户控制设置为从不通知时，你便有效地关闭了用户帐户控制。这会使得你的电脑面临潜在的安全风险，这个设置一般在虚拟机练习时候设置</div><br><div></div><br><div><br><div><br><br>##   关闭“已停止工作”对话框<br></div><br><div><br><div> 最近发现一个很早以前的程序出现了兼容性问题。程序有检测机制，发现异常退出可以自动重启。但是这次没有重启成功。操作系统是Windows 2008，以前用的操作系统是Windows 2003，在2003上就没有该问题。</div><br></div><br></div><br><div><br><div>后来发现2008和2003的错误报告机制不同。2008下，遇到程序崩溃会弹出一个错误提示对话框，需要手工关闭，程序才能退出。</div><br>临时解决问题的方法就是想办法关闭这个对话框。Windows有很多错误提示框，关了一个还会出现另外一个。<br>下面的方法可以关闭以下的几个对话框不再出现：<br>xxx已停止工作<br>xxx-应用程序错误<br>xxx-未找到调试器<br><br>需要修改三个地方：<br>1.HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft.NETFramework<br>在.NETFramework上点击右键-》新建-》DWORD（32-位）值-》<br>名称：DbgJITDebugLaunchSetting<br>数据：1<br>2.HKEY_CURRENT_USER\Software\Microsoft\Windows\Windows Error Reporting 修改两个值（修改第一个值也可退出，但是退出时间较长，测试环境需要1分钟左右，应该是在收集错误信息）<br>名称：DontShowUI    数据：1<br><div>名称：Disabled      数据：1</div><br></div><br><div></div>
 
-<p>需要修改三个地方：<br>1.HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft.NETFramework<br>在.NETFramework上点击右键-》新建-》DWORD（32-位）值-》<br>名称：DbgJITDebugLaunchSetting<br>数据：1<br>2.HKEY_CURRENT_USER\Software\Microsoft\Windows\Windows Error Reporting 修改两个值（修改第一个值也可退出，但是退出时间较长，测试环境需要1分钟左右，应该是在收集错误信息）<br>名称：DontShowUI    数据：1</p>
-<div>名称：Disabled      数据：1</div><br></div><br><div></div>
+<h2 id="关闭错误报告"><a href="#关闭错误报告" class="headerlink" title="关闭错误报告"></a>关闭错误报告</h2><div>下面这句在开始—-运行中键入，效果是关闭server的错误报告，适用于2008 server。可以用/query，/详细，/摘要，/summary来替换如下的禁用。</div><br><div>serverWerOptin /禁用</div><br><div>我发现了另外引导的 MSDN如何从用户可以抑制嵌入式系统上发生的系统和应用程序的错误信息。注册表中的位置是在以下默认情况下，该数值数据为0，我们应该将其更改为2设置为不可见的所有邮件。</div><br><div>HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Windows\ErrorMode.</div><br><div></div>
 
-<ul>
-<li><p>关闭错误报告</p>
-<div>下面这句在开始—-运行中键入，效果是关闭server的错误报告，适用于2008 server。可以用/query，/详细，/摘要，/summary来替换如下的禁用。</div><br><div>serverWerOptin /禁用</div><br><div>我发现了另外引导的 MSDN如何从用户可以抑制嵌入式系统上发生的系统和应用程序的错误信息。注册表中的位置是在以下默认情况下，该数值数据为0，我们应该将其更改为2设置为不可见的所有邮件。</div><br><div>HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Windows\ErrorMode.</div><br><div></div>
-</li>
-<li><p>XP关闭无响应方案：<br><div>首先打开注册表：在[开始]–&gt;[运行]–&gt;键入[Regedit]；  然后找到相关项目按照以下步骤进行设置：  左侧列表中依次展开，找到[HKEY_CURRENT_USER\ControlPanel\Desktop]，这个就是设置软件无响应时的选项。将里面AutoEndTasks的数值从0修改为1就是让系统自动关闭无响应的软件。</div><br></p>
-<div>
+<h2 id="XP关闭无响应方案"><a href="#XP关闭无响应方案" class="headerlink" title="XP关闭无响应方案"></a>XP关闭无响应方案</h2><div>首先打开注册表：在[开始]–&gt;[运行]–&gt;键入[Regedit]；  然后找到相关项目按照以下步骤进行设置：  左侧列表中依次展开，找到[HKEY_CURRENT_USER\ControlPanel\Desktop]，这个就是设置软件无响应时的选项。将里面AutoEndTasks的数值从0修改为1就是让系统自动关闭无响应的软件。</div><br>
 
-</div></li>
-</ul>
-<hr>
-<p></p>
 
       
     </div>
@@ -502,8 +491,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -567,6 +565,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关闭无响应程序"><span class="nav-text">关闭无响应程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关闭问题报告"><span class="nav-text">关闭问题报告</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关闭错误报告"><span class="nav-text">关闭错误报告</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XP关闭无响应方案"><span class="nav-text">XP关闭无响应方案</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="对于源码管理和产品线管理为了避免混乱，应该有个大致的管理方案：项目名假如为：tj_dj则产品管理线：（主机）主分支–master开发分支–develop-tj_dj发布分支–release-tj_dj特性分支(短生命线分支)–f-[特性名]-tj_dj修复分支–hotfix-tj_dj  轻量级开发情况：（AB机间没有网络）在各自本机建立环境，本地建立好bare仓库和本地开发仓库。总体上要求，ba">
+<meta name="description" content="对于源码管理和产品线管理为了避免混乱，应该有个大致的管理方案：项目名假如为：tj_dj则产品管理线：（主机）主分支–master开发分支–develop-tj_dj发布分支–release-tj_dj特性分支(短生命线分支)–f-[特性名]-tj_dj修复分支–hotfix-tj_dj  小团队轻量级开发情况：（AB机间没有网络）在各自本机建立环境，本地建立好bare仓库和本地开发仓库。总体上要求">
 <meta name="keywords" content="git,gitflow,git学习,workflow,命令,经验总结">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git工作流设计">
 <meta property="og:url" content="http://coder.songdaliang.com/2017/03/14/git-e5-b7-a5-e4-bd-9c-e6-b5-81-e8-ae-be-e8-ae-a1/index.html">
 <meta property="og:site_name" content="大亮的实验室">
-<meta property="og:description" content="对于源码管理和产品线管理为了避免混乱，应该有个大致的管理方案：项目名假如为：tj_dj则产品管理线：（主机）主分支–master开发分支–develop-tj_dj发布分支–release-tj_dj特性分支(短生命线分支)–f-[特性名]-tj_dj修复分支–hotfix-tj_dj  轻量级开发情况：（AB机间没有网络）在各自本机建立环境，本地建立好bare仓库和本地开发仓库。总体上要求，ba">
+<meta property="og:description" content="对于源码管理和产品线管理为了避免混乱，应该有个大致的管理方案：项目名假如为：tj_dj则产品管理线：（主机）主分支–master开发分支–develop-tj_dj发布分支–release-tj_dj特性分支(短生命线分支)–f-[特性名]-tj_dj修复分支–hotfix-tj_dj  小团队轻量级开发情况：（AB机间没有网络）在各自本机建立环境，本地建立好bare仓库和本地开发仓库。总体上要求">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T01:16:08.451Z">
+<meta property="og:updated_time" content="2018-03-09T08:07:16.761Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git工作流设计">
-<meta name="twitter:description" content="对于源码管理和产品线管理为了避免混乱，应该有个大致的管理方案：项目名假如为：tj_dj则产品管理线：（主机）主分支–master开发分支–develop-tj_dj发布分支–release-tj_dj特性分支(短生命线分支)–f-[特性名]-tj_dj修复分支–hotfix-tj_dj  轻量级开发情况：（AB机间没有网络）在各自本机建立环境，本地建立好bare仓库和本地开发仓库。总体上要求，ba">
+<meta name="twitter:description" content="对于源码管理和产品线管理为了避免混乱，应该有个大致的管理方案：项目名假如为：tj_dj则产品管理线：（主机）主分支–master开发分支–develop-tj_dj发布分支–release-tj_dj特性分支(短生命线分支)–f-[特性名]-tj_dj修复分支–hotfix-tj_dj  小团队轻量级开发情况：（AB机间没有网络）在各自本机建立环境，本地建立好bare仓库和本地开发仓库。总体上要求">
 
 
 
@@ -362,9 +362,12 @@
       
 
       
-        <div>对于源码管理和产品线管理为了避免混乱，应该有个大致的管理方案：</div><br><div></div><br><div>项目名假如为：tj_dj</div><br><div></div><br><div>则产品管理线：（主机）</div><br><div>主分支–master</div><br><div>开发分支–develop-tj_dj</div><br><div>发布分支–release-tj_dj</div><br><div>特性分支(短生命线分支)–f-[特性名]-tj_dj</div><br><div>修复分支–hotfix-tj_dj</div><br><div></div><br><div></div><br><div><br><br><em> </em> <em><br><br></em></div><br><div></div><br><div>轻量级开发情况：（AB机间没有网络）</div><br><div>在各自本机建立环境，本地建立好bare仓库和本地开发仓库。</div><br><div>总体上要求，bare仓库是同名的，但在自己的本地开发仓库中把远程仓库命名个性化。Dell为例:</div><br><div>dell-前缀。</div><br><div>技巧：</div><br><div>bare仓库用来fetch和push的“箱子”，为远程仓库。</div><br><div>使用拷贝方式来和其它机共享bare仓库。</div><br><div>各机器为主工作时，则要使用很多分支技术来merge其它机的进度代码。</div><br><div></div><br><div>
+        <div>对于源码管理和产品线管理为了避免混乱，应该有个大致的管理方案：</div><br><div></div><br><div>项目名假如为：tj_dj</div><br><div></div><br><div>则产品管理线：（主机）</div><br><div>主分支–master</div><br><div>开发分支–develop-tj_dj</div><br><div>发布分支–release-tj_dj</div><br><div>特性分支(短生命线分支)–f-[特性名]-tj_dj</div><br><div>修复分支–hotfix-tj_dj</div>
 
- <em> </em><br><br></div><br><div></div><br><div>多人联合开发情况：</div><br><div>这里就仁者见仁，智者见智了。但是最典型的就是gitflow了。但不是起对了几个分支名就行了。要得其要领。</div><br><div></div><br><div>原则：</div><br><div>master和develop分支是稳定分支，一直存在。</div><br><div>master只允许release和hotfix分支来的merge</div><br><div>develop日常开发</div><br><div>feature上开发功能，功能成熟后合并到develop上</div><br><div>release是从develop上分出来，bug修复后，打上tag后，要同时合并回develop和master</div><br><div>很小的bug修复会则会在hotfix上进行。</div><br><div></div><br><div>1). 首先将远程代码拉取到本地</div><br><div></div><br><div>  git clone xxx</div><br><div>  git checkout -b develop origin/develop</div><br><div></div><br><div>2).新建feature分支</div><br><div></div><br><div>  git checkout -b feature</div><br><div></div><br><div>3).多人在feature上开发，如果中途需要将develop的变更合入feature，所有人需要将本地的代码变更提交到远程</div><br><div></div><br><div>  git fetch origin</div><br><div>  git rebase origin/feature</div><br><div>  git push origin feature</div><br><div></div><br><div>然后由feature负责人rebase develop分支，删除原来feature分支，重新新建feature分支；</div><br><div></div><br><div>  git fetch origin</div><br><div>  git rebase origin/feature</div><br><div>  git rebase develop</div><br><div>  git push origin :feature</div><br><div>  git push origin feature</div><br><div></div><br><div>这样可以保证feature保持线性变更；</div><br><div></div><br><div>4).feature开发完成后，所有人需要将本地的代码变更提交到远程</div><br><div></div><br><div>  git fetch origin</div><br><div>  git rebase origin/feature</div><br><div>  git push origin feature</div><br><div></div><br><div>然后由feature负责人rebase develop分支，然后将feature分支合入develop，删除feature；</div><br><div></div><br><div>  git fetch origin</div><br><div>  git rebase origin/feature</div><br><div>  git rebase develop</div><br><div>  git checkout develop</div><br><div>  git merge feature</div><br><div>  git push origin :feature</div><br><div></div><br><div></div><br><div>这样可以保证develop保持线性变更，各feature的变更完整可追溯；</div><br><div></div><br><div>5).合入feature后拉出对应的release/feature分支，后续bug修复在release/feature上</div><br><div></div><br><div>  git checkout develop</div><br><div>  git checkout -b release/feature</div><br><div></div><br><div>release/feature分支的同步合并与feature分支相同</div><br><div></div><br><div>6).release/feature分支bug修复完成后，拉取对应的tag推送远程进行发布</div><br><div></div><br><div>  git tag -a v1.0 -m ‘feature发布’</div><br><div>  git push origin v1.0</div><br><div></div><br><div>之后将release/feature合入develop分支，然后删除</div><br><div></div><br><div>  git rebase develop</div><br><div>  git checkout develop</div><br><div>  git merge release/feature</div><br><div>  git push origin :release/feature</div><br><div></div><br><div>7).发布完成后将release合入master分支，保证master为最新稳定版本（实际操作为发起merge request）</div><br><div></div>
+<h2 id="小团队"><a href="#小团队" class="headerlink" title="小团队"></a>小团队</h2><div></div><br><div>轻量级开发情况：（AB机间没有网络）</div><br><div>在各自本机建立环境，本地建立好bare仓库和本地开发仓库。</div><br><div>总体上要求，bare仓库是同名的，但在自己的本地开发仓库中把远程仓库命名个性化。Dell为例:</div><br><div>dell-前缀。</div><br><div>技巧：</div><br><div>bare仓库用来fetch和push的“箱子”，为远程仓库。</div><br><div>使用拷贝方式来和其它机共享bare仓库。</div><br><div>各机器为主工作时，则要使用很多分支技术来merge其它机的进度代码。</div>
+
+<h2 id="多人团队"><a href="#多人团队" class="headerlink" title="多人团队"></a>多人团队</h2><div>多人联合开发情况：</div><br><div>这里就仁者见仁，智者见智了。但是最典型的就是gitflow了。但不是起对了几个分支名就行了。要得其要领。</div><br><div></div><br><div>原则：</div><br><div>master和develop分支是稳定分支，一直存在。</div><br><div>master只允许release和hotfix分支来的merge</div><br><div>develop日常开发</div><br><div>feature上开发功能，功能成熟后合并到develop上</div><br><div>release是从develop上分出来，bug修复后，打上tag后，要同时合并回develop和master</div><br><div>很小的bug修复会则会在hotfix上进行。</div><br><div></div><br><div>1). 首先将远程代码拉取到本地</div><br><div></div><br><div>  git clone xxx</div><br><div>  git checkout -b develop origin/develop</div><br><div></div><br><div>2).新建feature分支</div><br><div></div><br><div>  git checkout -b feature</div><br><div></div><br><div>3).多人在feature上开发，如果中途需要将develop的变更合入feature，所有人需要将本地的代码变更提交到远程</div><br><div></div><br><div>  git fetch origin</div><br><div>  git rebase origin/feature</div><br><div>  git push origin feature</div><br><div></div><br><div>然后由feature负责人rebase develop分支，删除原来feature分支，重新新建feature分支；</div><br><div></div><br><div>  git fetch origin</div><br><div>  git rebase origin/feature</div><br><div>  git rebase develop</div><br><div>  git push origin :feature</div><br><div>  git push origin feature</div><br><div></div><br><div>这样可以保证feature保持线性变更；</div><br><div></div><br><div>4).feature开发完成后，所有人需要将本地的代码变更提交到远程</div><br><div></div><br><div>  git fetch origin</div><br><div>  git rebase origin/feature</div><br><div>  git push origin feature</div><br><div></div><br><div>然后由feature负责人rebase develop分支，然后将feature分支合入develop，删除feature；</div><br><div></div><br><div>  git fetch origin</div><br><div>  git rebase origin/feature</div><br><div>  git rebase develop</div><br><div>  git checkout develop</div><br><div>  git merge feature</div><br><div>  git push origin :feature</div><br><div></div><br><div></div><br><div>这样可以保证develop保持线性变更，各feature的变更完整可追溯；</div><br><div></div><br><div>5).合入feature后拉出对应的release/feature分支，后续bug修复在release/feature上</div><br><div></div><br><div>  git checkout develop</div><br><div>  git checkout -b release/feature</div><br><div></div><br><div>release/feature分支的同步合并与feature分支相同</div><br><div></div><br><div>6).release/feature分支bug修复完成后，拉取对应的tag推送远程进行发布</div><br><div></div><br><div>  git tag -a v1.0 -m ‘feature发布’</div><br><div>  git push origin v1.0</div><br><div></div><br><div>之后将release/feature合入develop分支，然后删除</div><br><div></div><br><div>  git rebase develop</div><br><div>  git checkout develop</div><br><div>  git merge release/feature</div><br><div>  git push origin :release/feature</div><br><div></div><br><div>7).发布完成后将release合入master分支，保证master为最新稳定版本（实际操作为发起merge request）</div><br><div></div>
+
       
     </div>
     
@@ -476,8 +479,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -541,6 +553,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#小团队"><span class="nav-text">小团队</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多人团队"><span class="nav-text">多人团队</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

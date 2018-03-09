@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="VS新版本打开旧项目，即当升级一个vcproject文件时，可能会涉及从“多字节字符集”（可能是utf-8）到unicode字符集的转换。所以总结一下，代码端如何适应转换。 unicode字符集下，微软引入了一个宽字符集的概念（多讨厌）所以，有些winapi就是以宽字符集来传参的。 第一类问题：messagebox()函数所以字符串常量前，加一个L，即L“原来的字符串”；L的意思是小端序。当为un">
+<meta name="description" content="VS新版本打开旧项目，即当升级一个vcproject文件时，可能会涉及从“多字节字符集”（可能是utf-8）到unicode字符集的转换。所以总结一下，代码端如何适应转换。 unicode字符集下，微软引入了一个宽字符集的概念（多讨厌）所以，有些winapi就是以宽字符集来传参的。 第一类问题： messagebox()函数所以字符串常量前，加一个L，即L“原来的字符串”；L的意思是小端序。当为u">
 <meta name="keywords" content="VS2013 多字符集 unicode">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VS2013字符集小结">
 <meta property="og:url" content="http://coder.songdaliang.com/2015/12/08/vs2013-e5-ad-97-e7-ac-a6-e9-9b-86-e5-b0-8f-e7-bb-93/index.html">
 <meta property="og:site_name" content="大亮的实验室">
-<meta property="og:description" content="VS新版本打开旧项目，即当升级一个vcproject文件时，可能会涉及从“多字节字符集”（可能是utf-8）到unicode字符集的转换。所以总结一下，代码端如何适应转换。 unicode字符集下，微软引入了一个宽字符集的概念（多讨厌）所以，有些winapi就是以宽字符集来传参的。 第一类问题：messagebox()函数所以字符串常量前，加一个L，即L“原来的字符串”；L的意思是小端序。当为un">
+<meta property="og:description" content="VS新版本打开旧项目，即当升级一个vcproject文件时，可能会涉及从“多字节字符集”（可能是utf-8）到unicode字符集的转换。所以总结一下，代码端如何适应转换。 unicode字符集下，微软引入了一个宽字符集的概念（多讨厌）所以，有些winapi就是以宽字符集来传参的。 第一类问题： messagebox()函数所以字符串常量前，加一个L，即L“原来的字符串”；L的意思是小端序。当为u">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T01:16:08.446Z">
+<meta property="og:updated_time" content="2018-03-09T08:36:32.607Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="VS2013字符集小结">
-<meta name="twitter:description" content="VS新版本打开旧项目，即当升级一个vcproject文件时，可能会涉及从“多字节字符集”（可能是utf-8）到unicode字符集的转换。所以总结一下，代码端如何适应转换。 unicode字符集下，微软引入了一个宽字符集的概念（多讨厌）所以，有些winapi就是以宽字符集来传参的。 第一类问题：messagebox()函数所以字符串常量前，加一个L，即L“原来的字符串”；L的意思是小端序。当为un">
+<meta name="twitter:description" content="VS新版本打开旧项目，即当升级一个vcproject文件时，可能会涉及从“多字节字符集”（可能是utf-8）到unicode字符集的转换。所以总结一下，代码端如何适应转换。 unicode字符集下，微软引入了一个宽字符集的概念（多讨厌）所以，有些winapi就是以宽字符集来传参的。 第一类问题： messagebox()函数所以字符串常量前，加一个L，即L“原来的字符串”；L的意思是小端序。当为u">
 
 
 
@@ -375,87 +375,37 @@
       
         <p>VS新版本打开旧项目，即当升级一个vcproject文件时，可能会涉及从“多字节字符集”（可能是utf-8）到unicode字符集的转换。<br>所以总结一下，代码端如何适应转换。</p>
 <p>unicode字符集下，微软引入了一个宽字符集的概念（多讨厌）<br>所以，有些winapi就是以宽字符集来传参的。</p>
-<p>第一类问题：messagebox()函数<br>所以字符串常量前，加一个L，即L“原来的字符串”；<br>L的意思是小端序。当为unicode时，长度要么1要么2（汉字），所以，再加上小端序，不会有歧义了。</p>
-<p>第二类问题：strcpy()函数要求多字符集，事实此时的CSting已经入乡随俗了用了宽字符集，而直接强制转换就会出现让你头大的提示，<br>居然const char * 和 CString不等价了。</p>
-<p>char SendBuf[512] = {0};</p>
-<pre><code>strcpy(SendBuf,strEdit);              //CString参数strEdit，报错说不能转换CString到const char *
-</code></pre><hr>
-<p>办法一：用新的缓冲区放置，并且必须再转换一下。<br>char SendBuf[512] = {0};<br>    strcpy(SendBuf,( const char *)strEdit.GetBuffer());<br>办法二：复杂，此时要做的是把“变质的”CString给救回来。</p>
-<p>char SendBuf[512] = {0};<br>    wchar_t temp[512];<br>    MultiByteToWideChar(CP_ACP, NULL, (LPCCH)strEdit.GetBuffer(), 512, temp, 512);<br>    strcpy(SendBuf,(const char *)temp);<br>    m_Conn.Send(SendBuf,strlen(SendBuf));</p>
-<p>第三类问题，atoi转int:<br>把atoi换成_ttoi即可，这是神器，在啥字符集下，都可编译。</p>
-<p>第四类问题，CString-&gt;std::string 举例如下：<br>CString strMfc=“test“;<br>std::string strStl;</p>
-<p>#ifdef _UNICODE</p>
-<p>USES_CONVERSION<br>strStl=W2A(strMfc.LockBuffer());</p>
-<p>strMfc.UnlockBuffer();</p>
-<p>#else</p>
-<p>strStl = strMfc.GetBuffer(0);</p>
-<p>strMfc.ReleaseBuffer();</p>
-<h2 id="endif"><a href="#endif" class="headerlink" title="#endif"></a>#endif</h2><p>有时，CString可以做为桥梁，把乱码的UTF-8字符串转成string打印正确。思路是先用下面的函数转换乱码，再把返回的CString转string.<br>CString UTF8toUnicode(const char* utf8Str, UINT length)<br>{<br>    CString unicodeStr;<br>    unicodeStr = _T(“”);<br>    if (!utf8Str)<br>        return unicodeStr;</p>
-<pre><code>if (length == 0)
-    return unicodeStr;
-
-//转换 
-WCHAR chr = 0;
-
-for (UINT i = 0; i&lt;length;)
-{
-    if ((0x80 &amp; utf8Str[i]) == 0) // ASCII 
-    {
-        chr = utf8Str[i];
-        i++;
-    }
-    else if ((0xE0 &amp; utf8Str[i]) == 0xC0) // 110xxxxx 10xxxxxx 
-    {
-        chr = (utf8Str[i + 0] &amp; 0x3F) &lt;&lt; 6;
-        chr |= (utf8Str[i + 1] &amp; 0x3F);
-        i += 2;
-    }
-    else if ((0xF0 &amp; utf8Str[i]) == 0xE0) // 1110xxxx 10xxxxxx 10xxxxxx 
-    {
-        chr = (utf8Str[i + 0] &amp; 0x1F) &lt;&lt; 12;
-        chr |= (utf8Str[i + 1] &amp; 0x3F) &lt;&lt; 6;
-        chr |= (utf8Str[i + 2] &amp; 0x3F);
-        i += 3;
-    }
-    else // 不是UTF-8字符串 
-    {
-        return unicodeStr;
-    }
-    unicodeStr.AppendChar(chr);
-}
-
-return unicodeStr;
-</code></pre><p>}</p>
-<p>CString UTF8toUnicode(const char* utf8Str)<br>{</p>
-<pre><code>UINT theLength = strlen(utf8Str);
-return UTF8toUnicode(utf8Str, theLength);
-</code></pre><p>}</p>
-<p>第五类问题：BSTR -&gt; std::string 举例如下<br>BSTR bstrTest = ::SysAllocString(L”Test”);</p>
-<p>_bstr_t bstr_t(bstrTest）；</p>
-<p>std::strStl = bstr_t;</p>
-<p>SysFreeString(bstrTest );</p>
-<p>std::string -&gt; BSTR 举例如下</p>
-<p>std::string name = “nisb”;</p>
-<p> _bstr_t bstr_t(name.c_str());</p>
-<p>BSTR ret_val = bstr_t.GetBSTR();</p>
+<h2 id="第一类问题："><a href="#第一类问题：" class="headerlink" title="第一类问题："></a>第一类问题：</h2><ul>
+<li>messagebox()函数<br>所以字符串常量前，加一个L，即L“原来的字符串”；<br>L的意思是小端序。当为unicode时，长度要么1要么2（汉字），所以，再加上小端序，不会有歧义了。</li>
+</ul>
+<h2 id="第二类问题："><a href="#第二类问题：" class="headerlink" title="第二类问题："></a>第二类问题：</h2><ul>
+<li>strcpy()函数要求多字符集<br>事实此时的CSting已经入乡随俗了用了宽字符集，而直接强制转换就会出现让你头大的提示，<br>居然const char * 和 CString不等价了。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">char SendBuf[512] = &#123;0&#125;;</span><br><span class="line">strcpy(SendBuf,strEdit);              //CString参数strEdit，报错说不能转换CString到const char *</span><br></pre></td></tr></table></figure>
 <hr>
-<p>转来一篇原理编码的原理：</p>
-<p>1：使用CString，要包含文件afx.h，比如在Win32 Console Application中Alt+F7选择Use MFC in a Static Liberary，然后再添加#include<afx.h>就可以使用CString了。</afx.h></p>
-<p>  2：WCHAR ch = L’中’;与CHAR ch = ’中’;的区别是第一种使用UNICODE编码，第二种方式一般不经常用到，比如：<br>  WCHAR strA [ 2 ] = { L’中’ , 0 } ;//打开VC的Options菜单，选中Debug选项卡中的Display unicode strings后，可以看到strA的值。<br>  WCHAR strB [ 2 ] = { ‘中’ , 0 } ;</p>
-<p>  CString strC ;</p>
-<p>  strC+ = ( ( char <em> ) strB ) [ 1 ] ;<br>  strC+ = ( ( char </em> ) strB ) [ 0 ] ;//strC==”中”</p>
+<p>办法一：用新的缓冲区放置，并且必须再转换一下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">char SendBuf[512] = &#123;0&#125;;</span><br><span class="line">strcpy(SendBuf,( const char *)strEdit.GetBuffer());</span><br></pre></td></tr></table></figure></p>
+<p>办法二：复杂，此时要做的是把“变质的”CString给救回来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">char SendBuf[512] = &#123;0&#125;;</span><br><span class="line">wchar_t temp[512];</span><br><span class="line">MultiByteToWideChar(CP_ACP, NULL, (LPCCH)strEdit.GetBuffer(), 512, temp, 512);</span><br><span class="line">strcpy(SendBuf,(const char *)temp);</span><br><span class="line">m_Conn.Send(SendBuf,strlen(SendBuf));</span><br></pre></td></tr></table></figure></p>
+<h2 id="第三类问题"><a href="#第三类问题" class="headerlink" title="第三类问题"></a>第三类问题</h2><ul>
+<li>atoi转int:<br>把atoi换成_ttoi即可，这是神器，在啥字符集下，都可编译。</li>
+</ul>
+<h2 id="第四类问题"><a href="#第四类问题" class="headerlink" title="第四类问题"></a>第四类问题</h2><ul>
+<li>CString-&gt;std::string 举例如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">CString strMfc=“test“;</span><br><span class="line">std::string strStl;</span><br><span class="line"></span><br><span class="line">#ifdef _UNICODE</span><br><span class="line"></span><br><span class="line">USES_CONVERSION</span><br><span class="line">strStl=W2A(strMfc.LockBuffer());</span><br><span class="line"></span><br><span class="line">strMfc.UnlockBuffer();</span><br><span class="line"></span><br><span class="line">#else</span><br><span class="line"></span><br><span class="line">strStl = strMfc.GetBuffer(0);</span><br><span class="line"></span><br><span class="line">strMfc.ReleaseBuffer();</span><br><span class="line"></span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<p>有时，CString可以做为桥梁，把乱码的UTF-8字符串转成string打印正确。思路是先用下面的函数转换乱码，再把返回的CString转string.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">CString UTF8toUnicode(const char* utf8Str, UINT length)</span><br><span class="line">&#123;</span><br><span class="line">	CString unicodeStr;</span><br><span class="line">	unicodeStr = _T(&quot;&quot;);</span><br><span class="line">	if (!utf8Str)</span><br><span class="line">		return unicodeStr;</span><br><span class="line"></span><br><span class="line">	if (length == 0)</span><br><span class="line">		return unicodeStr;</span><br><span class="line"></span><br><span class="line">	//转换 </span><br><span class="line">	WCHAR chr = 0;</span><br><span class="line"></span><br><span class="line">	for (UINT i = 0; i&lt;length;)</span><br><span class="line">	&#123;</span><br><span class="line">		if ((0x80 &amp; utf8Str[i]) == 0) // ASCII </span><br><span class="line">		&#123;</span><br><span class="line">			chr = utf8Str[i];</span><br><span class="line">			i++;</span><br><span class="line">		&#125;</span><br><span class="line">		else if ((0xE0 &amp; utf8Str[i]) == 0xC0) // 110xxxxx 10xxxxxx </span><br><span class="line">		&#123;</span><br><span class="line">			chr = (utf8Str[i + 0] &amp; 0x3F) &lt;&lt; 6;</span><br><span class="line">			chr |= (utf8Str[i + 1] &amp; 0x3F);</span><br><span class="line">			i += 2;</span><br><span class="line">		&#125;</span><br><span class="line">		else if ((0xF0 &amp; utf8Str[i]) == 0xE0) // 1110xxxx 10xxxxxx 10xxxxxx </span><br><span class="line">		&#123;</span><br><span class="line">			chr = (utf8Str[i + 0] &amp; 0x1F) &lt;&lt; 12;</span><br><span class="line">			chr |= (utf8Str[i + 1] &amp; 0x3F) &lt;&lt; 6;</span><br><span class="line">			chr |= (utf8Str[i + 2] &amp; 0x3F);</span><br><span class="line">			i += 3;</span><br><span class="line">		&#125;</span><br><span class="line">		else // 不是UTF-8字符串 </span><br><span class="line">		&#123;</span><br><span class="line">			return unicodeStr;</span><br><span class="line">		&#125;</span><br><span class="line">		unicodeStr.AppendChar(chr);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	return unicodeStr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">CString UTF8toUnicode(const char* utf8Str)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	UINT theLength = strlen(utf8Str);</span><br><span class="line">	return UTF8toUnicode(utf8Str, theLength);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="第五类问题"><a href="#第五类问题" class="headerlink" title="第五类问题"></a>第五类问题</h2><ul>
+<li>BSTR -&gt; std::string 举例如下<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">BSTR bstrTest = ::SysAllocString(L”Test”);</span><br><span class="line"></span><br><span class="line">_bstr_t bstr_t(bstrTest）；</span><br><span class="line"></span><br><span class="line">std::strStl = bstr_t;</span><br><span class="line"></span><br><span class="line">SysFreeString(bstrTest );</span><br><span class="line"></span><br><span class="line">std::string -&gt; BSTR 举例如下</span><br><span class="line"></span><br><span class="line">std::string name = &quot;nisb&quot;;</span><br><span class="line"></span><br><span class="line"> _bstr_t bstr_t(name.c_str());</span><br><span class="line"></span><br><span class="line">BSTR ret_val = bstr_t.GetBSTR();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="转来一篇原理编码的原理："><a href="#转来一篇原理编码的原理：" class="headerlink" title="转来一篇原理编码的原理："></a>转来一篇原理编码的原理：</h2><p>1：使用CString，要包含文件afx.h，比如在Win32 Console Application中Alt+F7选择Use MFC in a Static Liberary，然后再添加#include<afx.h>就可以使用CString了。</afx.h></p>
+<p>  2：WCHAR ch = L’中’;与CHAR ch = ’中’;的区别是第一种使用UNICODE编码，第二种方式一般不经常用到，比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">WCHAR strA [ 2 ] = &#123; L&apos;中&apos; , 0 &#125; ;//打开VC的Options菜单，选中Debug选项卡中的Display unicode strings后，可以看到strA的值。</span><br><span class="line">WCHAR strB [ 2 ] = &#123; &apos;中&apos; , 0 &#125; ;</span><br><span class="line"></span><br><span class="line">CString strC ;</span><br><span class="line"></span><br><span class="line">strC+ = ( ( char * ) strB ) [ 1 ] ;</span><br><span class="line">strC+ = ( ( char * ) strB ) [ 0 ] ;//strC==”中”</span><br></pre></td></tr></table></figure></p>
 <p>  3：CString的AllocSysString ( )成员函数;可以方便的把一个字符串转换成UNICODE形式。记得使用完该UNICODE字符串后要调用::SysFreeString()函数释放字符串。</p>
-<p>  4: CString::AllocSysString ( )或者::SysAllocString得到的字符串并不是普通的UNICODE字符串，它之前的四个字节会存放申请的字符串的长度：</p>
-<p>  CString strD = ”asdf”;<br>  BSTR strD = strC.AllocSysString( ) ;<br>  long i =<em> ( ( long </em> ) strD – 1 ) ; // i == 8;一个UNICDE字符的长度是2字节，所以strD的长度为8个字节。</p>
-<p>  4：UTF-8码转换为一般的字符串：</p>
-<p>  #include “ Windows.h “</p>
-<p>  int main(void)<br>  {<br>  char str [ 256 ] = {( char )0xE4, ( char ) 0xBD, ( char ) 0xA0, ( char ) 0xE5 ,<br>  ( char)0xA5 ,(char)0xBD, (char)0x61, (char)0x62 ,(char)0x63,(char)0} ; //一段UTF-8编码<br>  WCHAR<em> strA;<br>  int i= MultiByteToWideChar ( CP_UTF8 , 0 ,(char</em>) str ,-1 ,NULL,0);<br>  strA = new WCHAR[i];<br>  MultiByteToWideChar ( CP_UTF8 , 0 ,( char <em> ) str, -1, strA , i );<br>  i= WideCharToMultiByte(CP_ACP,0,strA,-1,NULL,0,NULL,NULL);<br>  char </em>strB=new char[i];<br>  WideCharToMultiByte (CP_ACP,0,strA,-1,strB,i,NULL,NULL);<br>  //strB即为所求<br>  delete []strA;<br>  delete []strB;<br>  return 0;<br>  }</p>
-<p>  5：在转换方面_bstr_t是最最灵活的，他提供了UNICODE到一般字符串的直接转换：</p>
-<p>  #include <comdef.h><br>  _bstr_t strA;<br>  char <em>strB=”中国人”;<br>  strA=strB;<br>  WCHAR </em>strC=strA;<br>  long i =<em> ( ( long </em> ) strC - 1 ) ;// i 亦是字符串的字节长度<br>  char *strD=strA;<br>  return 0;</comdef.h></p>
-<p>宽窄字串转换！<br>  两种方法：1、CString 2、_bstr_t</p>
-<p>  #include “comutil.h”<br>  //注意在Project－》Setting－》Link中加入comsupp.lib,从而使_bstr_t可用</p>
-<p>  void CAaaDlg::OnButton1()<br>  {<br>  // TODO: Add extra cleanup here<br>  _bstr_t a(L”sdfsafds”);<br>  a+=”zzz”;<br>  char <em> b = (char </em>)a;//获得内部BSTR的char<em>指针，勿做修改和释放<br>  WCHAR </em>c=(WCHAR <em>)a;//获得内部BSTR的WCHARr</em>指针，勿做修改和释放<br>  CString p = L”asdfsa”;<br>  p+=”ppp”;<br>  WCHAR <em>y =p.AllocSysString(); //获得WCHAR</em>指针，使用完请释放，否则有内存泄漏。<br>  char *z = p.GetBuffer(p.GetLength()+1);//内部Buffer指针，z不要释放</p>
-<p>  ::SysFreeString(y);<br>  }</p>
+<p>  4: CString::AllocSysString ( )或者::SysAllocString得到的字符串并不是普通的UNICODE字符串，它之前的四个字节会存放申请的字符串的长度：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CString strD = ”asdf”;</span><br><span class="line">BSTR strD = strC.AllocSysString( ) ;</span><br><span class="line">long i =* ( ( long * ) strD – 1 ) ; // i == 8;一个UNICDE字符的长度是2字节，所以strD的长度为8个字节。</span><br></pre></td></tr></table></figure></p>
+<p>  4：UTF-8码转换为一般的字符串：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#include &quot; Windows.h &quot;</span><br><span class="line"></span><br><span class="line">int main(void)</span><br><span class="line">&#123;</span><br><span class="line">char str [ 256 ] = &#123;( char )0xE4, ( char ) 0xBD, ( char ) 0xA0, ( char ) 0xE5 ,</span><br><span class="line">( char)0xA5 ,(char)0xBD, (char)0x61, (char)0x62 ,(char)0x63,(char)0&#125; ; //一段UTF-8编码</span><br><span class="line">WCHAR* strA;</span><br><span class="line">int i= MultiByteToWideChar ( CP_UTF8 , 0 ,(char*) str ,-1 ,NULL,0);</span><br><span class="line">strA = new WCHAR[i];</span><br><span class="line">MultiByteToWideChar ( CP_UTF8 , 0 ,( char * ) str, -1, strA , i );</span><br><span class="line">i= WideCharToMultiByte(CP_ACP,0,strA,-1,NULL,0,NULL,NULL);</span><br><span class="line">char *strB=new char[i];</span><br><span class="line">WideCharToMultiByte (CP_ACP,0,strA,-1,strB,i,NULL,NULL);</span><br><span class="line">//strB即为所求</span><br><span class="line">delete []strA;</span><br><span class="line">delete []strB;</span><br><span class="line">return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>  5：在转换方面_bstr_t是最最灵活的，他提供了UNICODE到一般字符串的直接转换：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;comdef.h&gt;</span><br><span class="line">_bstr_t strA;</span><br><span class="line">char *strB=&quot;中国人&quot;;</span><br><span class="line">strA=strB;</span><br><span class="line">WCHAR *strC=strA;</span><br><span class="line">long i =* ( ( long * ) strC - 1 ) ;// i 亦是字符串的字节长度</span><br><span class="line">char *strD=strA;</span><br><span class="line">return 0;</span><br></pre></td></tr></table></figure></p>
+<p>宽窄字串转换！<br>  两种方法：1、CString 2、_bstr_t<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;comutil.h&quot;</span><br><span class="line">//注意在Project－》Setting－》Link中加入comsupp.lib,从而使_bstr_t可用</span><br><span class="line"></span><br><span class="line">void CAaaDlg::OnButton1()</span><br><span class="line">&#123;</span><br><span class="line">// TODO: Add extra cleanup here</span><br><span class="line">_bstr_t a(L&quot;sdfsafds&quot;);</span><br><span class="line">a+=&quot;zzz&quot;;</span><br><span class="line">char * b = (char *)a;//获得内部BSTR的char*指针，勿做修改和释放</span><br><span class="line">WCHAR *c=(WCHAR *)a;//获得内部BSTR的WCHARr*指针，勿做修改和释放</span><br><span class="line">CString p = L&quot;asdfsa&quot;;</span><br><span class="line">p+=&quot;ppp&quot;;</span><br><span class="line">WCHAR *y =p.AllocSysString(); //获得WCHAR*指针，使用完请释放，否则有内存泄漏。</span><br><span class="line">char *z = p.GetBuffer(p.GetLength()+1);//内部Buffer指针，z不要释放</span><br><span class="line"></span><br><span class="line">::SysFreeString(y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -642,7 +592,7 @@ return UTF8toUnicode(utf8Str, theLength);
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#endif"><span class="nav-text">#endif</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一类问题："><span class="nav-text">第一类问题：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二类问题："><span class="nav-text">第二类问题：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三类问题"><span class="nav-text">第三类问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四类问题"><span class="nav-text">第四类问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五类问题"><span class="nav-text">第五类问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转来一篇原理编码的原理："><span class="nav-text">转来一篇原理编码的原理：</span></a></li></ol></div>
             
 
           </div>

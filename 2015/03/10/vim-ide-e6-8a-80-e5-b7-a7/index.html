@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="乱码问题办法：以本人gvim为环境 set enc=cp936set termencoding=chineselanguage message cp936 export LANG=zh_CN.GBKexport LC_ALL=zh_CN.GBK :help encoding-values  “ctrl+]”—–光标会自动跳转到定义处“ctrl+T”—–光标会从定义跳转回来Tlist——–TagLi">
+<meta name="description" content="乱码问题办法：以本人gvim为环境set enc=cp936set termencoding=chineselanguage message cp936 export LANG=zh_CN.GBKexport LC_ALL=zh_CN.GBK :help encoding-values  小技巧“ctrl+]”—–光标会自动跳转到定义处“ctrl+T”—–光标会从定义跳转回来Tlist——–Tag">
 <meta name="keywords" content="ide,vim">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vim-ide技巧">
 <meta property="og:url" content="http://coder.songdaliang.com/2015/03/10/vim-ide-e6-8a-80-e5-b7-a7/index.html">
 <meta property="og:site_name" content="大亮的实验室">
-<meta property="og:description" content="乱码问题办法：以本人gvim为环境 set enc=cp936set termencoding=chineselanguage message cp936 export LANG=zh_CN.GBKexport LC_ALL=zh_CN.GBK :help encoding-values  “ctrl+]”—–光标会自动跳转到定义处“ctrl+T”—–光标会从定义跳转回来Tlist——–TagLi">
+<meta property="og:description" content="乱码问题办法：以本人gvim为环境set enc=cp936set termencoding=chineselanguage message cp936 export LANG=zh_CN.GBKexport LC_ALL=zh_CN.GBK :help encoding-values  小技巧“ctrl+]”—–光标会自动跳转到定义处“ctrl+T”—–光标会从定义跳转回来Tlist——–Tag">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.songdaliang.com/wp-content/uploads/2015/03/Image-300x178.png">
 <meta property="og:image" content="http://blog.songdaliang.com/wp-content/uploads/2015/03/Image1-300x68.png">
 <meta property="og:image" content="http://blog.songdaliang.com/wp-content/uploads/2015/03/Image2-292x300.png">
 <meta property="og:image" content="http://blog.songdaliang.com/wp-content/uploads/2015/03/Image3-300x188.png">
-<meta property="og:updated_time" content="2018-02-23T01:28:51.895Z">
+<meta property="og:updated_time" content="2018-03-09T06:42:26.327Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vim-ide技巧">
-<meta name="twitter:description" content="乱码问题办法：以本人gvim为环境 set enc=cp936set termencoding=chineselanguage message cp936 export LANG=zh_CN.GBKexport LC_ALL=zh_CN.GBK :help encoding-values  “ctrl+]”—–光标会自动跳转到定义处“ctrl+T”—–光标会从定义跳转回来Tlist——–TagLi">
+<meta name="twitter:description" content="乱码问题办法：以本人gvim为环境set enc=cp936set termencoding=chineselanguage message cp936 export LANG=zh_CN.GBKexport LC_ALL=zh_CN.GBK :help encoding-values  小技巧“ctrl+]”—–光标会自动跳转到定义处“ctrl+T”—–光标会从定义跳转回来Tlist——–Tag">
 <meta name="twitter:image" content="http://blog.songdaliang.com/wp-content/uploads/2015/03/Image-300x178.png">
 
 
@@ -367,23 +367,32 @@
       
 
       
-        <p>乱码问题办法：以本人gvim为环境</p>
-<p>set enc=cp936<br>set termencoding=chinese<br>language message cp936</p>
+        <h2 id="乱码问题办法：以本人gvim为环境"><a href="#乱码问题办法：以本人gvim为环境" class="headerlink" title="乱码问题办法：以本人gvim为环境"></a>乱码问题办法：以本人gvim为环境</h2><p>set enc=cp936<br>set termencoding=chinese<br>language message cp936</p>
 <p>export LANG=zh_CN.GBK<br>export LC_ALL=zh_CN.GBK</p>
 <p>:help encoding-values</p>
 <p><a href="http://blog.songdaliang.com/wp-content/uploads/2015/03/Image.png" target="_blank" rel="noopener"><img src="http://blog.songdaliang.com/wp-content/uploads/2015/03/Image-300x178.png" alt="Image"></a></p>
-<p>“ctrl+]”—–光标会自动跳转到定义处<br>“ctrl+T”—–光标会从定义跳转回来<br>Tlist——–TagList窗口即出现在左侧<br>wm———–打开左侧两栏（文件和声明）<br>ctrl+Tab—–切换到前一个buffer，并在当前窗口打开文件；<br>ctrl+shift+Tab—切换到后一个buffer，并在当前窗口打开文件；<br>ctrl+箭头键—–可以切换到上下左右窗口中；<br>ctrl+h,j,k,l—-切换到上下左右的窗口中。</p>
+<h2 id="小技巧"><a href="#小技巧" class="headerlink" title="小技巧"></a>小技巧</h2><p>“ctrl+]”—–光标会自动跳转到定义处<br>“ctrl+T”—–光标会从定义跳转回来<br>Tlist——–TagList窗口即出现在左侧<br>wm———–打开左侧两栏（文件和声明）<br>ctrl+Tab—–切换到前一个buffer，并在当前窗口打开文件；<br>ctrl+shift+Tab—切换到后一个buffer，并在当前窗口打开文件；<br>ctrl+箭头键—–可以切换到上下左右窗口中；<br>ctrl+h,j,k,l—-切换到上下左右的窗口中。</p>
 <p>F12或：A或：AS，AV，AT或点击头文件后，gf<br>——–源码文件后，按F12即可以在c/h文件中切换，也可以通过输入:A实现.当使用了gf时，用ctrl+O来回退栈。<br>F3——将光标定位到要查找的内容上，按下F3，确定要查找的内容和搜索范围<br>F2——光标定位在需要添加书签的地方，按下ctrl+F2，即添加了书签.使用F2在书签之间正向切换，shift+F2反向切换。<br>Vimgrep Make ./<em>.c或在目录层vimgrep “content” **/</em>.cpp——–配合命令Cl,cn,cp,cw,copen,cclose<br>建立tags——cmd到源码目录，然后执行(本人环境下)“c:\Program Files\vim\vim73\ctags” -R *</p>
 <p>sp,vs,vsp让人很爽的分屏</p>
 <p>vi 查找忽略大小写<br>第一种方法：<br>/abc\c<br>第二种方法：<br>set ignorecase （或者简写 set ic）</p>
 <p>linux下安装vim，在源光盘的包目录中依次装吧（前缀是vim-）<br>X11，common，enhanced,minimal</p>
-<p>常用操作总结：<br>定律：</p>
+<h2 id="常用操作总结："><a href="#常用操作总结：" class="headerlink" title="常用操作总结："></a>常用操作总结：</h2><blockquote>
+<p>定律：</p>
 <p>动作后，都进入插入模式<br>某些动作是返回了位置，前面可再加动作<br>动作，位置前都可以配合数值</p>
-<p>动作：<br><span lang="en-US">i—</span><span lang="zh-CN">插入</span><span lang="en-US">–insert                        </span> <span lang="zh-CN">插入</span><span lang="en-US">30</span><span lang="zh-CN">个</span><span lang="en-US">x–</span><span lang="zh-CN">30ix+esc键</span><br><span lang="en-US">I–</span><span lang="zh-CN">当前行开始处插入</span><br><span lang="en-US">a–</span><span lang="zh-CN">追加</span><span lang="en-US">–append</span><br><span lang="en-US">x–</span><span lang="zh-CN">删除当前，以字符为单位</span><br><span lang="en-US">X–</span><span lang="zh-CN">删除之前</span><br><span lang="en-US">d–</span><span lang="zh-CN">删除</span><span lang="en-US">–delete</span><br><span lang="en-US">y–</span><span lang="zh-CN">拷贝</span><span lang="en-US">–copy</span><br><span lang="en-US">p–</span><span lang="zh-CN">粘贴</span><span lang="en-US">–paste</span><br><span lang="en-US">o–</span><span lang="zh-CN">下方插行</span><span lang="en-US">–open</span><br><span lang="en-US">O–</span><span lang="zh-CN">上方插行</span><span lang="en-US">–</span><span lang="en-US">open</span><br><span lang="en-US">u–</span><span lang="zh-CN">撤消</span><span lang="en-US">–undo</span><br><span lang="en-US">U–</span><span lang="zh-CN">行撤消</span><span lang="en-US">–undo</span><br><span lang="en-US">Ctrl+r–</span><span lang="zh-CN">重做</span><br><span lang="en-US">c–</span><span lang="zh-CN">更改</span><span lang="en-US">–change</span><br><span lang="en-US">r–</span><span lang="zh-CN">替换</span><span lang="en-US">–replace</span><br><span lang="en-US">R–</span><span lang="zh-CN">一直替换</span><span lang="en-US">–replace</span><span lang="zh-CN">，退格键是撤消替换</span><br><span lang="en-US">g–</span><span lang="zh-CN">前往（</span><span lang="en-US">gg</span><span lang="zh-CN">文件首，</span><span lang="en-US">G</span><span lang="zh-CN">文件尾，数值</span><span lang="en-US">G</span><span lang="zh-CN">到行首）</span><span lang="en-US">–go</span><br><span lang="en-US">f–</span><span lang="zh-CN">查找</span><span lang="en-US">–find</span><br><span lang="en-US">F–</span><span lang="zh-CN">反向查找（向左）</span><span lang="en-US">–find</span><br><span lang="en-US">t–</span><span lang="zh-CN">到达和</span><span lang="en-US">F</span><span lang="zh-CN">区别于定位位置</span><span lang="en-US">–to</span></p>
-<p>位置：<br><span lang="en-US">w–</span><span lang="zh-CN">移向下一个单词词首</span><span lang="en-US">–word</span><br><span lang="en-US">W–</span><span lang="zh-CN">同上，移动间隔不是单词而是字串</span><br><span lang="en-US">b–</span><span lang="zh-CN">移向上一个单词词首</span><span lang="en-US">–begin</span><br><span lang="en-US">B–</span><span lang="zh-CN">同上，移动间隔包括了标点和符号</span><br><span lang="en-US">e–</span><span lang="zh-CN">移向下一个单词词尾</span><span lang="en-US">–end</span><br><span lang="en-US">E–</span><span lang="zh-CN">同上，移动间隔包括了标点和符号</span><br><span lang="en-US">G–</span><span lang="zh-CN">文件尾</span><br><span lang="en-US">^–</span><span lang="zh-CN">行首非空字符</span><br><span lang="en-US">0–</span><span lang="zh-CN">行首第一字符（同于</span><span lang="en-US">home</span><span lang="zh-CN">键，同于</span><span lang="en-US">_</span><span lang="zh-CN">键）</span><br><span lang="en-US">$–</span><span lang="zh-CN">行尾，</span><span lang="en-US">2$</span><span lang="zh-CN">即下一行行尾，注意这是一个包括命令，即包括最后一个字符</span><br><span lang="en-US">hjkl–</span><span lang="zh-CN">略</span><br><span lang="en-US">H–</span><span lang="zh-CN">屏幕范围内的左上角行，</span><span lang="en-US">zt–head</span><span lang="zh-CN">，</span><span lang="en-US">home</span><br><span lang="en-US">M-</span><span lang="zh-CN">屏幕范围内的中间行，</span><span lang="en-US">zz–middle</span><span lang="zh-CN">，大写可就是存盘退出了</span><br><span lang="en-US">L-</span><span lang="zh-CN">屏幕范围内的左上角行，</span><span lang="en-US">zb–last</span><br><span lang="en-US">%–</span><span lang="zh-CN">对称符号的匹配定位</span><br>月光宝盒：<br><span lang="en-US">‘’–</span><span lang="zh-CN">两位置，闪回</span><br><span lang="zh-CN">配合</span><span lang="en-US">mark</span><span lang="zh-CN">的扩展应用</span><br>［］最后修改的位置<br><span lang="en-US">Ctrl+o–</span><span lang="zh-CN">跳回到更老的地方</span><span lang="en-US">–older</span><br><span lang="en-US">——-i–</span><span lang="zh-CN">跳回到更新的地方</span><span lang="en-US">–</span><span lang="zh-CN">相当于</span><span lang="en-US">tab</span></p>
-<p>列块选择：</p>
+</blockquote>
+<ul>
+<li>动作：</li>
+</ul>
+<p><span lang="en-US">i—</span><span lang="zh-CN">插入</span><span lang="en-US">–insert                        </span> <span lang="zh-CN">插入</span><span lang="en-US">30</span><span lang="zh-CN">个</span><span lang="en-US">x–</span><span lang="zh-CN">30ix+esc键</span><br><span lang="en-US">I–</span><span lang="zh-CN">当前行开始处插入</span><br><span lang="en-US">a–</span><span lang="zh-CN">追加</span><span lang="en-US">–append</span><br><span lang="en-US">x–</span><span lang="zh-CN">删除当前，以字符为单位</span><br><span lang="en-US">X–</span><span lang="zh-CN">删除之前</span><br><span lang="en-US">d–</span><span lang="zh-CN">删除</span><span lang="en-US">–delete</span><br><span lang="en-US">y–</span><span lang="zh-CN">拷贝</span><span lang="en-US">–copy</span><br><span lang="en-US">p–</span><span lang="zh-CN">粘贴</span><span lang="en-US">–paste</span><br><span lang="en-US">o–</span><span lang="zh-CN">下方插行</span><span lang="en-US">–open</span><br><span lang="en-US">O–</span><span lang="zh-CN">上方插行</span><span lang="en-US">–</span><span lang="en-US">open</span><br><span lang="en-US">u–</span><span lang="zh-CN">撤消</span><span lang="en-US">–undo</span><br><span lang="en-US">U–</span><span lang="zh-CN">行撤消</span><span lang="en-US">–undo</span><br><span lang="en-US">Ctrl+r–</span><span lang="zh-CN">重做</span><br><span lang="en-US">c–</span><span lang="zh-CN">更改</span><span lang="en-US">–change</span><br><span lang="en-US">r–</span><span lang="zh-CN">替换</span><span lang="en-US">–replace</span><br><span lang="en-US">R–</span><span lang="zh-CN">一直替换</span><span lang="en-US">–replace</span><span lang="zh-CN">，退格键是撤消替换</span><br><span lang="en-US">g–</span><span lang="zh-CN">前往（</span><span lang="en-US">gg</span><span lang="zh-CN">文件首，</span><span lang="en-US">G</span><span lang="zh-CN">文件尾，数值</span><span lang="en-US">G</span><span lang="zh-CN">到行首）</span><span lang="en-US">–go</span><br><span lang="en-US">f–</span><span lang="zh-CN">查找</span><span lang="en-US">–find</span><br><span lang="en-US">F–</span><span lang="zh-CN">反向查找（向左）</span><span lang="en-US">–find</span><br><span lang="en-US">t–</span><span lang="zh-CN">到达和</span><span lang="en-US">F</span><span lang="zh-CN">区别于定位位置</span><span lang="en-US">–to</span></p>
+<ul>
+<li>位置：</li>
+</ul>
+<p><span lang="en-US">w–</span><span lang="zh-CN">移向下一个单词词首</span><span lang="en-US">–word</span><br><span lang="en-US">W–</span><span lang="zh-CN">同上，移动间隔不是单词而是字串</span><br><span lang="en-US">b–</span><span lang="zh-CN">移向上一个单词词首</span><span lang="en-US">–begin</span><br><span lang="en-US">B–</span><span lang="zh-CN">同上，移动间隔包括了标点和符号</span><br><span lang="en-US">e–</span><span lang="zh-CN">移向下一个单词词尾</span><span lang="en-US">–end</span><br><span lang="en-US">E–</span><span lang="zh-CN">同上，移动间隔包括了标点和符号</span><br><span lang="en-US">G–</span><span lang="zh-CN">文件尾</span><br><span lang="en-US">^–</span><span lang="zh-CN">行首非空字符</span><br><span lang="en-US">0–</span><span lang="zh-CN">行首第一字符（同于</span><span lang="en-US">home</span><span lang="zh-CN">键，同于</span><span lang="en-US">_</span><span lang="zh-CN">键）</span><br><span lang="en-US">$–</span><span lang="zh-CN">行尾，</span><span lang="en-US">2$</span><span lang="zh-CN">即下一行行尾，注意这是一个包括命令，即包括最后一个字符</span><br><span lang="en-US">hjkl–</span><span lang="zh-CN">略</span><br><span lang="en-US">H–</span><span lang="zh-CN">屏幕范围内的左上角行，</span><span lang="en-US">zt–head</span><span lang="zh-CN">，</span><span lang="en-US">home</span><br><span lang="en-US">M-</span><span lang="zh-CN">屏幕范围内的中间行，</span><span lang="en-US">zz–middle</span><span lang="zh-CN">，大写可就是存盘退出了</span><br><span lang="en-US">L-</span><span lang="zh-CN">屏幕范围内的左上角行，</span><span lang="en-US">zb–last</span><br><span lang="en-US">%–</span><span lang="zh-CN">对称符号的匹配定位</span><br>月光宝盒：<br><span lang="en-US">‘’–</span><span lang="zh-CN">两位置，闪回</span><br><span lang="zh-CN">配合</span><span lang="en-US">mark</span><span lang="zh-CN">的扩展应用</span><br>［］最后修改的位置<br><span lang="en-US">Ctrl+o–</span><span lang="zh-CN">跳回到更老的地方</span><span lang="en-US">–older</span><br><span lang="en-US">——-i–</span><span lang="zh-CN">跳回到更新的地方</span><span lang="en-US">–</span><span lang="zh-CN">相当于</span><span lang="en-US">tab</span></p>
+<ul>
+<li>列块选择：</li>
+</ul>
 <p><span lang="en-US">Ctrl+v</span><span lang="zh-CN">，可视模式开启，在gvim中是使用ctrl+q</span></p>
-<div><span lang="en-US">               v</span><span lang="zh-CN">配合位置，即可选中欲操作的块，用一下</span><span lang="en-US">o–other end</span><span lang="zh-CN">来试试吧</span></div><br><div><br><pre><span lang="zh-CN">     o    other end</span></pre><br><pre><span lang="zh-CN">     O    另一个对角<br>     ~    交换大小写<br>     U    转换为大写<br>     u    转换为小写<br>     r    以某个字符填充<br>     &gt;    平移<br>     &lt;    平移<br>     :set shiftwidth=4    “平移距离<br>     J    删除选中行的所有换行符<br>     gv    重复上次的可视选择————这东东很好用</span></pre><br></div><br><div></div><br><div></div><br><div>重复：</div><br><span lang="en-US">;–</span><span lang="zh-CN">正向（用于</span><span lang="en-US">f</span><span lang="zh-CN">和</span><span lang="en-US">t</span><span lang="zh-CN">，行内查找时）</span><br><span lang="en-US">,–</span><span lang="zh-CN">反向（用于</span><span lang="en-US">f</span><span lang="zh-CN">和</span><span lang="en-US">t</span><span lang="zh-CN">，行内查找时）</span><br><span lang="en-US">.–</span><span lang="zh-CN">重复</span><br>屏幕操作：<br><br><span lang="en-US">ctrl+G–</span><span lang="zh-CN">查看当前操作的文件和行数</span><br><br>Set ruler<br><br>Set number<br><br><span lang="en-US">Ctrl+u–</span><span lang="zh-CN">向上滚半屏</span><span lang="en-US">–up</span><br><span lang="en-US">Ctrl+d–</span><span lang="zh-CN">向下滚半屏</span><span lang="en-US">–down</span><br><span lang="en-US">——-e–</span><span lang="zh-CN">向上多显一行</span><span lang="en-US">–</span><span lang="zh-CN">one line Extra</span><br><span lang="en-US">——-y–</span><span lang="zh-CN">向下多显一行</span><br><br>功能就是把当前行放到屏幕的上中下三个位置:（注此时光标不动所在屏幕动）<br>z+回车<br>z+.<br>z+-<br>前面都可以加行号码，注意不是行数.<br><br>当你想把光标放到屏幕的上下三个位置时（注此时屏幕内容不动，光标位置变化）<br>H<br>L<br><br>简单查询：<br><span lang="en-US">/+</span><span lang="zh-CN">所查串</span><span lang="en-US">–</span><span lang="zh-CN">正向</span><br><span lang="zh-CN">？</span><span lang="en-US">+</span><span lang="zh-CN">所查串</span><span lang="en-US">–</span><span lang="zh-CN">反向</span><br>备注:<br>字符 .*[]^%/?~$ 有特殊含义。如果你要查找它们，需要在前面加上一个<br>“”。<br>配合使用：<br><br>n,N<br><br><span lang="zh-CN">/&lt;the&gt;</span><span lang="en-US">–</span><span lang="zh-CN">只查找</span><span lang="en-US">the</span><span lang="zh-CN">的句法</span><br><br>%s/old/new/g<br><br>简单修改：<br><br>x  表示  dl  (删除当前光标下的字符)<br>X  表示  dh  (删除光标左边的字符)<br>D  表示  d$  (删除到行尾)<br>C  表示  c$  (修改到行尾)<br>s  表示  cl  (修改一个字符)<br>S  表示  cc  (修改一整行)<br><span lang="en-US">.–</span><span lang="zh-CN">重复最后一次的修改操作</span><br>组合拳：<br><div><span lang="zh-CN">     操作区域对</span><span lang="zh-CN">象</span></div><br><div><span lang="zh-CN">     </span><code>&amp;lt;action&amp;gt;a&amp;lt;object&amp;gt;</code> 和 <code>&amp;lt;action&amp;gt;i&amp;lt;object&amp;gt;</code></div><br><div><code>a是包含，i是inside</code></div>
+<div><span lang="en-US">               v</span><span lang="zh-CN">配合位置，即可选中欲操作的块，用一下</span><span lang="en-US">o–other end</span><span lang="zh-CN">来试试吧</span></div><br><div><br><pre><span lang="zh-CN"><br>     o    other end<br>     O    另一个对角<br>     ~    交换大小写<br>     U    转换为大写<br>     u    转换为小写<br>     r    以某个字符填充<br>     &gt;    平移<br>     &lt;    平移<br>     :set shiftwidth=4    “平移距离<br>     J    删除选中行的所有换行符<br>     gv    重复上次的可视选择————这东东很好用</span></pre><br></div><br><div></div><br><div></div><br><div>重复：</div><br><span lang="en-US">;–</span><span lang="zh-CN">正向（用于</span><span lang="en-US">f</span><span lang="zh-CN">和</span><span lang="en-US">t</span><span lang="zh-CN">，行内查找时）</span><br><span lang="en-US">,–</span><span lang="zh-CN">反向（用于</span><span lang="en-US">f</span><span lang="zh-CN">和</span><span lang="en-US">t</span><span lang="zh-CN">，行内查找时）</span><br><span lang="en-US">.–</span><span lang="zh-CN">重复</span><br>屏幕操作：<br><br><span lang="en-US">ctrl+G–</span><span lang="zh-CN">查看当前操作的文件和行数</span><br><br>Set ruler<br><br>Set number<br><br><span lang="en-US">Ctrl+u–</span><span lang="zh-CN">向上滚半屏</span><span lang="en-US">–up</span><br><span lang="en-US">Ctrl+d–</span><span lang="zh-CN">向下滚半屏</span><span lang="en-US">–down</span><br><span lang="en-US">——-e–</span><span lang="zh-CN">向上多显一行</span><span lang="en-US">–</span><span lang="zh-CN">one line Extra</span><br><span lang="en-US">——-y–</span><span lang="zh-CN">向下多显一行</span><br><br>功能就是把当前行放到屏幕的上中下三个位置:（注此时光标不动所在屏幕动）<br>z+回车<br>z+.<br>z+-<br>前面都可以加行号码，注意不是行数.<br><br>当你想把光标放到屏幕的上下三个位置时（注此时屏幕内容不动，光标位置变化）<br>H<br>L<br><br>- 简单查询：<br><br><span lang="en-US">/+</span><span lang="zh-CN">所查串</span><span lang="en-US">–</span><span lang="zh-CN">正向</span><br><span lang="zh-CN">？</span><span lang="en-US">+</span><span lang="zh-CN">所查串</span><span lang="en-US">–</span><span lang="zh-CN">反向</span><br>备注:<br>字符 .*[]^%/?~$ 有特殊含义。如果你要查找它们，需要在前面加上一个<br>“”。<br>配合使用：<br><br>n,N<br><br><span lang="zh-CN">/&lt;the&gt;</span><span lang="en-US">–</span><span lang="zh-CN">只查找</span><span lang="en-US">the</span><span lang="zh-CN">的句法</span><br><br>%s/old/new/g<br><br>- 简单修改：<br><br>x  表示  dl  (删除当前光标下的字符)<br>X  表示  dh  (删除光标左边的字符)<br>D  表示  d$  (删除到行尾)<br>C  表示  c$  (修改到行尾)<br>s  表示  cl  (修改一个字符)<br>S  表示  cc  (修改一整行)<br><span lang="en-US">.–</span><span lang="zh-CN">重复最后一次的修改操作</span><br><br>- 组合拳：<br><br><div><span lang="zh-CN">     操作区域对</span><span lang="zh-CN">象</span></div><br><div><span lang="zh-CN">     </span><code>&amp;lt;action&amp;gt;a&amp;lt;object&amp;gt;</code> 和 <code>&amp;lt;action&amp;gt;i&amp;lt;object&amp;gt;</code></div><br><div><code>a是包含，i是inside</code></div>
 
 <ul>
 <li>action可以是任何的命令，如 <code>d</code> (删除), <code>y</code> (拷贝), <code>v</code> (可以视模式选择)。</li>
@@ -395,27 +404,11 @@
 <p>q!</p>
 <p>e!</p>
 <p>w!</p>
-<p><div>Wq==ZZ</div></p>
-<p><div>~ 大小写</div></p>
-<p><div>ma 设书签</div></p>
-<p><div>`a 定位书签</div></p>
-<p><div>Ey,fb,ud</div></p>
-<p><div>Set ic 区分大小写</div></p>
-<p><div>Set autoindent</div></p>
-<p><div>Set shiftwidth=4 设置缩进</div></p>
-<p><div>vi一般用法<br>一般模式                             编辑模式                                     指令模式<br>h   左                               a,i,r,o,A,I,R,O                           :w   保存<br>j   下                                 进入编辑模式                                 :w!   强制保存<br>k   上                                 dd   删除光标当前行                       :q!   不保存离开<br>l   右                                 ndd   删除n行                                   :wq!   保存后离开<br>0   移动到行首                 yy   复制当前行                                 :e!   还原原始档<br>$   移动到行尾                 nyy   复制n行                                     :w   filename   另存为<br>H   屏幕最上                     p,P   粘贴                                           :set   nu   设置行号<br>M   屏幕中央                     u     撤消                                             :set   nonu   取消行号<br>L   屏幕最下                     [Ctrl]+r   重做上一个动作               ZZ   保存离开<br>G   档案最后一行             [ctrl]+z   暂停退出                         :set   nohlsearch       永久地关闭高亮显示<br>/work   向下搜索                                                         :sp   同时打开两个文档<br>?work   向上搜索                                                        [Ctrl]+w   两个文档设换<br>gg   移动到档案第一行                                        :nohlsearch         暂时关闭高亮显示</div></p>
-<p><div></div></p>
-<p><div><span lang="en-US">Vi</span><span lang="zh-CN">同时编辑多文件</span></div></p>
-<p><div>Vi -o file1.c file2.c</div></p>
-<div>
+<div>Wq==ZZ</div><br><div>~ 大小写</div><br><div>ma 设书签</div><br><div>`a 定位书签</div><br><div>Ey,fb,ud</div><br><div>Set ic 区分大小写</div><br><div>Set autoindent</div><br><div>Set shiftwidth=4 设置缩进</div><br><div>vi一般用法<br>一般模式                             编辑模式                                     指令模式<br>h   左                               a,i,r,o,A,I,R,O                           :w   保存<br>j   下                                 进入编辑模式                                 :w!   强制保存<br>k   上                                 dd   删除光标当前行                       :q!   不保存离开<br>l   右                                 ndd   删除n行                                   :wq!   保存后离开<br>0   移动到行首                 yy   复制当前行                                 :e!   还原原始档<br>$   移动到行尾                 nyy   复制n行                                     :w   filename   另存为<br>H   屏幕最上                     p,P   粘贴                                           :set   nu   设置行号<br>M   屏幕中央                     u     撤消                                             :set   nonu   取消行号<br>L   屏幕最下                     [Ctrl]+r   重做上一个动作               ZZ   保存离开<br>G   档案最后一行             [ctrl]+z   暂停退出                         :set   nohlsearch       永久地关闭高亮显示<br>/work   向下搜索                                                         :sp   同时打开两个文档<br>?work   向上搜索                                                        [Ctrl]+w   两个文档设换<br>gg   移动到档案第一行                                        :nohlsearch         暂时关闭高亮显示</div><br><div><br><div><span lang="en-US">Vi</span><span lang="zh-CN">同时编辑多文件</span></div><br><div>Vi -o file1.c file2.c</div><br><div><br><br>:e#1<br><br>:e#2<br><br>如果已经分屏<br><span lang="en-US">ctrl+W</span><span lang="zh-CN">来切换（配合箭头方向键）</span><br><br>## 多行注释<br><br><div>在linux里面遇到多行注释的时候，一个个去点，手有点累。<br>执行如下命令：<br>:.,+499 s/^/#/g<br>.    代表当前光标所在行<br>+499 和往后的499行<br>s/^/#/g 在行首加上#<br>:10,499 s/^/#/g<br>10   第十行开始<br>499 到第499行<br>其他都是一样的<br>本人根据以上摸索出多行注释的快捷技巧：<br>同理<br><br>:8,11 s/^////g<br><br><span lang="zh-CN">因为</span><span lang="en-US">//</span><span lang="zh-CN">是需要转义的，所以把</span><span lang="en-US">//</span><span lang="zh-CN">换成上面的</span><span lang="en-US">#</span><span lang="zh-CN">不就行了。同理要想在行首加入任何字符都是</span><span lang="en-US">OK</span><span lang="zh-CN">了。</span><br>正则表达式来查找或高亮:/#注释此为查找#(&lt;w+&gt;)_s<em>1<br>后台运算：ctrl+R = 2+2</em>3 enter<br>执行后看到结果了吧。<br>缩写替换：ab [缩写] [要替换的文字]<br>例子：ab asap as soon as possible<br>当忘记用root方式打开文件时的保存：<br>:w !sudo tee %<br>这会以root方式保存<br>自动补全：ctrl+n<br>ggVGg?说是能把全文加密，可是在gvim中没效果。<br>命令行下比较文件不同：<br>方法一：vimdiff [文件1] [文件2]<br>方法二：先用VSP，然后在第一窗口，diffthis,记得用diffoff来退出比较。<br>按时间回退文件：earlier 1m，文件回退到1分钟以前的状态，:later相反的操作<br>删除标记内文字：di[标记]，这个应该是新瓶装老酒，我相信;di[标记]就是带标记删除了。<br>把VIM变成16进制编辑器:%!xxd成对的退出命令是:%!xxd -r<br>把内容变成html来高亮显示:%TOhtml或是%Tohtml(gvim是前者有效）<br><br></div><br></div><br></div>
 
-<p>:e#1</p>
-<p>:e#2</p>
-<p>如果已经分屏<br><span lang="en-US">ctrl+W</span><span lang="zh-CN">来切换（配合箭头方向键）</span></p>
-<p><div>在linux里面遇到多行注释的时候，一个个去点，手有点累。<br>执行如下命令：<br>:.,+499 s/^/#/g<br>.    代表当前光标所在行<br>+499 和往后的499行<br>s/^/#/g 在行首加上#<br>:10,499 s/^/#/g<br>10   第十行开始<br>499 到第499行<br>其他都是一样的<br>本人根据以上摸索出多行注释的快捷技巧：<br>同理</div></p>
-<p>:8,11 s/^////g</p>
-<p><span lang="zh-CN">因为</span><span lang="en-US">//</span><span lang="zh-CN">是需要转义的，所以把</span><span lang="en-US">//</span><span lang="zh-CN">换成上面的</span><span lang="en-US">#</span><span lang="zh-CN">不就行了。同理要想在行首加入任何字符都是</span><span lang="en-US">OK</span><span lang="zh-CN">了。</span><br>正则表达式来查找或高亮:/#注释此为查找#(&lt;w+&gt;)_s<em>1<br>后台运算：ctrl+R = 2+2</em>3 enter<br>执行后看到结果了吧。<br>缩写替换：ab [缩写] [要替换的文字]<br>例子：ab asap as soon as possible<br>当忘记用root方式打开文件时的保存：<br>:w !sudo tee %<br>这会以root方式保存<br>自动补全：ctrl+n<br>ggVGg?说是能把全文加密，可是在gvim中没效果。<br>命令行下比较文件不同：<br>方法一：vimdiff [文件1] [文件2]<br>方法二：先用VSP，然后在第一窗口，diffthis,记得用diffoff来退出比较。<br>按时间回退文件：earlier 1m，文件回退到1分钟以前的状态，:later相反的操作<br>删除标记内文字：di[标记]，这个应该是新瓶装老酒，我相信;di[标记]就是带标记删除了。<br>把VIM变成16进制编辑器:%!xxd成对的退出命令是:%!xxd -r<br>把内容变成html来高亮显示:%TOhtml或是%Tohtml(gvim是前者有效）</p>
-<p></p></div><br><br><br>下面两个转来的参考图<p></p>
+<ul>
+<li>下面两个转来的参考图</li>
+</ul>
 <p><a href="http://blog.songdaliang.com/wp-content/uploads/2015/03/Image1.png" target="_blank" rel="noopener"><img src="http://blog.songdaliang.com/wp-content/uploads/2015/03/Image1-300x68.png" alt="Image"></a></p>
 <p><a href="http://blog.songdaliang.com/wp-content/uploads/2015/03/Image2.png" target="_blank" rel="noopener"><img src="http://blog.songdaliang.com/wp-content/uploads/2015/03/Image2-292x300.png" alt="Image"></a></p>
 <p><a href="http://blog.songdaliang.com/wp-content/uploads/2015/03/Image3.png" target="_blank" rel="noopener"><img src="http://blog.songdaliang.com/wp-content/uploads/2015/03/Image3-300x188.png" alt="Image"></a></p>
@@ -523,8 +516,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -588,6 +590,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#乱码问题办法：以本人gvim为环境"><span class="nav-text">乱码问题办法：以本人gvim为环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小技巧"><span class="nav-text">小技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用操作总结："><span class="nav-text">常用操作总结：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

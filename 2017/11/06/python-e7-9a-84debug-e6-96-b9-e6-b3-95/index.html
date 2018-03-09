@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="经过摸索在两大层面都可以进行debug调试。一，命令行debug是编码是非常重要的调试技巧，通过在运行过程中设置断点，帮助开发人员更好的理解运行过程。Python中debug不像JAVA或者C++那样在IDE中设置断点那么直观。Python的debug有两种方式： 1.在命令行中运行， 2.在脚本当中运行。两种方式都需要使用pdb模块。方式一：在命令行中运行$ python -m pdb my_s">
+<meta name="description" content="经过摸索在两大层面都可以进行debug调试。  一，命令行debug是编码是非常重要的调试技巧，通过在运行过程中设置断点，帮助开发人员更好的理解运行过程。Python中debug不像JAVA或者C++那样在IDE中设置断点那么直观。Python的debug有两种方式： 1.在命令行中运行， 2.在脚本当中运行。两种方式都需要使用pdb模块。方式一：在命令行中运行$ python -m pdb m">
 <meta name="keywords" content="debug,ide,idle,pdb模块,python,命令行,断点调试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python的debug方法">
 <meta property="og:url" content="http://coder.songdaliang.com/2017/11/06/python-e7-9a-84debug-e6-96-b9-e6-b3-95/index.html">
 <meta property="og:site_name" content="大亮的实验室">
-<meta property="og:description" content="经过摸索在两大层面都可以进行debug调试。一，命令行debug是编码是非常重要的调试技巧，通过在运行过程中设置断点，帮助开发人员更好的理解运行过程。Python中debug不像JAVA或者C++那样在IDE中设置断点那么直观。Python的debug有两种方式： 1.在命令行中运行， 2.在脚本当中运行。两种方式都需要使用pdb模块。方式一：在命令行中运行$ python -m pdb my_s">
+<meta property="og:description" content="经过摸索在两大层面都可以进行debug调试。  一，命令行debug是编码是非常重要的调试技巧，通过在运行过程中设置断点，帮助开发人员更好的理解运行过程。Python中debug不像JAVA或者C++那样在IDE中设置断点那么直观。Python的debug有两种方式： 1.在命令行中运行， 2.在脚本当中运行。两种方式都需要使用pdb模块。方式一：在命令行中运行$ python -m pdb m">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T01:16:08.458Z">
+<meta property="og:updated_time" content="2018-03-09T08:13:59.309Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python的debug方法">
-<meta name="twitter:description" content="经过摸索在两大层面都可以进行debug调试。一，命令行debug是编码是非常重要的调试技巧，通过在运行过程中设置断点，帮助开发人员更好的理解运行过程。Python中debug不像JAVA或者C++那样在IDE中设置断点那么直观。Python的debug有两种方式： 1.在命令行中运行， 2.在脚本当中运行。两种方式都需要使用pdb模块。方式一：在命令行中运行$ python -m pdb my_s">
+<meta name="twitter:description" content="经过摸索在两大层面都可以进行debug调试。  一，命令行debug是编码是非常重要的调试技巧，通过在运行过程中设置断点，帮助开发人员更好的理解运行过程。Python中debug不像JAVA或者C++那样在IDE中设置断点那么直观。Python的debug有两种方式： 1.在命令行中运行， 2.在脚本当中运行。两种方式都需要使用pdb模块。方式一：在命令行中运行$ python -m pdb m">
 
 
 
@@ -373,12 +373,20 @@
       
 
       
-        <p>经过摸索在两大层面都可以进行debug调试。<br>一，命令行<br>debug是编码是非常重要的调试技巧，通过在运行过程中设置断点，帮助开发人员更好的理解运行过程。<br>Python中debug不像JAVA或者C++那样在IDE中设置断点那么直观。<br>Python的debug有两种方式： 1.在命令行中运行， 2.在脚本当中运行。两种方式都需要使用pdb模块。<br>方式一：在命令行中运行<br>$ python -m pdb my_script.py<br>方式二：脚本中运行</p>
+        <blockquote>
+<p>经过摸索在两大层面都可以进行debug调试。</p>
+</blockquote>
+<h2 id="一，命令行"><a href="#一，命令行" class="headerlink" title="一，命令行"></a>一，命令行</h2><p>debug是编码是非常重要的调试技巧，通过在运行过程中设置断点，帮助开发人员更好的理解运行过程。<br>Python中debug不像JAVA或者C++那样在IDE中设置断点那么直观。<br>Python的debug有两种方式： 1.在命令行中运行， 2.在脚本当中运行。两种方式都需要使用pdb模块。<br>方式一：在命令行中运行<br>$ python -m pdb my_script.py<br>方式二：脚本中运行</p>
 <p>在需要设置断点的地方，插入方法 pdb.set_trace()</p>
 <p>import pdb</p>
 <p>def make_bread():<br>pdb.set_trace()<br>return “I don’t have time”</p>
 <p>print(make_bread())<br>命令： 在进入调试状态之后，就可以输入命令进行调试了。<br>c: (continue)继续执行<br>w:(words)显示当前行的上下文信息<br>a:(arguments)打印当前函数的参数列表<br>s:(stop)执行当前行，并在顶一个可能的时机停止<br>n:(next)继续执行直到当前函数的下一行或者函数返回值</p>
-<p>二，IDE中<br>本人使用IDLE（即python安装时带的）。<br>打开shell,代码窗口，和debugger。三大窗口。<br>第一步，在代码中可以加断点。<br>第二步，<br>在shell命令行中可以准备些环境引用，包括，<br>import sys<br>sys.path.append(“”)<br>当然，可以再import你写的包，或者第三方的包。<br>第三步，可以通过包引用来选择测试你要的任意函数。在单步调试时，可以看到所有的变量，一目了然。</p>
+<h2 id="二，IDE中"><a href="#二，IDE中" class="headerlink" title="二，IDE中"></a>二，IDE中</h2><p>本人使用IDLE（即python安装时带的）。<br>打开shell,代码窗口，和debugger。三大窗口。</p>
+<ul>
+<li>第一步，在代码中可以加断点。</li>
+<li>第二步，<br>在shell命令行中可以准备些环境引用，包括，<br>import sys<br>sys.path.append(“”)<br>当然，可以再import你写的包，或者第三方的包。</li>
+<li>第三步，可以通过包引用来选择测试你要的任意函数。在单步调试时，可以看到所有的变量，一目了然。</li>
+</ul>
 <p>对于IDE中调试，改了代码后，要重启shell,并再次引用。这一点来看不如命令行调试。</p>
 
       
@@ -494,8 +502,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -559,6 +576,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一，命令行"><span class="nav-text">一，命令行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二，IDE中"><span class="nav-text">二，IDE中</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

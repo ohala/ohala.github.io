@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="一，下载ODAC112040Xcopy_64bit并解压，在OTP里找。     在cmd中执行&amp;gt;install.bat odp.net4 d:\driver4oracle11.2 odac odp.net4------------你想部署的driver，本人使用.netframework4，不是asp.net和.net2，所以，没用使用All和指定的其它选项。 d:\driver4orac">
+<meta name="description" content="一，下载ODAC112040Xcopy_64bit并解压，在OTP里找。在cmd中执行&amp;gt;install.bat odp.net4 d:\driver4oracle11.2 odac     odp.net4————你想部署的driver，本人使用.netframework4，不是asp.net和.net2，所以，没用使用All和指定的其它选项。     d:\driver4oracle11.">
 <meta name="keywords" content="odp oracle .net dll">
 <meta property="og:type" content="article">
 <meta property="og:title" content=".net应用odp.net小记">
 <meta property="og:url" content="http://coder.songdaliang.com/2015/12/04/net-e5-ba-94-e7-94-a8odp-net-e5-b0-8f-e8-ae-b0/index.html">
 <meta property="og:site_name" content="大亮的实验室">
-<meta property="og:description" content="一，下载ODAC112040Xcopy_64bit并解压，在OTP里找。     在cmd中执行&amp;gt;install.bat odp.net4 d:\driver4oracle11.2 odac odp.net4------------你想部署的driver，本人使用.netframework4，不是asp.net和.net2，所以，没用使用All和指定的其它选项。 d:\driver4orac">
+<meta property="og:description" content="一，下载ODAC112040Xcopy_64bit并解压，在OTP里找。在cmd中执行&amp;gt;install.bat odp.net4 d:\driver4oracle11.2 odac     odp.net4————你想部署的driver，本人使用.netframework4，不是asp.net和.net2，所以，没用使用All和指定的其它选项。     d:\driver4oracle11.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-23T03:18:53.078Z">
+<meta property="og:updated_time" content="2018-03-09T06:29:44.793Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content=".net应用odp.net小记">
-<meta name="twitter:description" content="一，下载ODAC112040Xcopy_64bit并解压，在OTP里找。     在cmd中执行&amp;gt;install.bat odp.net4 d:\driver4oracle11.2 odac odp.net4------------你想部署的driver，本人使用.netframework4，不是asp.net和.net2，所以，没用使用All和指定的其它选项。 d:\driver4orac">
+<meta name="twitter:description" content="一，下载ODAC112040Xcopy_64bit并解压，在OTP里找。在cmd中执行&amp;gt;install.bat odp.net4 d:\driver4oracle11.2 odac     odp.net4————你想部署的driver，本人使用.netframework4，不是asp.net和.net2，所以，没用使用All和指定的其它选项。     d:\driver4oracle11.">
 
 
 
@@ -373,65 +373,10 @@
       
 
       
-        <p>一，下载ODAC112040Xcopy_64bit并解压，在OTP里找。<br>     在cmd中执行&gt;install.bat odp.net4 d:\driver4oracle11.2 odac</p>
-<pre><code>odp.net4------------你想部署的driver，本人使用.netframework4，不是asp.net和.net2，所以，没用使用All和指定的其它选项。
-d:\driver4oracle11.2------------你要部署的目标客户机的oracle_home，当然在windows下就加入它到系统环境变量path中。
-odac------------当在同目录有多个driver时，可以区别吧，反正，因为加了它，可能会报错。但不影响使用。
-[true]----------可选的，默认值，即把odp.net依赖的instantclient安装，当你加false时，不装依赖且考虑和已经存在的新版本oracle或现有的环境配合。
-
-当执行了上面的命令后，instantclient(即被odp.net依赖的)也一并从压缩包中被抽取，拷安装到了oracle_home目录中。
-</code></pre><p>二，然后就是设置tnsnames.ora文件。从服务端上相应位置拷过来，放置到home目录中。顺便执行下*access.dll同目录中的oraprovcfg.exe，它是用于注册系统环境变量的。虽然上面已经配置好了，多来一次也无妨。</p>
-<p>三，开始客户端程序的开发吧，把home路径中的Oracle.DataAccess.dll拷到项目的debug，和exe同级下面，并在VS中引用，加入using行：<br>     using Oracle.DataAccess.Client;<br>     using Oracle.DataAccess.Types;<br>     代码示例：</p>
-<p>using System;<br>using System.Collections.Generic;<br>using System.ComponentModel;<br>using System.Data;<br>using System.Drawing;<br>using System.Linq;<br>using System.Text;<br>using System.Windows.Forms;<br>using Oracle.DataAccess.Client;<br>using Oracle.DataAccess.Types;</p>
-<p>namespace odp<br>{<br>    public partial class Form1 : Form<br>    {<br>        public Form1()<br>        {<br>            InitializeComponent();</p>
-<pre><code>    }
-
-    private string strConn = &quot;Data Source=(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = ohala-PC)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED)(SERVICE_NAME = XE)));&quot;+
-        &quot;User id=JINGHU;Password=JINGHU;&quot; ;
-    public void initDBConn()
-    {
-        try
-        {
-            using(OracleConnection objConn = new OracleConnection(strConn))
-            {
-                objConn.Open();
-                string strSQL = &quot;select * from V_TM_SEGMENT_CFG where SEGMENT_CODE=10 order by STATION_SEQUENCE,TRACK_CODE&quot;;
-
-                using(OracleDataAdapter objAdapter = new OracleDataAdapter(strSQL,objConn))
-                {
-                    //
-                    DataSet ds = new DataSet();
-                    objAdapter.Fill(ds);
-                    dataGridView1.DataSource = ds.Tables[0];
-                    //dataGridView1.
-                    dataGridView1.Show();
-                }
-
-                //using (OracleCommand objCommand = new OracleCommand(strSQL, objConn))
-                //{
-                //    using(OracleDataReader objReader = objCommand.ExecuteReader())
-                //    {
-                //        while (objReader.Read())
-                //        {
-                //            Console.WriteLine(&quot;segment_code is :&quot; + objReader[0].ToString() + &quot;;station_code is :&quot; + objReader[1].ToString());
-                //            //dataGridView1.DataSource
-                //        }
-
-                //    }
-                //}//command
-            }
-        } catch(Exception ex)
-        {
-
-        }
-    }
-
-    private void button1_Click(object sender, EventArgs e)
-    {
-        initDBConn();
-    }
-}
-</code></pre><p>}</p>
+        <h2 id="一，下载ODAC112040Xcopy-64bit并解压，在OTP里找。"><a href="#一，下载ODAC112040Xcopy-64bit并解压，在OTP里找。" class="headerlink" title="一，下载ODAC112040Xcopy_64bit并解压，在OTP里找。"></a>一，下载ODAC112040Xcopy_64bit并解压，在OTP里找。</h2><p>在cmd中执行&gt;install.bat odp.net4 d:\driver4oracle11.2 odac<br>     odp.net4————你想部署的driver，本人使用.netframework4，不是asp.net和.net2，所以，没用使用All和指定的其它选项。<br>     d:\driver4oracle11.2————你要部署的目标客户机的oracle_home，当然在windows下就加入它到系统环境变量path中。<br>     odac————当在同目录有多个driver时，可以区别吧，反正，因为加了它，可能会报错。但不影响使用。<br>     [true]———-可选的，默认值，即把odp.net依赖的instantclient安装，当你加false时，不装依赖且考虑和已经存在的新版本oracle或现有的环境配合。<br>     当执行了上面的命令后，instantclient(即被odp.net依赖的)也一并从压缩包中被抽取，拷安装到了oracle_home目录中。</p>
+<h2 id="二，然后就是设置tnsnames-ora文件。"><a href="#二，然后就是设置tnsnames-ora文件。" class="headerlink" title="二，然后就是设置tnsnames.ora文件。"></a>二，然后就是设置tnsnames.ora文件。</h2><p>从服务端上相应位置拷过来，放置到home目录中。顺便执行下*access.dll同目录中的oraprovcfg.exe，它是用于注册系统环境变量的。虽然上面已经配置好了，多来一次也无妨。</p>
+<h2 id="三，开始客户端程序的开发吧"><a href="#三，开始客户端程序的开发吧" class="headerlink" title="三，开始客户端程序的开发吧."></a>三，开始客户端程序的开发吧.</h2><p>把home路径中的Oracle.DataAccess.dll拷到项目的debug，和exe同级下面，并在VS中引用，加入using行：<br>     代码示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    <span class="keyword">using</span> Oracle.DataAccess.Client;</span><br><span class="line">    <span class="keyword">using</span> Oracle.DataAccess.Types;</span><br><span class="line">    <span class="keyword">using</span> System;</span><br><span class="line">    <span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line">    <span class="keyword">using</span> System.ComponentModel;</span><br><span class="line">    <span class="keyword">using</span> System.Data;</span><br><span class="line">    <span class="keyword">using</span> System.Drawing;</span><br><span class="line">    <span class="keyword">using</span> System.Linq;</span><br><span class="line">    <span class="keyword">using</span> System.Text;</span><br><span class="line">    <span class="keyword">using</span> System.Windows.Forms;</span><br><span class="line">    <span class="keyword">using</span> Oracle.DataAccess.Client;</span><br><span class="line">    <span class="keyword">using</span> Oracle.DataAccess.Types;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">namespace</span> odp</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">public</span> partial <span class="class"><span class="keyword">class</span> <span class="title">Form1</span> :</span> Form</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Form1</span><span class="params">()</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            InitializeComponent();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="built_in">string</span> strConn = <span class="string">"Data Source=(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = ohala-PC)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED)(SERVICE_NAME = XE)));"</span>+</span><br><span class="line">            <span class="string">"User id=JINGHU;Password=JINGHU;"</span> ;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initDBConn</span><span class="params">()</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">using</span>(OracleConnection objConn = <span class="keyword">new</span> OracleConnection(strConn))</span><br><span class="line">                &#123;</span><br><span class="line">                    objConn.Open();</span><br><span class="line">                    <span class="built_in">string</span> strSQL = <span class="string">"select * from V_TM_SEGMENT_CFG where SEGMENT_CODE=10 order by STATION_SEQUENCE,TRACK_CODE"</span>;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">using</span>(OracleDataAdapter objAdapter = <span class="keyword">new</span> OracleDataAdapter(strSQL,objConn))</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="comment">//</span></span><br><span class="line">                        DataSet ds = <span class="keyword">new</span> DataSet();</span><br><span class="line">                        objAdapter.Fill(ds);</span><br><span class="line">                        dataGridView1.DataSource = ds.Tables[<span class="number">0</span>];</span><br><span class="line">                        <span class="comment">//dataGridView1.</span></span><br><span class="line">                        dataGridView1.Show();</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">//using (OracleCommand objCommand = new OracleCommand(strSQL, objConn))</span></span><br><span class="line">                    <span class="comment">//&#123;</span></span><br><span class="line">                    <span class="comment">//    using(OracleDataReader objReader = objCommand.ExecuteReader())</span></span><br><span class="line">                    <span class="comment">//    &#123;</span></span><br><span class="line">                    <span class="comment">//        while (objReader.Read())</span></span><br><span class="line">                    <span class="comment">//        &#123;</span></span><br><span class="line">                    <span class="comment">//            Console.WriteLine("segment_code is :" + objReader[0].ToString() + ";station_code is :" + objReader[1].ToString());</span></span><br><span class="line">                    <span class="comment">//            //dataGridView1.DataSource</span></span><br><span class="line">                    <span class="comment">//        &#125;</span></span><br><span class="line"></span><br><span class="line">                    <span class="comment">//    &#125;</span></span><br><span class="line">                    <span class="comment">//&#125;//command</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span>(Exception ex)</span><br><span class="line">            &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">button1_Click</span><span class="params">(object sender, EventArgs e)</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            initDBConn();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -534,8 +479,17 @@ odac------------当在同目录有多个driver时，可以区别吧，反正，�
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -599,6 +553,22 @@ odac------------当在同目录有多个driver时，可以区别吧，反正，�
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一，下载ODAC112040Xcopy-64bit并解压，在OTP里找。"><span class="nav-text">一，下载ODAC112040Xcopy_64bit并解压，在OTP里找。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二，然后就是设置tnsnames-ora文件。"><span class="nav-text">二，然后就是设置tnsnames.ora文件。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三，开始客户端程序的开发吧"><span class="nav-text">三，开始客户端程序的开发吧.</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

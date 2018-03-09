@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="大亮的实验室">
 <meta property="og:description" content="安装：现在主要有win7,win10，但后者还没听说可以装成功。不过好在有虚机嘛。所以，只聊下win7的VC6安装。VC6的安装源你总应该拿到，最好是SP6的。如果是英文版本，安装会少些步骤，有一个是overwrite JIT setting的对话框，网查后我选择了否。如果是中文版本，请寻找帖子，名为：彻底解决兼容问题：Windows 7下载安装 Visual C++ 6_0(VC6) 全程图解一">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T01:16:08.447Z">
+<meta property="og:updated_time" content="2018-03-09T08:24:32.650Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="VC6的环境小结">
 <meta name="twitter:description" content="安装：现在主要有win7,win10，但后者还没听说可以装成功。不过好在有虚机嘛。所以，只聊下win7的VC6安装。VC6的安装源你总应该拿到，最好是SP6的。如果是英文版本，安装会少些步骤，有一个是overwrite JIT setting的对话框，网查后我选择了否。如果是中文版本，请寻找帖子，名为：彻底解决兼容问题：Windows 7下载安装 Visual C++ 6_0(VC6) 全程图解一">
@@ -406,7 +406,10 @@
       
 
       
-        <div>安装：</div><br><div>现在主要有win7,win10，但后者还没听说可以装成功。不过好在有虚机嘛。所以，只聊下win7的VC6安装。</div><br><div>VC6的安装源你总应该拿到，最好是SP6的。</div><br><div>如果是英文版本，安装会少些步骤，有一个是overwrite JIT setting的对话框，网查后我选择了否。</div><br><div>如果是中文版本，请寻找帖子，名为：彻底解决兼容问题：Windows 7下载安装 Visual C++ 6_0(VC6) 全程图解</div><br><div></div><br><div>一步步安装即可，VSS和MSDN都可跳过不安装。</div><br><div></div><br><div>最重要的就是插件了，这个才是彰显尊贵的手段。</div><br><div>filetool,wndtab,VA,VC6lineNumber</div><br><div>一个都不能少，全破解版（自己搜吧）。</div><br><div></div><br><div>配置：</div><br><div>1，用标准库，要注意&lt;&gt;的内容两边加空格 ，并且#pragma   warning(disable:4786)来屏闭VC6中的使用标准库的警告。</div><br><div></div><br><div>2，用C++运行程序时总是出现这个错误BSCMAKE: error BK1510 : corrupt .SBR file ‘.\Debug\StdAfx.sbr’，在C/C++—&gt;gernal中取消生成浏览信息的选项。</div><br><div></div><br><div>3，PROJECT-&gt;SETING-&gt;C/C++-&gt;PREPROCESSOR-&gt;定义 _AFXDLL,也就是C/C++选项中定义了宏  用_AFCDLL 取代 USERDLL 能解决很多nafxcwn.lib开头的链接错误。</div><br><div></div><br><div>4，Link选项中ignore default lib，根据方式设定，手工加/NODEFAULTLIB:或者填库名。</div><br><div></div><br><div>5，VC6下导出类中的静态成员需要“壳子”才可以调用，而在VS2012中，却直接可用。当不同的环境生成的dll或客户端相互调用时，要注意字符集问题，VC6并不是unicode的。</div><br><div></div><br><div>6，要声明通用函数时，可以不加；在{}后面，但应该声明为static，这样可以避免重复定义的报错。</div><br><div></div><br><div>7，string 的split算法，replace,trim需要自己写算法，最后找到使用模板的。</div><br><div></div><br><div>8，在有unicode的项目中，在循环中使用W2A()可能会有报错，或者提示为，run-time check fail #2 stack …，内存操作越界之类，在VS2012中项目–C\C++设置中，改掉一个设置，“基本运行时检查”从“两者(/RTC1，等同于 /RTCsu) (/RTC1)”换成默认值。其实出现它的问题，还是在于使用scanf时，“%02x”的操作数组应该至少是3，要包含个’\0’的。</div><br><div></div><br><div>9，项目是要供别人调用的dll，要在配置中使用/MD.</div><br><div></div><br><div>10，要通过exe来调度dll时，要配置debug session和work directory</div><br><div></div><br><div>11，当出现外部链接错误时，要先检查link中的lib文件，是否存在于项目目录中。并不需要dll，因为只是链接步骤。</div><br><div></div><br><div>12，字符集问题，VC6是基于MBCS的（有宏定义，当然可以强制成unicode），对于中文用两字节，而字母和数字用一个字节。而VS201X，都是用unicode默认的，所以也就存在于宽字符的结构了，和一系列转来转来的操作。</div>
+        <h2 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h2><div>现在主要有win7,win10，但后者还没听说可以装成功。不过好在有虚机嘛。所以，只聊下win7的VC6安装。</div><br><div>VC6的安装源你总应该拿到，最好是SP6的。</div><br><div>如果是英文版本，安装会少些步骤，有一个是overwrite JIT setting的对话框，网查后我选择了否。</div><br><div>如果是中文版本，请寻找帖子，名为：彻底解决兼容问题：Windows 7下载安装 Visual C++ 6_0(VC6) 全程图解</div><br><div></div><br><div>一步步安装即可，VSS和MSDN都可跳过不安装。</div><br><div></div><br><div>最重要的就是插件了，这个才是彰显尊贵的手段。</div><br><div>filetool,wndtab,VA,VC6lineNumber</div><br><div>一个都不能少，全破解版（自己搜吧）。</div>
+
+<h2 id="配置："><a href="#配置：" class="headerlink" title="配置："></a>配置：</h2><div>1，用标准库，要注意&lt;&gt;的内容两边加空格 ，并且#pragma   warning(disable:4786)来屏闭VC6中的使用标准库的警告。</div><br><div></div><br><div>2，用C++运行程序时总是出现这个错误BSCMAKE: error BK1510 : corrupt .SBR file ‘.\Debug\StdAfx.sbr’，在C/C++—&gt;gernal中取消生成浏览信息的选项。</div><br><div></div><br><div>3，PROJECT-&gt;SETING-&gt;C/C++-&gt;PREPROCESSOR-&gt;定义 _AFXDLL,也就是C/C++选项中定义了宏  用_AFCDLL 取代 USERDLL 能解决很多nafxcwn.lib开头的链接错误。</div><br><div></div><br><div>4，Link选项中ignore default lib，根据方式设定，手工加/NODEFAULTLIB:或者填库名。</div><br><div></div><br><div>5，VC6下导出类中的静态成员需要“壳子”才可以调用，而在VS2012中，却直接可用。当不同的环境生成的dll或客户端相互调用时，要注意字符集问题，VC6并不是unicode的。</div><br><div></div><br><div>6，要声明通用函数时，可以不加；在{}后面，但应该声明为static，这样可以避免重复定义的报错。</div><br><div></div><br><div>7，string 的split算法，replace,trim需要自己写算法，最后找到使用模板的。</div><br><div></div><br><div>8，在有unicode的项目中，在循环中使用W2A()可能会有报错，或者提示为，run-time check fail #2 stack …，内存操作越界之类，在VS2012中项目–C\C++设置中，改掉一个设置，“基本运行时检查”从“两者(/RTC1，等同于 /RTCsu) (/RTC1)”换成默认值。其实出现它的问题，还是在于使用scanf时，“%02x”的操作数组应该至少是3，要包含个’\0’的。</div><br><div></div><br><div>9，项目是要供别人调用的dll，要在配置中使用/MD.</div><br><div></div><br><div>10，要通过exe来调度dll时，要配置debug session和work directory</div><br><div></div><br><div>11，当出现外部链接错误时，要先检查link中的lib文件，是否存在于项目目录中。并不需要dll，因为只是链接步骤。</div><br><div></div><br><div>12，字符集问题，VC6是基于MBCS的（有宏定义，当然可以强制成unicode），对于中文用两字节，而字母和数字用一个字节。而VS201X，都是用unicode默认的，所以也就存在于宽字符的结构了，和一系列转来转来的操作。</div>
+
       
     </div>
     
@@ -508,8 +511,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -573,6 +585,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装："><span class="nav-text">安装：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置："><span class="nav-text">配置：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

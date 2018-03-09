@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="基础概念：合并（merge）:一般在分支到主线     快进：另一分支并没有更改过。     合并：两分支各自变化了，需要解决冲突比如，如果要将开发中的分支（develop），合并到稳定分支（master），  首先切换的master分支：git checkout master。  然后执行合并操作：git merge develop。  如果有冲突，会提示你，调用git status查看冲突文件">
+<meta name="description" content="基础概念合并（merge）:一般在分支到主线     快进：另一分支并没有更改过。     合并：两分支各自变化了，需要解决冲突比如，如果要将开发中的分支（develop），合并到稳定分支（master），  首先切换的master分支：git checkout master。  然后执行合并操作：git merge develop。  如果有冲突，会提示你，调用git status查看冲突文件。">
 <meta name="keywords" content="git,后台动作,命令详解,学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git学习笔记">
 <meta property="og:url" content="http://coder.songdaliang.com/2017/03/14/git-e5-ad-a6-e4-b9-a0-e7-ac-94-e8-ae-b0/index.html">
 <meta property="og:site_name" content="大亮的实验室">
-<meta property="og:description" content="基础概念：合并（merge）:一般在分支到主线     快进：另一分支并没有更改过。     合并：两分支各自变化了，需要解决冲突比如，如果要将开发中的分支（develop），合并到稳定分支（master），  首先切换的master分支：git checkout master。  然后执行合并操作：git merge develop。  如果有冲突，会提示你，调用git status查看冲突文件">
+<meta property="og:description" content="基础概念合并（merge）:一般在分支到主线     快进：另一分支并没有更改过。     合并：两分支各自变化了，需要解决冲突比如，如果要将开发中的分支（develop），合并到稳定分支（master），  首先切换的master分支：git checkout master。  然后执行合并操作：git merge develop。  如果有冲突，会提示你，调用git status查看冲突文件。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T01:16:08.450Z">
+<meta property="og:updated_time" content="2018-03-09T07:54:11.632Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git学习笔记">
-<meta name="twitter:description" content="基础概念：合并（merge）:一般在分支到主线     快进：另一分支并没有更改过。     合并：两分支各自变化了，需要解决冲突比如，如果要将开发中的分支（develop），合并到稳定分支（master），  首先切换的master分支：git checkout master。  然后执行合并操作：git merge develop。  如果有冲突，会提示你，调用git status查看冲突文件">
+<meta name="twitter:description" content="基础概念合并（merge）:一般在分支到主线     快进：另一分支并没有更改过。     合并：两分支各自变化了，需要解决冲突比如，如果要将开发中的分支（develop），合并到稳定分支（master），  首先切换的master分支：git checkout master。  然后执行合并操作：git merge develop。  如果有冲突，会提示你，调用git status查看冲突文件。">
 
 
 
@@ -362,7 +362,26 @@
       
 
       
-        <div><br><div>基础概念：</div><br><div></div><br><div>合并（merge）:一般在分支到主线</div><br><div>     快进：另一分支并没有更改过。</div><br><div>     合并：两分支各自变化了，需要解决冲突</div><br><div>比如，如果要将开发中的分支（develop），合并到稳定分支（master），</div><br><div>  首先切换的master分支：git checkout master。</div><br><div>  然后执行合并操作：git merge develop。</div><br><div>  如果有冲突，会提示你，调用git status查看冲突文件。</div><br><div>  解决冲突，然后调用git add或git rm将解决后的文件暂存。</div><br><div>  所有冲突解决后，git commit 提交更改。</div><br><div></div><br><div>分支衍合（rebase）:一般在主线到分支</div><br><div>     最好的场景是把主线的修复推向需要的支线。</div><br><div>分支衍合和分支合并的差别在于，分支衍合不会保留合并的日志，不留痕迹，而 分支合并则会保留合并的日志。</div><br><div>  要将开发中的分支（develop），衍合到稳定分支（master）。</div><br><div>  首先切换的master分支：git checkout master。</div><br><div>  然后执行衍和操作：git rebase develop。</div><br><div>  如果有冲突，会提示你，调用git status查看冲突文件。</div><br><div>  解决冲突，然后调用git add或git rm将解决后的文件暂存。</div><br><div>  所有冲突解决后，git rebase –continue 提交更改</div><br></div><br><div><br><div>     一个对象名，是根据内容sha出来的40字符串。</div><br><div>     二个目录:git目录，工作目录</div><br><div>     三个：</div><br><div>          index,staging area,未入仓库的，由仓库管理的，暂存区</div><br><div>     四种对象：每个对象都包括三部分：类型，大小和内容。</div><br><div>          blob，git show</div><br><div>          tree，git ls-tree</div><br><div>          commit，git show -s –pretty=raw ,一个commit只指向一个tree，它用来标记某一个特定时间点的状态。包括时间戳，提交者，（parent）指向上次提交对象的指针,(tree)。</div><br><div>          tag，git cat-file tag v1.5.0 用来标识某个提交的方法，包括对象名，对象类型，标签名，，标签创建者名字。</div><br><div></div><br><div>以下转来的思路清楚的后台逻辑：</div><br><div><br><div>————————————-</div><br><div><br><br>设想你现在位于 <code>alpha/</code> 目录下，这里有一个文本文件 <code>number.txt</code>，里面的内容只有一个词：“first”。<br><br>现在执行 <code>git init</code> 将这个 alpha 文件夹初始化为 Git 仓库。<br><br>执行 <code>git add number.txt</code> 会将 <code>number.txt</code> 添加到 Git 的索引（index）中。这个索引记录了所有 Git 保持追踪的文件，现在它有了一个映射记录 <code>number.txt -&amp;gt; first</code>，同时 <code>add</code> 命令还会把一个包含了 <code>first</code> 字符串的二进制对象加入 Git 的对象数据库里。<br><br>现在执行 <code>git commit -m first</code>。这条命令会做三件事情。首先在对象数据库内创建一个树对象，用以记录 <code>alpha</code> 目录下的文件列表，这个对象有一个指针指向前面 <code>git add</code> 命令创建的 <code>first</code> 二进制对象；第二，这条命令还会创建一个 commit 对象用以代表刚刚提交的版本，它包含一个指针指向刚刚的树对象；第三，master 分支也会指向这个新创建的 commit 对象。<br><br>现在执行 <code>git clone . ../beta</code>。它会创建一个新目录 beta 并将其初始化为 Git 仓库，然后把 alpha 仓库的对象数据库中所有对象拷贝给 beta 的对象数据库，将 beta 的 master 分支像 alpha 的 master 一样指向相应的对象。它还根据 <code>first</code>提交的内容配置索引，并根据索引更新目录下的文件——也就是 <code>number.txt</code>。<br><br>现在切换到 beta 目录，修改 <code>number.txt</code> 的内容为“second”，执行 <code>git add number.txt</code> 和 <code>git commit -m second</code>，新创建的提交对象 second（译注：姑且称之为 second）会有一个指向父提交（first）的指针，表示 second 继承自 first，而 master 分支则指向 second 提交。<br><br>回到 alpha 目录，执行 <code>git remote add beta ../beta</code>，将 beta 仓库设为远程仓库。然后执行 <code>git pull beta master</code>。<br><br>在这条命令背后，它其实会执行 <code>git fetch beta master</code>，从 beta 仓库中找到 second 提交的相关对象拷贝到 alpha 仓库；把 alpha 中关于 beta 的 master 分支记录指向这个 second 提交；更新 <code>FETCH_HEAD</code> 指向刚刚从 beta 仓库拉取的 master 分支，还是这个 second 提交。<br><br>此外，<code>pull</code> 命令还会执行 <code>git merge FETCH_HEAD</code>。从 <code>FETCH_HEAD</code> 得知最近拉取的分支是 beta 仓库的 master 分支，据此拿到相应的对象，也就是 second 提交对象。此时 alpha 的 master 分支指着 first 提交，正好是 second 的祖先提交，于是对于 merge 命令来说只需要将 master 分支指向 second 提交即可。接下来 <code>merge</code> 命令还会更新索引以匹配 second 提交的内容，并且相应更新工作目录中的文件。<br><br>现在执行 <code>git branch red</code>，创建一个名为“red”、指向 second 提交的新分支。<br><br>然后执行 <code>git checkout red</code>。在 checkout 之前，<code>HEAD</code> 指向 master 分支，执行命令之后它就指向了 red 分支，使得 red 成为当前分支。<br><br>接下来把 <code>number.txt</code> 的内容修改为 “third”，执行 <code>git add numbers.txt</code> 和 <code>run git commit -m third</code>。<br><br>之后再执行 <code>git push beta red</code>，这条命令会把 alpha 仓库内跟 third 提交相关的对象拷贝至 beta 仓库，并且将（alpha 仓库内记录的）beta 仓库 red 分支指向 third 提交。就酱。<br><br>—————————-<br><br>事实上只有理解后台的动作，才能在命令中游刃有余。下面个人总结的，请大家抛砖。<br><div>后台的勤劳者</div><br><div>git clone</div><br><div>—后台把新仓库的同名分支和旧仓库的远程分支（相对于新仓库）做“自动追踪”映射了。</div><br><div>手工改的命令是：</div><br><div>git branch –set-upstream master origin/next</div><br><div>–set-upstream-to=origin/next master</div><br><div>在push后加下面的效果一致（关联阅读）：注远程没有next也会生推过去，并设置了跟踪关系。</div><br><div>-u origin next</div><br><div></div><br><div>git pull &lt;远程主机或仓库默认origin&gt; &lt;远程分支&gt;:&lt;本地分支&gt;</div><br><div>—后台的动作包括fetch FETCH_HEAD（默认是远程的master并设置，在不加参数情况下，它也会全取来远程下面的所有分支）</div><br><div>—后台还有merge动作。前提是当前分支与远程分支存在追踪关系了。</div><br><div></div><br><div>git push&lt;远程主机或仓库默认origin&gt; &lt;本地分支&gt;:&lt;远程分支&gt;</div><br><div>—注意这是危险的，要先pull才好。它在后台只接受“快进”，并且要注意冒号前的分支所属</div><br><div></div><br><div>rebase</div><br><div>—后台有个删除动作的，为了让树看起来漂亮，他会像橡皮一样擦除本分支内的commit对象，然后做好搬运合并。所以，这一般都在非主分支上。</div><br><div></div><br><div>附个技巧：有点像“月光宝盒”哟</div><br><div><br><div>#保留你当前状态，包括未跟踪的垃圾文件，并最后再搞回来</div><br><div>git stash</div><br><div>git checkout fe9c4</div><br><div>#看代码等操作</div><br><div>git checkout master</div><br><div>git stash pop</div><br><div></div><br><div>注意pop是会删除stash对象的，而apply不会，要有多个stash时，用stash@{num}来指代。</div><br></div><br></div><br></div><br></div>
+        <h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><div></div><br><div>合并（merge）:一般在分支到主线</div><br><div>     快进：另一分支并没有更改过。</div><br><div>     合并：两分支各自变化了，需要解决冲突</div><br><div>比如，如果要将开发中的分支（develop），合并到稳定分支（master），</div><br><div>  首先切换的master分支：git checkout master。</div><br><div>  然后执行合并操作：git merge develop。</div><br><div>  如果有冲突，会提示你，调用git status查看冲突文件。</div><br><div>  解决冲突，然后调用git add或git rm将解决后的文件暂存。</div><br><div>  所有冲突解决后，git commit 提交更改。</div><br><div></div><br><div>分支衍合（rebase）:一般在主线到分支</div><br><div>     最好的场景是把主线的修复推向需要的支线。</div><br><div>分支衍合和分支合并的差别在于，分支衍合不会保留合并的日志，不留痕迹，而 分支合并则会保留合并的日志。</div><br><div>  要将开发中的分支（develop），衍合到稳定分支（master）。</div><br><div>  首先切换的master分支：git checkout master。</div><br><div>  然后执行衍和操作：git rebase develop。</div><br><div>  如果有冲突，会提示你，调用git status查看冲突文件。</div><br><div>  解决冲突，然后调用git add或git rm将解决后的文件暂存。</div><br><div>  所有冲突解决后，git rebase –continue 提交更改</div><br>
+
+<h2 id="后台详解"><a href="#后台详解" class="headerlink" title="后台详解"></a>后台详解</h2><div><br><div>     一个对象名，是根据内容sha出来的40字符串。</div><br><div>     二个目录:git目录，工作目录</div><br><div>     三个：</div><br><div>          index,staging area,未入仓库的，由仓库管理的，暂存区</div><br><div>     四种对象：每个对象都包括三部分：类型，大小和内容。</div><br><div>          blob，git show</div><br><div>          tree，git ls-tree</div><br><div>          commit，git show -s –pretty=raw ,一个commit只指向一个tree，它用来标记某一个特定时间点的状态。包括时间戳，提交者，（parent）指向上次提交对象的指针,(tree)。</div><br><div>          tag，git cat-file tag v1.5.0 用来标识某个提交的方法，包括对象名，对象类型，标签名，，标签创建者名字。</div><br><div></div><br><div>以下转来的思路清楚的后台逻辑：</div><br><div><br><div>————————————-</div>
+
+<p>设想你现在位于 <code>alpha/</code> 目录下，这里有一个文本文件 <code>number.txt</code>，里面的内容只有一个词：“first”。</p>
+<p>现在执行 <code>git init</code> 将这个 alpha 文件夹初始化为 Git 仓库。</p>
+<p>执行 <code>git add number.txt</code> 会将 <code>number.txt</code> 添加到 Git 的索引（index）中。这个索引记录了所有 Git 保持追踪的文件，现在它有了一个映射记录 <code>number.txt -&amp;gt; first</code>，同时 <code>add</code> 命令还会把一个包含了 <code>first</code> 字符串的二进制对象加入 Git 的对象数据库里。</p>
+<p>现在执行 <code>git commit -m first</code>。这条命令会做三件事情。首先在对象数据库内创建一个树对象，用以记录 <code>alpha</code> 目录下的文件列表，这个对象有一个指针指向前面 <code>git add</code> 命令创建的 <code>first</code> 二进制对象；第二，这条命令还会创建一个 commit 对象用以代表刚刚提交的版本，它包含一个指针指向刚刚的树对象；第三，master 分支也会指向这个新创建的 commit 对象。</p>
+<p>现在执行 <code>git clone . ../beta</code>。它会创建一个新目录 beta 并将其初始化为 Git 仓库，然后把 alpha 仓库的对象数据库中所有对象拷贝给 beta 的对象数据库，将 beta 的 master 分支像 alpha 的 master 一样指向相应的对象。它还根据 <code>first</code>提交的内容配置索引，并根据索引更新目录下的文件——也就是 <code>number.txt</code>。</p>
+<p>现在切换到 beta 目录，修改 <code>number.txt</code> 的内容为“second”，执行 <code>git add number.txt</code> 和 <code>git commit -m second</code>，新创建的提交对象 second（译注：姑且称之为 second）会有一个指向父提交（first）的指针，表示 second 继承自 first，而 master 分支则指向 second 提交。</p>
+<p>回到 alpha 目录，执行 <code>git remote add beta ../beta</code>，将 beta 仓库设为远程仓库。然后执行 <code>git pull beta master</code>。</p>
+<p>在这条命令背后，它其实会执行 <code>git fetch beta master</code>，从 beta 仓库中找到 second 提交的相关对象拷贝到 alpha 仓库；把 alpha 中关于 beta 的 master 分支记录指向这个 second 提交；更新 <code>FETCH_HEAD</code> 指向刚刚从 beta 仓库拉取的 master 分支，还是这个 second 提交。</p>
+<p>此外，<code>pull</code> 命令还会执行 <code>git merge FETCH_HEAD</code>。从 <code>FETCH_HEAD</code> 得知最近拉取的分支是 beta 仓库的 master 分支，据此拿到相应的对象，也就是 second 提交对象。此时 alpha 的 master 分支指着 first 提交，正好是 second 的祖先提交，于是对于 merge 命令来说只需要将 master 分支指向 second 提交即可。接下来 <code>merge</code> 命令还会更新索引以匹配 second 提交的内容，并且相应更新工作目录中的文件。</p>
+<p>现在执行 <code>git branch red</code>，创建一个名为“red”、指向 second 提交的新分支。</p>
+<p>然后执行 <code>git checkout red</code>。在 checkout 之前，<code>HEAD</code> 指向 master 分支，执行命令之后它就指向了 red 分支，使得 red 成为当前分支。</p>
+<p>接下来把 <code>number.txt</code> 的内容修改为 “third”，执行 <code>git add numbers.txt</code> 和 <code>run git commit -m third</code>。</p>
+<p>之后再执行 <code>git push beta red</code>，这条命令会把 alpha 仓库内跟 third 提交相关的对象拷贝至 beta 仓库，并且将（alpha 仓库内记录的）beta 仓库 red 分支指向 third 提交。就酱。</p>
+<h2 id="个人总结"><a href="#个人总结" class="headerlink" title="个人总结"></a>个人总结</h2><p>事实上只有理解后台的动作，才能在命令中游刃有余。下面个人总结的，请大家抛砖。</p>
+<div>后台的勤劳者</div><br><div>git clone</div><br><div>—后台把新仓库的同名分支和旧仓库的远程分支（相对于新仓库）做“自动追踪”映射了。</div><br><div>手工改的命令是：</div><br><div>git branch –set-upstream master origin/next</div><br><div>–set-upstream-to=origin/next master</div><br><div>在push后加下面的效果一致（关联阅读）：注远程没有next也会生推过去，并设置了跟踪关系。</div><br><div>-u origin next</div><br><div></div><br><div>git pull &lt;远程主机或仓库默认origin&gt; &lt;远程分支&gt;:&lt;本地分支&gt;</div><br><div>—后台的动作包括fetch FETCH_HEAD（默认是远程的master并设置，在不加参数情况下，它也会全取来远程下面的所有分支）</div><br><div>—后台还有merge动作。前提是当前分支与远程分支存在追踪关系了。</div><br><div></div><br><div>git push&lt;远程主机或仓库默认origin&gt; &lt;本地分支&gt;:&lt;远程分支&gt;</div><br><div>—注意这是危险的，要先pull才好。它在后台只接受“快进”，并且要注意冒号前的分支所属</div><br><div></div><br><div>rebase</div><br><div>—后台有个删除动作的，为了让树看起来漂亮，他会像橡皮一样擦除本分支内的commit对象，然后做好搬运合并。所以，这一般都在非主分支上。</div><br><div></div><br><div>附个技巧：有点像“月光宝盒”哟</div><br><div><br><div>#保留你当前状态，包括未跟踪的垃圾文件，并最后再搞回来</div><br><div>git stash</div><br><div>git checkout fe9c4</div><br><div>#看代码等操作</div><br><div>git checkout master</div><br><div>git stash pop</div><br><div></div><br><div>注意pop是会删除stash对象的，而apply不会，要有多个stash时，用stash@{num}来指代。</div>
+</div></div></div>
       
     </div>
     
@@ -470,8 +489,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -535,6 +563,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础概念"><span class="nav-text">基础概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后台详解"><span class="nav-text">后台详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#个人总结"><span class="nav-text">个人总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="把大象放冰箱里需要三步，同样，玩linux也需要。第一，制作USB启动盘，第二，安装系统，第三，安装Qt5。 第一篇，材料准备 有多种方式来制作USB启动盘。本人实验了两个，用vmware12和ultraISO. 虚机方式： https://jingyan.baidu.com/article/fc07f98976710e12ffe519de.htmlhttp://blog.csdn.net/qq_">
+<meta name="description" content="把大象放冰箱里需要三步，同样，玩linux也需要。第一，制作USB启动盘，第二，安装系统，第三，安装Qt5。  第一篇，材料准备有多种方式来制作USB启动盘。本人实验了两个，用vmware12和ultraISO. 虚机方式： https://jingyan.baidu.com/article/fc07f98976710e12ffe519de.htmlhttp://blog.csdn.net/qq">
 <meta name="keywords" content="Qt5,CentOS6.5,mbr,ubuntu,USB启动盘,双系统引导">
 <meta property="og:type" content="article">
 <meta property="og:title" content="双系统搭建及ubuntu和CentOS下安装Qt5">
 <meta property="og:url" content="http://coder.songdaliang.com/2017/06/20/ubuntu-e5-92-8ccentos-e4-b8-8b-e5-ae-89-e8-a3-85qt5/index.html">
 <meta property="og:site_name" content="大亮的实验室">
-<meta property="og:description" content="把大象放冰箱里需要三步，同样，玩linux也需要。第一，制作USB启动盘，第二，安装系统，第三，安装Qt5。 第一篇，材料准备 有多种方式来制作USB启动盘。本人实验了两个，用vmware12和ultraISO. 虚机方式： https://jingyan.baidu.com/article/fc07f98976710e12ffe519de.htmlhttp://blog.csdn.net/qq_">
+<meta property="og:description" content="把大象放冰箱里需要三步，同样，玩linux也需要。第一，制作USB启动盘，第二，安装系统，第三，安装Qt5。  第一篇，材料准备有多种方式来制作USB启动盘。本人实验了两个，用vmware12和ultraISO. 虚机方式： https://jingyan.baidu.com/article/fc07f98976710e12ffe519de.htmlhttp://blog.csdn.net/qq">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T01:16:08.457Z">
+<meta property="og:updated_time" content="2018-03-09T08:20:41.878Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="双系统搭建及ubuntu和CentOS下安装Qt5">
-<meta name="twitter:description" content="把大象放冰箱里需要三步，同样，玩linux也需要。第一，制作USB启动盘，第二，安装系统，第三，安装Qt5。 第一篇，材料准备 有多种方式来制作USB启动盘。本人实验了两个，用vmware12和ultraISO. 虚机方式： https://jingyan.baidu.com/article/fc07f98976710e12ffe519de.htmlhttp://blog.csdn.net/qq_">
+<meta name="twitter:description" content="把大象放冰箱里需要三步，同样，玩linux也需要。第一，制作USB启动盘，第二，安装系统，第三，安装Qt5。  第一篇，材料准备有多种方式来制作USB启动盘。本人实验了两个，用vmware12和ultraISO. 虚机方式： https://jingyan.baidu.com/article/fc07f98976710e12ffe519de.htmlhttp://blog.csdn.net/qq">
 
 
 
@@ -406,11 +406,17 @@
       
 
       
-        <p>把大象放冰箱里需要三步，同样，玩linux也需要。第一，制作USB启动盘，第二，安装系统，第三，安装Qt5。</p>
-<p>第一篇，材料准备</p>
-<p>有多种方式来制作USB启动盘。本人实验了两个，用vmware12和ultraISO.</p>
+        <blockquote>
+<p>把大象放冰箱里需要三步，同样，玩linux也需要。第一，制作USB启动盘，第二，安装系统，第三，安装Qt5。</p>
+</blockquote>
+<h2 id="第一篇，材料准备"><a href="#第一篇，材料准备" class="headerlink" title="第一篇，材料准备"></a>第一篇，材料准备</h2><p>有多种方式来制作USB启动盘。本人实验了两个，用vmware12和ultraISO.</p>
 <p>虚机方式：</p>
-<div><a href="https://jingyan.baidu.com/article/fc07f98976710e12ffe519de.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/fc07f98976710e12ffe519de.html</a></div><br><div></div><br><div><a href="http://blog.csdn.net/qq_24369113/article/details/53179218" target="_blank" rel="noopener">http://blog.csdn.net/qq_24369113/article/details/53179218</a></div><br><div></div><br><div>建立好空白虚机后，就是提示第一坑。</div><br><div>第一个坑，就是开启intel VT-x.从bios中设置。</div><br><div>重启，再来，可以了，不要装vmware-tool先，不然就在抢占CD－rom。</div><br><div></div><br><div><br><div>在我本机S1 yoga的bios上设置两处：</div><br><div>一，sercurity中的安全引导去掉</div><br><div>二，startup中的boot中选择both，即允许传统模式。</div><br><div></div><br><div>用烧录方式：</div><br><div>当然就是把ISO用ultraISO来烧录到USB中了。这个方式不用过多介绍。</div><br><div></div><br><div>当做好USB启用盘后，你F12引导从U盘进入系统，你会看到try和安装两个大按键的情况。我们即可进入第二篇章了。</div><br><div></div><br><div>第二篇章，系统安家</div><br><div></div><br><div>你是租房还是要买房？系统放到你的U盘上还是，想系统在你的硬盘上？这个问题赶快想，尤其是安装步骤到了分区时。但不管如何，选择安装到硬盘是入口。</div><br><div></div><br><div>如果是想在USB上玩linux，那当然安全，不会破环原来的系统。但是磁盘空间，硬件支持和使用体验必须是要慢被理解的。分区方法如下：（我的U盘就16G）</div><br><div>要在U盘上/dev/sdb建立新分支，一个主15G，一个交换分区9百M。</div><br><div>安装不必细说，当出现提示重启时，拔出U盘即可。</div><br><div></div><br><div>当你是个老司机，硬盘富余，且酷的话，来吧，装在硬盘上。并且让windows来当房东。这个意义深远了，因为，如果你想linux撤出，只要格式下那个分区即可。方便的代价就是要懂得原理并实现，还有找到利器，比如easybcd。</div><br><div></div><br><div><br><div>原理其实就是：</div><br><div>MBR—-grub2—-bootmgr（由grub来接管系统，在它的分支中选择windows还是linux）</div><br><div>现在：</div><br><div>MBR—-bootmgr—-grub(由windows提供的引导菜单，它当房东，grub就只管引导linux即可，不用去学习grub命令行，好主意)</div><br></div><br><div>那个利器就是编辑bootmgr的。所以，我用后面的引导模式了。</div><br><div></div><br><div>用windows的磁盘管理，压缩卷，把最后一个分区给缩小，然后就会多出一个空闲分区，这个就是给硬盘linux的“新房”。</div><br><div>然后，重启用U盘引导，这次同样选择安装到硬盘选项。在分区时，需要充分小心了。</div><br><div></div><br><div>先看看前人的指导：<a href="http://blog.csdn.net/pop_rain/article/details/70477085" target="_blank" rel="noopener">http://blog.csdn.net/pop_rain/article/details/70477085</a></div><br><div></div><br><div><br><div>在我的环境中最终分三个，/,/boot,/home分别为10G，200M,50G，注意引导要放在与/boot同映射的分区上。注意没有/swap区。</div><br><div>因为据说17.04后的版本不需要分交换分区了，而变成了交换文件的方式。</div><br><div>并且，如果你把引导装在了/boot对应的分区，grub2不会跑出来作怪，这是让windows来引导的前提。不然，得用工具修复MBR，所以，装完ubuntu，再重启应该是熟悉的wiondows不是grub。如果是后者，你分区错了。</div><br><div>当你再重启发现进入了熟悉的windows了，没有错，因为，房东管理着客户linux。此时，搬家已经完成，linux入住了，但房东没有给配好钥匙。进系统后，找那个利器吧。easybcd中加一个引导条目，分区选择为/boot那个系统分区。</div><br><div></div><br><div>再重启，windows给你选择权了，让你进linux去吧。不过，我碰到了问题。</div><br><div></div><br><div><br><div>最大的坑是：ext4 superblock checksum 。没错，这个是硬盘格式的错误。卡了我一下午。</div><br><div></div><br><div>一个国外帖子搞定了。</div><br><div><a href="https://linuxexpresso.wordpress.com/2010/03/31/repair-a-broken-ext4-superblock-in-ubuntu/" target="_blank" rel="noopener">https://linuxexpresso.wordpress.com/2010/03/31/repair-a-broken-ext4-superblock-in-ubuntu/</a></div><br><div></div><br><div>先用USB安装盘，启动进去，用root修复好挂载/的那个分区/dev/sda7.</div><br><div>然后，重启硬盘引导后发现可以有root的命令行，看来修复硬盘格式有戏。</div><br><div>然后，就是把其它的两个linux分区修复。之后，ubuntu17.04的用户登陆界面出现。</div><br><div>但最后，反朴归真了，发现在busybox的initramfs的命令提示符下，用 （sudo） fsck.ext4 /dev/sda7,8,9，三次命令后，reboot即可。</div><br><div></div><br><div>终于是躺在我硬盘里的，与win7同床的，让微软引导的小弟系统呀。</div><br><div><br><div>第一件事，开启root。</div><br><div>技巧把$变成#，sudo -s.或sudo su</div><br><div>此时安装东东已经够了，但如果你想用root来登陆系统。继续下面操作。</div><br><div></div><br><div>然后执行: vi /etc/lightdm/lightdm.conf.</div><br><div></div><br><div>增加 greeter-show-manual-login=true  allow-guest=false  . 修改完的整个配置文件是</div><br><div></div><br><div>[SetDefaults]</div><br><div>greeter-session=unity-greeter</div><br><div>user-session=ubuntu</div><br><div>greeter-show-manual-login=true #手工输入登陆系统的用户名和密码</div><br><div>allow-guest=false   #不允许guest登录</div><br><div></div><br><div>然后我们启动root帐号：</div><br><div>sudo passwd root</div><br><div>根据提示输入root帐号密码。</div><br><div></div><br><div>重启ubuntu，登录窗口会有“登录”选项，这时候我们就可以通过root登录了。</div><br></div><br><div></div><br><div>第三篇章 系统装修</div><br><div></div><br><div>与房东win7磨合得不错，但linux下没啥好玩的就有些寒酸了。装个Qt5来。</div><br><div></div><br><div>如果你是CentOS，这可以这么玩了。</div><br><div>{</div><br><div>一，编译器准备：</div><br><div><br><div>yum check-update</div><br><div>yum -y install gcc</div><br><div>yum -y install gcc-c++</div><br><div></div><br><div>—–解释</div><br><div>gcc: yum install gcc</div><br><div>g++: yum install gcc-c++</div><br><div>此外还有以下方法：</div><br><div>yum install make</div><br><div>– 或者</div><br><div>yum groupinstall “Development Tools”</div><br><div>– 或者（这个省事，把系列工具全搞定）</div><br><div>yum install gcc gcc-c++ kernel-devel</div><br><div>二，Qt5依赖库准备:</div><br><div><br><div><a href="http://blog.csdn.net/shine_journey/article/details/50676421" target="_blank" rel="noopener">http://blog.csdn.net/shine_journey/article/details/50676421</a></div><br><div></div><br><div>#yum install mesa-libGL-devel mesa-libGLU-devel</div><br><div>#yum install freeglut-devel</div><br><div></div><br><div></div><br></div><br>}//end CentOS<br><br></div><br><div></div><br><div><br><div>ubuntu:</div><br><div>{</div><br><div><a href="http://jingyan.baidu.com/article/7f41ecec1b7a2e593d095ce6.html" target="_blank" rel="noopener">http://jingyan.baidu.com/article/7f41ecec1b7a2e593d095ce6.html</a></div><br><div></div><br><div>首先不可或缺的就是编译器与基本的函式库，如果系统没有安装的话，依照下面的方式安装：</div><br><div></div><br><div>  $ sudo apt-get install build-essential</div><br><div></div><br><div>安装OpenGL Library</div><br><div></div><br><div>  $ sudo apt-get install libgl1-mesa-dev</div><br><div></div><br><div>安装OpenGL Utilities</div><br><div></div><br><div>  $ sudo apt-get install libglu1-mesa-dev</div><br><div></div><br><div>  OpenGL Utilities 是一组建构于 OpenGL Library 之上的工具组，提供许多很方便的函式，使 OpenGL 更强大且更容易使用。</div><br><div></div><br><div>安装OpenGL Utility Toolkit</div><br><div>如果不行就把，sudo apt-get install libglut-dev命令改成</div><br><div>$ sudo apt-get install freeglut3-dev</div><br><div>}//end ubuntu</div><br><div></div><br><div>三.直接运行安装包</div><br><div>#sh qt-opensource-linux-x64-5.5.1.run</div><br><div></div><br><div>四.安装好之后，需要添加环境变量</div><br><div>#vim /etc/profile</div><br><div>在最后一行，添加以下内容：</div><br><div>export PATH=”/opt/Qt5.5.1/5.5/gcc_64/bin:$PATH”</div><br><div>export PATH=”/opt/Qt5.5.1/Tools/QtCreator/bin:$PATH”</div><br><div></div><br><div>如果第四步没有搞好，编译好的测试项目不能运行执行文件。本人就碰到了xcb的插件要求报错。原来在5.5以上的高级Qt版本中，引用了platform的概念。所以，要使用LD_LIBRARY_PATH来找那些库。当然，你找那个qtcreator.sh执行，里面有自动配置好系统环境的处理。</div><br><div></div><br><div>until now,enjoy！</div><br></div><br></div><br></div><br><div></div><br></div>
+<div><a href="https://jingyan.baidu.com/article/fc07f98976710e12ffe519de.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/fc07f98976710e12ffe519de.html</a></div><br><div></div><br><div><a href="http://blog.csdn.net/qq_24369113/article/details/53179218" target="_blank" rel="noopener">http://blog.csdn.net/qq_24369113/article/details/53179218</a></div><br><div></div><br><div>建立好空白虚机后，就是提示第一坑。</div><br><div>第一个坑，就是开启intel VT-x.从bios中设置。</div><br><div>重启，再来，可以了，不要装vmware-tool先，不然就在抢占CD－rom。</div><br><div></div><br><div><br><div>在我本机S1 yoga的bios上设置两处：</div><br><div>一，sercurity中的安全引导去掉</div><br><div>二，startup中的boot中选择both，即允许传统模式。</div><br><div></div><br><div>用烧录方式：</div><br><div>当然就是把ISO用ultraISO来烧录到USB中了。这个方式不用过多介绍。</div><br><div></div><br><div>当做好USB启用盘后，你F12引导从U盘进入系统，你会看到try和安装两个大按键的情况。我们即可进入第二篇章了。</div>
+
+<h2 id="第二篇章，系统安家"><a href="#第二篇章，系统安家" class="headerlink" title="第二篇章，系统安家"></a>第二篇章，系统安家</h2><div>你是租房还是要买房？系统放到你的U盘上还是，想系统在你的硬盘上？这个问题赶快想，尤其是安装步骤到了分区时。但不管如何，选择安装到硬盘是入口。</div><br><div></div><br><div>如果是想在USB上玩linux，那当然安全，不会破环原来的系统。但是磁盘空间，硬件支持和使用体验必须是要慢被理解的。分区方法如下：（我的U盘就16G）</div><br><div>要在U盘上/dev/sdb建立新分支，一个主15G，一个交换分区9百M。</div><br><div>安装不必细说，当出现提示重启时，拔出U盘即可。</div><br><div></div><br><div>当你是个老司机，硬盘富余，且酷的话，来吧，装在硬盘上。并且让windows来当房东。这个意义深远了，因为，如果你想linux撤出，只要格式下那个分区即可。方便的代价就是要懂得原理并实现，还有找到利器，比如easybcd。</div><br><div></div><br><div><br><div>原理其实就是：</div><br><div>MBR—-grub2—-bootmgr（由grub来接管系统，在它的分支中选择windows还是linux）</div><br><div>现在：</div><br><div>MBR—-bootmgr—-grub(由windows提供的引导菜单，它当房东，grub就只管引导linux即可，不用去学习grub命令行，好主意)</div><br></div><br><div>那个利器就是编辑bootmgr的。所以，我用后面的引导模式了。</div><br><div></div><br><div>用windows的磁盘管理，压缩卷，把最后一个分区给缩小，然后就会多出一个空闲分区，这个就是给硬盘linux的“新房”。</div><br><div>然后，重启用U盘引导，这次同样选择安装到硬盘选项。在分区时，需要充分小心了。</div><br><div></div><br><div>先看看前人的指导：<a href="http://blog.csdn.net/pop_rain/article/details/70477085" target="_blank" rel="noopener">http://blog.csdn.net/pop_rain/article/details/70477085</a></div><br><div></div><br><div><br><div>在我的环境中最终分三个，/,/boot,/home分别为10G，200M,50G，注意引导要放在与/boot同映射的分区上。注意没有/swap区。</div><br><div>因为据说17.04后的版本不需要分交换分区了，而变成了交换文件的方式。</div><br><div>并且，如果你把引导装在了/boot对应的分区，grub2不会跑出来作怪，这是让windows来引导的前提。不然，得用工具修复MBR，所以，装完ubuntu，再重启应该是熟悉的wiondows不是grub。如果是后者，你分区错了。</div><br><div>当你再重启发现进入了熟悉的windows了，没有错，因为，房东管理着客户linux。此时，搬家已经完成，linux入住了，但房东没有给配好钥匙。进系统后，找那个利器吧。easybcd中加一个引导条目，分区选择为/boot那个系统分区。</div><br><div></div><br><div>再重启，windows给你选择权了，让你进linux去吧。不过，我碰到了问题。</div><br><div></div><br><div><br><div>最大的坑是：ext4 superblock checksum 。没错，这个是硬盘格式的错误。卡了我一下午。</div><br><div></div><br><div>一个国外帖子搞定了。</div><br><div><a href="https://linuxexpresso.wordpress.com/2010/03/31/repair-a-broken-ext4-superblock-in-ubuntu/" target="_blank" rel="noopener">https://linuxexpresso.wordpress.com/2010/03/31/repair-a-broken-ext4-superblock-in-ubuntu/</a></div><br><div></div><br><div>先用USB安装盘，启动进去，用root修复好挂载/的那个分区/dev/sda7.</div><br><div>然后，重启硬盘引导后发现可以有root的命令行，看来修复硬盘格式有戏。</div><br><div>然后，就是把其它的两个linux分区修复。之后，ubuntu17.04的用户登陆界面出现。</div><br><div>但最后，反朴归真了，发现在busybox的initramfs的命令提示符下，用 （sudo） fsck.ext4 /dev/sda7,8,9，三次命令后，reboot即可。</div><br><div></div><br><div>终于是躺在我硬盘里的，与win7同床的，让微软引导的小弟系统呀。</div><br><div><br><div>第一件事，开启root。</div><br><div>技巧把$变成#，sudo -s.或sudo su</div><br><div>此时安装东东已经够了，但如果你想用root来登陆系统。继续下面操作。</div><br><div></div><br><div>然后执行: vi /etc/lightdm/lightdm.conf.</div><br><div></div><br><div>增加 greeter-show-manual-login=true  allow-guest=false  . 修改完的整个配置文件是</div><br><div></div><br><div>[SetDefaults]</div><br><div>greeter-session=unity-greeter</div><br><div>user-session=ubuntu</div><br><div>greeter-show-manual-login=true #手工输入登陆系统的用户名和密码</div><br><div>allow-guest=false   #不允许guest登录</div><br><div></div><br><div>然后我们启动root帐号：</div><br><div>sudo passwd root</div><br><div>根据提示输入root帐号密码。</div><br><div></div><br><div>重启ubuntu，登录窗口会有“登录”选项，这时候我们就可以通过root登录了。</div><br></div><br><div></div>
+
+<h2 id="第三篇章-系统装修"><a href="#第三篇章-系统装修" class="headerlink" title="第三篇章 系统装修"></a>第三篇章 系统装修</h2><div>与房东win7磨合得不错，但linux下没啥好玩的就有些寒酸了。装个Qt5来。</div><br><div></div><br><div>如果你是CentOS，这可以这么玩了。</div><br><div>{</div><br><div>一，编译器准备：</div><br><div><br><div>yum check-update</div><br><div>yum -y install gcc</div><br><div>yum -y install gcc-c++</div><br><div></div><br><div>—–解释</div><br><div>gcc: yum install gcc</div><br><div>g++: yum install gcc-c++</div><br><div>此外还有以下方法：</div><br><div>yum install make</div><br><div>– 或者</div><br><div>yum groupinstall “Development Tools”</div><br><div>– 或者（这个省事，把系列工具全搞定）</div><br><div>yum install gcc gcc-c++ kernel-devel</div><br><div>二，Qt5依赖库准备:</div><br><div><br><div><a href="http://blog.csdn.net/shine_journey/article/details/50676421" target="_blank" rel="noopener">http://blog.csdn.net/shine_journey/article/details/50676421</a></div><br><div></div><br><div>#yum install mesa-libGL-devel mesa-libGLU-devel</div><br><div>#yum install freeglut-devel</div><br><div></div><br><div></div><br></div><br>}//end CentOS<br><br></div><br><div></div><br><div><br><div>ubuntu:</div><br><div>{</div><br><div><a href="http://jingyan.baidu.com/article/7f41ecec1b7a2e593d095ce6.html" target="_blank" rel="noopener">http://jingyan.baidu.com/article/7f41ecec1b7a2e593d095ce6.html</a></div><br><div></div><br><div>首先不可或缺的就是编译器与基本的函式库，如果系统没有安装的话，依照下面的方式安装：</div><br><div></div><br><div>  $ sudo apt-get install build-essential</div><br><div></div><br><div>安装OpenGL Library</div><br><div></div><br><div>  $ sudo apt-get install libgl1-mesa-dev</div><br><div></div><br><div>安装OpenGL Utilities</div><br><div></div><br><div>  $ sudo apt-get install libglu1-mesa-dev</div><br><div></div><br><div>  OpenGL Utilities 是一组建构于 OpenGL Library 之上的工具组，提供许多很方便的函式，使 OpenGL 更强大且更容易使用。</div><br><div></div><br><div>安装OpenGL Utility Toolkit</div><br><div>如果不行就把，sudo apt-get install libglut-dev命令改成</div><br><div>$ sudo apt-get install freeglut3-dev</div><br><div>}//end ubuntu</div><br><div></div><br><div>三.直接运行安装包</div><br><div>#sh qt-opensource-linux-x64-5.5.1.run</div><br><div></div><br><div>四.安装好之后，需要添加环境变量</div><br><div>#vim /etc/profile</div><br><div>在最后一行，添加以下内容：</div><br><div>export PATH=”/opt/Qt5.5.1/5.5/gcc_64/bin:$PATH”</div><br><div>export PATH=”/opt/Qt5.5.1/Tools/QtCreator/bin:$PATH”</div><br><div></div><br><div>如果第四步没有搞好，编译好的测试项目不能运行执行文件。本人就碰到了xcb的插件要求报错。原来在5.5以上的高级Qt版本中，引用了platform的概念。所以，要使用LD_LIBRARY_PATH来找那些库。当然，你找那个qtcreator.sh执行，里面有自动配置好系统环境的处理。</div><br><div></div><br><div>until now,enjoy！</div><br></div><br></div><br></div><br><div></div><br></div>
+
       
     </div>
     
@@ -522,8 +528,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -587,6 +602,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一篇，材料准备"><span class="nav-text">第一篇，材料准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二篇章，系统安家"><span class="nav-text">第二篇章，系统安家</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三篇章-系统装修"><span class="nav-text">第三篇章 系统装修</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

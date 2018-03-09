@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="大亮的实验室">
 <meta property="og:description" content="第19–20章节 dll的基础和高级技术入口点函数：DllMain()一般用来执行一些进程，线程有关的初始化和清理工作。要么不实现它，要么实现正常，返回true，否则，dll可能就不能被使用。注意：区分大小写的，否则就是无用的。隐式调用dll时，系统启动时就会用到DllMain()，而显式调用时，在LoadLibraryex中来调用。并且，切入点是DLL_PROCESS_ATTACH当引用了dll">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-22T01:16:08.448Z">
+<meta property="og:updated_time" content="2018-03-09T09:14:00.465Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="windows核心编程（第5版）读书笔记四">
 <meta name="twitter:description" content="第19–20章节 dll的基础和高级技术入口点函数：DllMain()一般用来执行一些进程，线程有关的初始化和清理工作。要么不实现它，要么实现正常，返回true，否则，dll可能就不能被使用。注意：区分大小写的，否则就是无用的。隐式调用dll时，系统启动时就会用到DllMain()，而显式调用时，在LoadLibraryex中来调用。并且，切入点是DLL_PROCESS_ATTACH当引用了dll">
@@ -417,7 +417,8 @@
       
 
       
-        <div>第19–20章节 dll的基础和高级技术</div><br><div></div><br><div>入口点函数：DllMain()</div><br><div>一般用来执行一些进程，线程有关的初始化和清理工作。要么不实现它，要么实现正常，返回true，否则，dll可能就不能被使用。</div><br><div></div><br><div></div><br><div>注意：</div><br><div>区分大小写的，否则就是无用的。</div><br><div></div><br><div>隐式调用dll时，系统启动时就会用到DllMain()，而显式调用时，在LoadLibraryex中来调用。并且，切入点是DLL_PROCESS_ATTACH</div><br><div>当引用了dll的exe要建立个新线程时，会检查所以已经被调入进程空间的dll的DllMain。并传入DLL_THREAD_ATTACH。有一个例外就是主线程切入仍以process来通知dll.</div><br><div></div>
+        <h2 id="第19–20章节-dll的基础和高级技术"><a href="#第19–20章节-dll的基础和高级技术" class="headerlink" title="第19–20章节 dll的基础和高级技术"></a>第19–20章节 dll的基础和高级技术</h2><div></div><br><div>入口点函数：DllMain()</div><br><div>一般用来执行一些进程，线程有关的初始化和清理工作。要么不实现它，要么实现正常，返回true，否则，dll可能就不能被使用。</div><br><div></div><br><div></div><br><div>注意：</div><br><div>区分大小写的，否则就是无用的。</div><br><div></div><br><div>隐式调用dll时，系统启动时就会用到DllMain()，而显式调用时，在LoadLibraryex中来调用。并且，切入点是DLL_PROCESS_ATTACH</div><br><div>当引用了dll的exe要建立个新线程时，会检查所以已经被调入进程空间的dll的DllMain。并传入DLL_THREAD_ATTACH。有一个例外就是主线程切入仍以process来通知dll.</div><br><div></div>
+
       
     </div>
     
@@ -527,8 +528,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -592,6 +602,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第19–20章节-dll的基础和高级技术"><span class="nav-text">第19–20章节 dll的基础和高级技术</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
