@@ -269,6 +269,152 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://coder.songdaliang.com/2017/03/14/git-e5-b7-a5-e4-bd-9c-e6-b5-81-e8-ae-be-e8-ae-a1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ohala">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://blog.songdaliang.com/wp-content/uploads/2018/03/avatarDD-150x150.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大亮的实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/14/git-e5-b7-a5-e4-bd-9c-e6-b5-81-e8-ae-be-e8-ae-a1/" itemprop="url">git工作流设计</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-14T16:34:00+08:00">
+                2017-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/git/" itemprop="url" rel="index">
+                    <span itemprop="name">git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <div>对于源码管理和产品线管理为了避免混乱，应该有个大致的管理方案：</div><br><div></div><br><div>项目名假如为：tj_dj</div><br><div></div><br><div>则产品管理线：（主机）</div><br><div>主分支–master</div><br><div>开发分支–develop-tj_dj</div><br><div>发布分支–release-tj_dj</div><br><div>特性分支(短生命线分支)–f-[特性名]-tj_dj</div><br><div>修复分支–hotfix-tj_dj</div>
+
+<h2 id="小团队"><a href="#小团队" class="headerlink" title="小团队"></a>小团队</h2><div></div><br><div>轻量级开发情况：（AB机间没有网络）</div><br><div>在各自本机建立环境，本地建立好bare仓库和本地开发仓库。</div><br><div>总体上要求，bare仓库是同名的，但在自己的本地开发仓库中把远程仓库命名个性化。Dell为例:</div><br><div>dell-前缀。</div><br><div>技巧：</div><br><div>bare仓库用来fetch和push的“箱子”，为远程仓库。</div><br><div>使用拷贝方式来和其它机共享bare仓库。</div><br><div>各机器为主工作时，则要使用很多分支技术来merge其它机的进度代码。</div>
+
+<h2 id="多人团队"><a href="#多人团队" class="headerlink" title="多人团队"></a>多人团队</h2><div>多人联合开发情况：</div><br><div>这里就仁者见仁，智者见智了。但是最典型的就是gitflow了。但不是起对了几个分支名就行了。要得其要领。</div><br><div></div><br><div>原则：</div><br><div>master和develop分支是稳定分支，一直存在。</div><br><div>master只允许release和hotfix分支来的merge</div><br><div>develop日常开发</div><br><div>feature上开发功能，功能成熟后合并到develop上</div><br><div>release是从develop上分出来，bug修复后，打上tag后，要同时合并回develop和master</div><br><div>很小的bug修复会则会在hotfix上进行。</div><br><div></div><br><div>1). 首先将远程代码拉取到本地</div><br><div></div><br><div>  git clone xxx</div><br><div>  git checkout -b develop origin/develop</div><br><div></div><br><div>2).新建feature分支</div><br><div></div><br><div>  git checkout -b feature</div><br><div></div><br><div>3).多人在feature上开发，如果中途需要将develop的变更合入feature，所有人需要将本地的代码变更提交到远程</div><br><div></div><br><div>  git fetch origin</div><br><div>  git rebase origin/feature</div><br><div>  git push origin feature</div><br><div></div><br><div>然后由feature负责人rebase develop分支，删除原来feature分支，重新新建feature分支；</div><br><div></div><br><div>  git fetch origin</div><br><div>  git rebase origin/feature</div><br><div>  git rebase develop</div><br><div>  git push origin :feature</div><br><div>  git push origin feature</div><br><div></div><br><div>这样可以保证feature保持线性变更；</div><br><div></div><br><div>4).feature开发完成后，所有人需要将本地的代码变更提交到远程</div><br><div></div><br><div>  git fetch origin</div><br><div>  git rebase origin/feature</div><br><div>  git push origin feature</div><br><div></div><br><div>然后由feature负责人rebase develop分支，然后将feature分支合入develop，删除feature；</div><br><div></div><br><div>  git fetch origin</div><br><div>  git rebase origin/feature</div><br><div>  git rebase develop</div><br><div>  git checkout develop</div><br><div>  git merge feature</div><br><div>  git push origin :feature</div><br><div></div><br><div></div><br><div>这样可以保证develop保持线性变更，各feature的变更完整可追溯；</div><br><div></div><br><div>5).合入feature后拉出对应的release/feature分支，后续bug修复在release/feature上</div><br><div></div><br><div>  git checkout develop</div><br><div>  git checkout -b release/feature</div><br><div></div><br><div>release/feature分支的同步合并与feature分支相同</div><br><div></div><br><div>6).release/feature分支bug修复完成后，拉取对应的tag推送远程进行发布</div><br><div></div><br><div>  git tag -a v1.0 -m ‘feature发布’</div><br><div>  git push origin v1.0</div><br><div></div><br><div>之后将release/feature合入develop分支，然后删除</div><br><div></div><br><div>  git rebase develop</div><br><div>  git checkout develop</div><br><div>  git merge release/feature</div><br><div>  git push origin :release/feature</div><br><div></div><br><div>7).发布完成后将release合入master分支，保证master为最新稳定版本（实际操作为发起merge request）</div><br><div></div>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://coder.songdaliang.com/2017/03/03/e5-86-99-e7-bb-99-e4-b8-89-e5-8d-81-e5-b2-81-e4-bb-a5-e4-b8-8a-e7-9a-84-e7-a8-8b-e5-ba-8f-e5-91-98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1977,170 +2123,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://coder.songdaliang.com/2016/08/03/e8-87-aa-e5-8a-a8-e5-85-b3-e9-97-ad-e7-a8-8b-e5-ba-8f-e5-b1-8f-e8-94-bdwindows-e5-af-b9-e8-af-9d-e6-a1-86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ohala">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://blog.songdaliang.com/wp-content/uploads/2018/03/avatarDD-150x150.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="大亮的实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/08/03/e8-87-aa-e5-8a-a8-e5-85-b3-e9-97-ad-e7-a8-8b-e5-ba-8f-e5-b1-8f-e8-94-bdwindows-e5-af-b9-e8-af-9d-e6-a1-86/" itemprop="url">自动关闭程序屏蔽windows对话框</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-03T21:15:11+08:00">
-                2016-08-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/windows/" itemprop="url" rel="index">
-                    <span itemprop="name">windows</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/windows/系统平台/" itemprop="url" rel="index">
-                    <span itemprop="name">系统平台</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<div>windows server 2012关闭无响应程序对话框？</div><br><div>windows server 2012不提示是否要联机查找解决方案对话框？</div><br><div>只要干脆利落的自动关闭程序。那么follow me.有几点可以试试。</div>
-
-</blockquote>
-<h2 id="关闭无响应程序"><a href="#关闭无响应程序" class="headerlink" title="关闭无响应程序"></a>关闭无响应程序</h2><div>在Vista和Windows 7及以上的OS上，参照以下方法：</div><br><div>■在开始运行中输入regedit并回车</div><br><div>■定位到HKEY_CURRENT_USER\Control Panel\Desktop</div><br><div>■设置AutoEndTasks键值为1，如果没有可以手动创建一个名为 AutoEndTasks 类型为REG_SZ值为1的表项。</div><br><div>■WaitToKillAppTimeout是超时等待时间，默认值12000，这个值在很多网站上建议修改短一点，这里不推荐，最好不要改。因为程序的运行是综合的，影响超时的时间会很多，太短的超时时间可能会带来一些“莫名其妙”的问题。</div><br><div>如确认修改WaitToKillAppTimeout，请统一修改：</div><br><div>HKEY_CURRENT_USER\Control Panel\Desktop</div><br><div>HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control</div><br><div>HKEY_LOCAL_MACHINE\SYSTEM\ControlSet002\Control</div><br><div>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control</div><br><div>下的WaitToKillAppTimeout，比如1000，2000均可以。</div><br><div></div>
-
-<h2 id="关闭问题报告"><a href="#关闭问题报告" class="headerlink" title="关闭问题报告"></a>关闭问题报告</h2><div>控制面板–系统和安全—操作中心—问题报告设置</div><br><div>点选“从不检查解决方案（不推荐）”</div><br><div></div><br><div>UAC设置方法/步骤：</div><br><div>你可以完全关闭UAC，在控制面板–系统和安全—操作中心中。也可以通过下面的步骤来设置它。（但要想干脆利落，你知道咋办）</div><br><div>1，点击控制面板，选择所有控制面板项，点击用户帐户</div><br><div></div><br><div>2，点击“更改用户账户控制设置”弹出计算机用户安全通知设置，始终通知（高）：这是最安全的设置，收到通知后，你应该先仔细阅读每个对话框中的内容，然后才允许对电脑进行更改。</div><br><div></div><br><div>3，始终通知（中）：如果系统允许对 Windows 设置进行更改而不通知你，则表明这种更改是安全的。但是，Windows附带的某些应用可以将命令或数据传递给它们，恶意软件可能会利用这一点，使用这些应用在电脑上安装文件或更改设置。应该始终小心允许在电脑上运行的应用。</div><br><div></div><br><div>4，始终通知（中低）：与“仅当应用尝试更改计算机时通知我”相同，但是不会降低桌面亮度。如果选择此选项，则其他应用可能会影响用户帐户控制对话框的可视外观。这是一个安全风险，尤其是你的电脑上存在恶意软件时。</div><br><div></div><br><div>5，从不通知：这是最不安全的设置。将用户帐户控制设置为从不通知时，你便有效地关闭了用户帐户控制。这会使得你的电脑面临潜在的安全风险，这个设置一般在虚拟机练习时候设置</div><br><div></div><br><div><br><div><br><br>##   关闭“已停止工作”对话框<br></div><br><div><br><div> 最近发现一个很早以前的程序出现了兼容性问题。程序有检测机制，发现异常退出可以自动重启。但是这次没有重启成功。操作系统是Windows 2008，以前用的操作系统是Windows 2003，在2003上就没有该问题。</div><br></div><br></div><br><div><br><div>后来发现2008和2003的错误报告机制不同。2008下，遇到程序崩溃会弹出一个错误提示对话框，需要手工关闭，程序才能退出。</div><br>临时解决问题的方法就是想办法关闭这个对话框。Windows有很多错误提示框，关了一个还会出现另外一个。<br>下面的方法可以关闭以下的几个对话框不再出现：<br>xxx已停止工作<br>xxx-应用程序错误<br>xxx-未找到调试器<br><br>需要修改三个地方：<br>1.HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft.NETFramework<br>在.NETFramework上点击右键-》新建-》DWORD（32-位）值-》<br>名称：DbgJITDebugLaunchSetting<br>数据：1<br>2.HKEY_CURRENT_USER\Software\Microsoft\Windows\Windows Error Reporting 修改两个值（修改第一个值也可退出，但是退出时间较长，测试环境需要1分钟左右，应该是在收集错误信息）<br>名称：DontShowUI    数据：1<br><div>名称：Disabled      数据：1</div><br></div><br><div></div>
-
-<h2 id="关闭错误报告"><a href="#关闭错误报告" class="headerlink" title="关闭错误报告"></a>关闭错误报告</h2><div>下面这句在开始—-运行中键入，效果是关闭server的错误报告，适用于2008 server。可以用/query，/详细，/摘要，/summary来替换如下的禁用。</div><br><div>serverWerOptin /禁用</div><br><div>我发现了另外引导的 MSDN如何从用户可以抑制嵌入式系统上发生的系统和应用程序的错误信息。注册表中的位置是在以下默认情况下，该数值数据为0，我们应该将其更改为2设置为不可见的所有邮件。</div><br><div>HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Windows\ErrorMode.</div><br><div></div>
-
-<h2 id="XP关闭无响应方案"><a href="#XP关闭无响应方案" class="headerlink" title="XP关闭无响应方案"></a>XP关闭无响应方案</h2><div>首先打开注册表：在[开始]–&gt;[运行]–&gt;键入[Regedit]；  然后找到相关项目按照以下步骤进行设置：  左侧列表中依次展开，找到[HKEY_CURRENT_USER\ControlPanel\Desktop]，这个就是设置软件无响应时的选项。将里面AutoEndTasks的数值从0修改为1就是让系统自动关闭无响应的软件。</div><br>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2195,7 +2177,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
